@@ -23,6 +23,7 @@
   --blue-tag-bg: rgba(59, 130, 246, 0.08);
   --blue-tag-text: rgba(29, 78, 216, 0.8);
   --bg-glass: rgba(250, 250, 250, 0.82);
+  --bg-card: #ffffff;
 }
 
 .dark {
@@ -35,11 +36,16 @@
   --blue-tag-bg: rgba(59, 130, 246, 0.1);
   --blue-tag-text: rgba(147, 197, 253, 0.85);
   --bg-glass: rgba(17, 17, 16, 0.82);
+  --bg-card: #1c1c1b;
 }
 
 * {
   box-sizing: border-box;
 }
+
+/* Utility: hide scrollbar while keeping scroll behaviour */
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
 
 
 html {
