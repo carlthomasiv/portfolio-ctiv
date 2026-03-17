@@ -1,0 +1,335 @@
+"use client";
+
+import Link from "next/link";
+import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState, useRef, useEffect } from "react";
+import { useTheme } from "./ThemeProvider";
+
+const SCRAMBLE_CHARS = "abcdefghijklmnopqrstuvwxyz";
+const LOGO_IDLE = "ct iv";
+const LOGO_FULL = "Carl Thomas";
+
+function buildFrame(target: string, lockedCount: number): string {
+  return target
+    .split("")
+    .map((char, i) => {
+      if (char === " ") return " ";
+      if (i < lockedCount) return char;
+      return SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
+    })
+    .join("");
+}
+
+function LogoScramble() {
+  const [text, setText] = useState(LOGO_IDLE);
+  const rafRef = useRef<ReturnType<typeof requestAnimationFrame> | null>(null);
+
+  const runScramble = (target: string) => {
+    if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    let frame = 0;
+    const totalFrames = 20;
+    const tick = () => {
+      frame++;
+      const locked = Math.floor((frame / totalFrames) * (target.length + 1));
+      setText(buildFrame(target, locked));
+      if (frame < totalFrames) {
+        rafRef.current = requestAnimationFrame(tick);
+      }
+    };
+    rafRef.current = requestAnimationFrame(tick);
+  };
+
+  useEffect(() => () => { if (rafRef.current) cancelAnimationFrame(rafRef.current); }, []);
+
+  const spaceIdx = text.indexOf(" ");
+  const first = spaceIdx >= 0 ? text.slice(0, spaceIdx) : text;
+  const rest = spaceIdx >= 0 ? text.slice(spaceIdx) : "";
+
+  return (
+    <span
+      onMouseEnter={() => runScramble(LOGO_FULL)}
+      onMouseLeave={() => runScramble(LOGO_IDLE)}
+      onTouchStart={() => runScramble(LOGO_FULL)}
+      onTouchEnd={() => runScramble(LOGO_IDLE)}
+      onTouchCancel={() => runScramble(LOGO_IDLE)}
+      style={{ cursor: "default" }}
+    >
+      <span style={{ fontFamily: "var(--font-dm-mono)", fontSize: "13px", fontWeight: 500, color: "var(--text)", lineHeight: 1, letterSpacing: "0.04em" }}>
+        {first}
+      </span>
+      {rest && (
+        <span style={{ fontFamily: "var(--font-dm-mono)", fontSize: "13px", fontWeight: 400, color: "var(--text)", lineHeight: 1, letterSpacing: "0.04em" }}>
+          {rest}
+        </span>
+      )}
+    </span>
+  );
+}
+
+function SunIcon() {
+  return (
+    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden>
+      <circle cx="7.5" cy="7.5" r="2.5" stroke="currentColor" strokeWidth="1.2" />
+      <path
+        d="M7.5 1v1.5M7.5 12.5V14M1 7.5h1.5M12.5 7.5H14M2.93 2.93l1.06 1.06M11.01 11.01l1.06 1.06M2.93 12.07l1.06-1.06M11.01 3.99l1.06-1.06"
+        stroke="currentColor"
+        strokeWidth="1.2"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+function MoonIcon() {
+  return (
+    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden>
+      <path
+        d="M7.5 1.5A6 6 0 1 0 13.5 7.5 4.5 4.5 0 0 1 7.5 1.5z"
+        stroke="currentColor"
+        strokeWidth="1.2"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+const navLinks = [
+  { label: "Work", href: "/work" },
+  { label: "Thinking", href: "/thinking" },
+  { label: "About", href: "/about" },
+  { label: "Resume", href: "/resume.pdf", external: true },
+];
+
+export function Nav() {
+  const { theme, toggle } = useTheme();
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const signatureFilter = theme === "dark"
+    ? "invert(1) drop-shadow(0 0 0.4px rgba(255,255,255,0.6)) drop-shadow(0 0 0.4px rgba(255,255,255,0.6))"
+    : "drop-shadow(0 0 0.4px rgba(0,0,0,0.5)) drop-shadow(0 0 0.4px rgba(0,0,0,0.5))";
+
+  return (
+    <>
+      <motion.nav
+        initial={{ opacity: 0, y: -8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
+        style={{ borderBottom: "1px solid var(--border)" }}
+        className="w-full px-6 md:px-12 py-5"
+      >
+        <div className="max-w-5xl mx-auto flex items-center justify-between">
+          {/* Logo */}
+          <Link
+            href="/"
+            className="no-underline"
+            style={{ lineHeight: 0 }}
+          >
+            <LogoScramble />
+          </Link>
+
+          {/* Desktop nav links */}
+          <div className="hidden md:flex items-center gap-6">
+            {navLinks.map(({ label, href, external }) =>
+              external ? (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ fontFamily: "var(--font-dm-mono)", fontSize: "12px", letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--text-muted)" }}
+                  className="no-underline hover:opacity-100 transition-opacity duration-200"
+                >
+                  {label}
+                </a>
+              ) : (
+                <Link
+                  key={label}
+                  href={href}
+                  style={{ fontFamily: "var(--font-dm-mono)", fontSize: "12px", letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--text-muted)" }}
+                  className="no-underline hover:opacity-100 transition-opacity duration-200"
+                >
+                  {label}
+                </Link>
+              )
+            )}
+            <button
+              onClick={toggle}
+              aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+              style={{ color: "var(--text-muted)" }}
+              className="w-7 h-7 flex items-center justify-center hover:opacity-100 transition-opacity duration-200 cursor-pointer bg-transparent border-0 p-0"
+            >
+              {theme === "dark" ? <SunIcon /> : <MoonIcon />}
+            </button>
+          </div>
+
+          {/* Mobile: theme toggle + hamburger */}
+          <div className="flex md:hidden items-center gap-3">
+            <button
+              onClick={toggle}
+              aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+              style={{ color: "var(--text-muted)" }}
+              className="w-7 h-7 flex items-center justify-center cursor-pointer bg-transparent border-0 p-0"
+            >
+              {theme === "dark" ? <SunIcon /> : <MoonIcon />}
+            </button>
+            <button
+              onClick={() => setDrawerOpen(true)}
+              aria-label="Open menu"
+              style={{ color: "var(--text-muted)" }}
+              className="w-7 h-7 flex flex-col items-center justify-center gap-1.5 cursor-pointer bg-transparent border-0 p-0"
+            >
+              <span style={{ display: "block", width: "18px", height: "1.2px", backgroundColor: "currentColor" }} />
+              <span style={{ display: "block", width: "18px", height: "1.2px", backgroundColor: "currentColor" }} />
+            </button>
+          </div>
+        </div>
+      </motion.nav>
+
+      {/* Mobile drawer */}
+      <AnimatePresence>
+        {drawerOpen && (
+          <>
+            {/* Frosted overlay */}
+            <motion.div
+              key="overlay"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.25 }}
+              onClick={() => setDrawerOpen(false)}
+              style={{
+                position: "fixed",
+                inset: 0,
+                zIndex: 40,
+                backdropFilter: "blur(6px)",
+                WebkitBackdropFilter: "blur(6px)",
+                backgroundColor: theme === "dark" ? "rgba(0,0,0,0.4)" : "rgba(250,250,250,0.5)",
+              }}
+            />
+
+            {/* Drawer panel */}
+            <motion.div
+              key="drawer"
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+              style={{
+                position: "fixed",
+                top: 0,
+                right: 0,
+                bottom: 0,
+                width: "80%",
+                zIndex: 50,
+                background: "var(--bg)",
+                borderLeft: "1px solid var(--border)",
+                display: "flex",
+                flexDirection: "column",
+                padding: "20px 28px 32px",
+              }}
+            >
+              {/* Drawer header — just close button */}
+              <div className="flex items-center justify-end" style={{ marginBottom: "24px" }}>
+                <button
+                  onClick={() => setDrawerOpen(false)}
+                  aria-label="Close menu"
+                  style={{ color: "var(--text-muted)" }}
+                  className="w-7 h-7 flex items-center justify-center cursor-pointer bg-transparent border-0 p-0"
+                >
+                  <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden>
+                    <path d="M2 2l11 11M13 2L2 13" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
+                  </svg>
+                </button>
+              </div>
+
+              {/* Drawer links */}
+              <nav className="flex flex-col gap-2" style={{ flex: 1 }}>
+                {navLinks.map(({ label, href, external }, i) => (
+                  <motion.div
+                    key={label}
+                    initial={{ opacity: 0, x: 16 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.08 + i * 0.05, duration: 0.25, ease: "easeOut" }}
+                  >
+                    {external ? (
+                      <a
+                        href={href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() => setDrawerOpen(false)}
+                        style={{
+                          fontFamily: "var(--font-dm-serif-display)",
+                          fontSize: "28px",
+                          fontWeight: 400,
+                          color: "var(--text)",
+                          textDecoration: "none",
+                          display: "block",
+                          padding: "8px 0",
+                        }}
+                      >
+                        {label}
+                      </a>
+                    ) : (
+                      <Link
+                        href={href}
+                        onClick={() => setDrawerOpen(false)}
+                        style={{
+                          fontFamily: "var(--font-dm-serif-display)",
+                          fontSize: "28px",
+                          fontWeight: 400,
+                          color: "var(--text)",
+                          textDecoration: "none",
+                          display: "block",
+                          padding: "8px 0",
+                        }}
+                      >
+                        {label}
+                      </Link>
+                    )}
+                  </motion.div>
+                ))}
+              </nav>
+
+              {/* Drawer footer — availability + socials */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.35, duration: 0.3 }}
+                style={{ borderTop: "1px solid var(--border)", paddingTop: "24px", display: "flex", flexDirection: "column", gap: "16px" }}
+              >
+                <div className="flex items-center gap-2">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-60" style={{ backgroundColor: "#22c55e" }} />
+                    <span className="relative inline-flex rounded-full h-2 w-2" style={{ backgroundColor: "#22c55e" }} />
+                  </span>
+                  <span style={{ fontFamily: "var(--font-dm-mono)", fontSize: "12px", letterSpacing: "0.06em", textTransform: "uppercase", color: "var(--text-muted)" }}>
+                    Currently designing at Ona
+                  </span>
+                </div>
+                <div className="flex items-center gap-4">
+                  {[
+                    { label: "LinkedIn", href: "https://linkedin.com/in/carlthomas" },
+                    { label: "Bluesky", href: "https://bsky.app/profile/carlthomas.bsky.social" },
+                    { label: "Email", href: "mailto:carl@carlthomas.design" },
+                  ].map(({ label, href }) => (
+                    <a
+                      key={label}
+                      href={href}
+                      target={href.startsWith("mailto") ? undefined : "_blank"}
+                      rel={href.startsWith("mailto") ? undefined : "noopener noreferrer"}
+                      style={{ fontFamily: "var(--font-dm-mono)", fontSize: "12px", letterSpacing: "0.06em", color: "var(--text-muted)", textDecoration: "none" }}
+                      className="hover:opacity-100 transition-opacity duration-200"
+                    >
+                      {label}
+                    </a>
+                  ))}
+                </div>
+              </motion.div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+    </>
+  );
+}
