@@ -53,7 +53,7 @@ export function AboutContent() {
       <div className="max-w-5xl mx-auto">
 
         {/* Opening */}
-        <section style={{ paddingTop: "40px", paddingBottom: "32px" }}>
+        <section style={{ paddingTop: "80px", paddingBottom: "32px" }}>
           <div className="grid grid-cols-1 md:grid-cols-[260px_1fr] gap-6 md:gap-12 items-stretch">
             {/* Photo — above on mobile (natural DOM order), left on desktop */}
             <motion.div

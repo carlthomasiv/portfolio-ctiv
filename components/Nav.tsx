@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { useTheme } from "./ThemeProvider";
 
 const SCRAMBLE_CHARS = "abcdefghijklmnopqrstuvwxyz";
@@ -104,6 +105,14 @@ const navLinks = [
 export function Nav() {
   const { theme, toggle } = useTheme();
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const signatureFilter = theme === "dark"
     ? "invert(1) drop-shadow(0 0 0.4px rgba(255,255,255,0.6)) drop-shadow(0 0 0.4px rgba(255,255,255,0.6))"
@@ -115,7 +124,16 @@ export function Nav() {
         initial={{ opacity: 0, y: -8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, ease: "easeOut" }}
-        style={{ borderBottom: "1px solid var(--border)" }}
+        style={{
+          position: "sticky",
+          top: 0,
+          zIndex: 50,
+          background: scrolled ? "var(--bg-glass)" : "transparent",
+          backdropFilter: scrolled ? "blur(12px)" : "none",
+          WebkitBackdropFilter: scrolled ? "blur(12px)" : "none",
+          borderBottom: scrolled ? "1px solid var(--border)" : "1px solid transparent",
+          transition: "background 0.25s ease, backdrop-filter 0.25s ease, border-color 0.25s ease",
+        }}
         className="w-full px-6 md:px-12 py-5"
       >
         <div className="max-w-5xl mx-auto flex items-center justify-between">
@@ -130,15 +148,26 @@ export function Nav() {
 
           {/* Desktop nav links */}
           <div className="hidden md:flex items-center gap-6">
-            {navLinks.map(({ label, href, external }) =>
-              external ? (
+            {navLinks.map(({ label, href, external }) => {
+              const isActive = !external && (href === "/" ? pathname === "/" : pathname.startsWith(href));
+              const linkStyle = {
+                fontFamily: "var(--font-dm-mono)",
+                fontSize: "12px",
+                letterSpacing: "0.08em",
+                textTransform: "uppercase" as const,
+                color: isActive ? "var(--text)" : "var(--text-muted)",
+                borderBottom: isActive ? "1.5px solid var(--text)" : "1.5px solid transparent",
+                paddingBottom: "2px",
+                transition: "color 0.15s ease, border-color 0.15s ease",
+              };
+              return external ? (
                 <a
                   key={label}
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  style={{ fontFamily: "var(--font-dm-mono)", fontSize: "12px", letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--text-muted)" }}
-                  className="no-underline hover:opacity-100 transition-opacity duration-200"
+                  style={linkStyle}
+                  className="no-underline"
                 >
                   {label}
                 </a>
@@ -146,13 +175,13 @@ export function Nav() {
                 <Link
                   key={label}
                   href={href}
-                  style={{ fontFamily: "var(--font-dm-mono)", fontSize: "12px", letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--text-muted)" }}
-                  className="no-underline hover:opacity-100 transition-opacity duration-200"
+                  style={linkStyle}
+                  className="no-underline"
                 >
                   {label}
                 </Link>
-              )
-            )}
+              );
+            })}
             <button
               onClick={toggle}
               aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
