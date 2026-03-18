@@ -1,6 +1,7 @@
 import { Nav } from "@/components/Nav";
 import { Hero } from "@/components/Hero";
 import { WorkList } from "@/components/WorkList";
+import { NowSection } from "@/components/NowSection";
 import { Footer } from "@/components/Footer";
 
 export default function Home() {
@@ -17,6 +18,7 @@ export default function Home() {
       <main style={{ flex: 1 }}>
         <Hero />
         <WorkList />
+        <NowSection />
       </main>
       <Footer />
     </div>
