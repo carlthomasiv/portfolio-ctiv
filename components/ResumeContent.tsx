@@ -155,7 +155,7 @@ export function ResumeContent() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.25, duration: 0.5 }}
-              className="hover:[border-color:var(--border-strong)] hover:[background:var(--bg-card)] hover:[box-shadow:0_4px_16px_rgba(0,0,0,0.08)]"
+              className="hover:[border-color:var(--border-strong)] hover:[background:var(--bg-card)] hover:[box-shadow:0_3px_12px_rgba(0,0,0,0.06)]"
               style={{
                 fontFamily: "var(--font-dm-mono)",
                 fontSize: "12px",
