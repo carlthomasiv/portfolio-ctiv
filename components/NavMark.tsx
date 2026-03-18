@@ -5,9 +5,9 @@ import { useEffect, useRef, useState } from "react";
 // ─── Constants ────────────────────────────────────────────────────────────────
 
 const EASING = "cubic-bezier(0.4, 0, 0.2, 1)";
-const EXPAND_MS = 480;
-const COLLAPSE_MS = 380;
-const COLLAPSE_DEBOUNCE_MS = 320; // grace period before collapsing on mouseleave
+const EXPAND_MS = 260;
+const COLLAPSE_MS = 200;
+const COLLAPSE_DEBOUNCE_MS = 180; // grace period before collapsing on mouseleave
 const MOBILE_DELAY_MS = 800;
 const MOBILE_BREAKPOINT = 768;
 
