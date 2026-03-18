@@ -35,7 +35,7 @@ function ProjectCard({ project, company, index, groupIndex }: { project: Project
             transition: "opacity 0.2s ease",
             opacity: hovered ? 0.85 : 1,
             background: project.thumbnail,
-            boxShadow: project.thumbnailImage ? "inset 0 0 0 1px var(--border)" : "none",
+            boxShadow: project.thumbnailImage ? "inset 0 0 0 1px var(--border-strong)" : "none",
             transition: "opacity 0.2s ease, box-shadow 0.2s ease",
           }}
         >

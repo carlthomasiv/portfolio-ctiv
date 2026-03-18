@@ -133,7 +133,7 @@ function ProjectRow({ project, index, isLast }: { project: Project; index: numbe
                 borderRadius: "6px",
                 background: project.thumbnail,
                 overflow: "hidden",
-                boxShadow: project.thumbnailImage ? "inset 0 0 0 1px var(--border)" : "none",
+                boxShadow: project.thumbnailImage ? "inset 0 0 0 1px var(--border-strong)" : "none",
                 transition: "opacity 0.2s ease, box-shadow 0.2s ease",
                 opacity: hovered ? 0.85 : 1,
               }}
