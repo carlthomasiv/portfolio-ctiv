@@ -365,9 +365,10 @@ export function AboutContent() {
                       href={pub.href}
                       target="_blank"
                       rel="noopener noreferrer"
+                      className="group"
                       style={{ textDecoration: "none", display: "block" }}
                     >
-                      <p style={{
+                      <p className="opacity-90 group-hover:opacity-100 transition-opacity duration-150" style={{
                         fontFamily: "var(--font-dm-sans)",
                         fontSize: "14px",
                         fontWeight: 500,

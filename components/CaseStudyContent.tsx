@@ -963,6 +963,7 @@ function BlockRenderer({ block }: { block: Block }) {
             href={block.href}
             target="_blank"
             rel="noopener noreferrer"
+            className="link-hover"
             style={{
               display: "inline-flex",
               alignItems: "center",
@@ -970,7 +971,6 @@ function BlockRenderer({ block }: { block: Block }) {
               fontFamily: "var(--font-dm-mono)",
               fontSize: "12px",
               letterSpacing: "0.06em",
-              color: "var(--text-muted)",
               textDecoration: "none",
               borderBottom: "1px solid var(--border)",
               paddingBottom: "1px",

@@ -51,7 +51,8 @@ export function Hero() {
             href="https://ona.com"
             target="_blank"
             rel="noopener noreferrer"
-            style={{ color: "inherit", textDecoration: "underline", textUnderlineOffset: "3px" }}
+            className="link-hover"
+            style={{ textDecoration: "underline", textUnderlineOffset: "3px" }}
           >
             Ona
           </a>

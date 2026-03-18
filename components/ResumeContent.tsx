@@ -155,6 +155,7 @@ export function ResumeContent() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.25, duration: 0.5 }}
+              className="hover:[border-color:var(--border-strong)]"
               style={{
                 fontFamily: "var(--font-dm-mono)",
                 fontSize: "12px",
@@ -261,9 +262,10 @@ export function ResumeContent() {
                   href={pub.href}
                   target="_blank"
                   rel="noopener noreferrer"
+                  className="group"
                   style={{ textDecoration: "none" }}
                 >
-                  <p style={{ fontFamily: "var(--font-dm-sans)", fontSize: "15px", fontWeight: 500, color: "var(--text)", margin: "0 0 4px", display: "flex", alignItems: "center", gap: "6px" }}>
+                  <p className="opacity-90 group-hover:opacity-100 transition-opacity duration-150" style={{ fontFamily: "var(--font-dm-sans)", fontSize: "15px", fontWeight: 500, color: "var(--text)", margin: "0 0 4px", display: "flex", alignItems: "center", gap: "6px" }}>
                     {pub.title}
                     <ExternalLink size={15} strokeWidth={1.5} style={{ color: "var(--text-muted)", flexShrink: 0 }} />
                   </p>
