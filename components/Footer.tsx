@@ -42,8 +42,8 @@ export function Footer() {
       className="w-full px-6 md:px-12 py-8"
     >
       <div className="max-w-5xl mx-auto flex items-center justify-between">
-        <span style={{ fontFamily: "var(--font-dm-sans)", fontSize: "13px", fontWeight: 400, color: "var(--text-muted)", lineHeight: 1 }}>
-          Carl Thomas
+        <span style={{ fontFamily: "var(--font-dm-mono)", fontSize: "11px", letterSpacing: "0.04em", color: "var(--text-muted)", lineHeight: 1 }}>
+          © 2026 Carl Thomas · Built with Claude Code &amp; Next.js
         </span>
 
         {/* Social links — labels hidden below sm to keep footer compact on mobile */}
