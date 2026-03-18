@@ -121,7 +121,7 @@ export function NavMark() {
     return (
       <div style={container}>
         <span style={{ fontWeight: 500, color: "var(--text)" }}>CT</span>
-        <span style={{ fontWeight: 300, color: "var(--text)", opacity: 0.28 }}>_IV</span>
+        <span style={{ fontWeight: 300, color: "var(--text)", opacity: 0.4 }}>_IV</span>
       </div>
     );
   }
@@ -167,12 +167,12 @@ export function NavMark() {
       <span style={{
         fontWeight: 300,
         color: "var(--text)",
-        opacity: expanded ? 0 : 0.28,
+        opacity: expanded ? 0 : 0.4,
         transition: underscoreT,
       }}>_</span>
 
       {/* IV — always visible at muted weight */}
-      <span style={{ fontWeight: 300, color: "var(--text)", opacity: 0.28 }}>IV</span>
+      <span style={{ fontWeight: 300, color: "var(--text)", opacity: 0.4 }}>IV</span>
 
     </div>
   );
