@@ -159,7 +159,7 @@ export function ThinkingContent() {
           </motion.p>
         </section>
 
-        {/* Publication list */}
+        {/* Publications */}
         <section style={{ paddingBottom: "96px" }}>
           {publications.map((pub, i) => (
             <PublicationRow key={pub.title} pub={pub} index={i} />
