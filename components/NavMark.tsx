@@ -109,7 +109,7 @@ export function NavMark() {
     fontSize: "15px",
     lineHeight: 1,
     whiteSpace: "nowrap",
-    cursor: "default",
+    cursor: "pointer",
     userSelect: "none" as const,
     // Extend the hover zone with padding, offset with negative margin so
     // surrounding layout isn't affected

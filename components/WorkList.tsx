@@ -155,18 +155,30 @@ function ProjectRow({ project, index, isLast }: { project: Project; index: numbe
           >
             <div style={{ display: "flex", alignItems: "center", gap: "6px", flexWrap: "wrap" }}>
               <CompanyTag company={project.company ?? ""} />
-              <span style={{ color: "var(--text-muted)", fontSize: "14px", lineHeight: 1 }}>·</span>
-              <span
-                style={{
-                  fontFamily: "var(--font-dm-mono)",
-                  fontSize: "12px",
-                  letterSpacing: "0.06em",
-                  textTransform: "uppercase",
-                  color: "var(--text-muted)",
-                }}
-              >
-                {project.category}
-              </span>
+              {project.disciplines.length > 0 && (
+                <>
+                  <span style={{ color: "var(--text-muted)", fontSize: "14px", lineHeight: 1, opacity: 0.5 }}>·</span>
+                  {project.disciplines.map((d) => (
+                    <span
+                      key={d}
+                      style={{
+                        fontFamily: "var(--font-dm-mono)",
+                        fontSize: "10px",
+                        letterSpacing: "0.06em",
+                        textTransform: "uppercase",
+                        color: "var(--text-muted)",
+                        border: "1px solid var(--border)",
+                        borderRadius: "4px",
+                        padding: "2px 7px",
+                        lineHeight: 1.6,
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      {d}
+                    </span>
+                  ))}
+                </>
+              )}
             </div>
 
             <h3
@@ -212,7 +224,6 @@ function ProjectRow({ project, index, isLast }: { project: Project; index: numbe
     </motion.div>
   );
 }
-
 
 export function WorkList() {
   return (
