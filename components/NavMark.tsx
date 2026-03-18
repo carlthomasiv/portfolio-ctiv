@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -40,39 +41,65 @@ interface Widths {
 }
 
 export function NavMark() {
+  const pathname = usePathname();
   const [widths, setWidths] = useState<Widths | null>(null);
   const [expanded, setExpanded] = useState(false);
   const [animate, setAnimate] = useState(false);
   const isMobileRef = useRef(false);
   const collapseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const mobileTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // Tracks the last pathname we played the expand animation for
+  const prevPathname = useRef<string | null>(null);
 
+  // ── Initial boot: measure fonts, fire first mobile animation ──────────────
   useEffect(() => {
-    let mobileTimer: ReturnType<typeof setTimeout>;
-
     document.fonts.ready.then(() => {
       isMobileRef.current = window.innerWidth < MOBILE_BREAKPOINT;
-
       setWidths({
         arl: measureText("arl\u00A0", 500),
         homas: measureText("homas", 500),
       });
-
-      // Two rAF frames so the initial collapsed width paints before
-      // transitions are enabled — prevents an animate-in from zero
+      // Two rAF frames so the collapsed width paints before transitions enable
       requestAnimationFrame(() => {
         requestAnimationFrame(() => setAnimate(true));
       });
-
       if (isMobileRef.current) {
-        mobileTimer = setTimeout(() => setExpanded(true), MOBILE_DELAY_MS);
+        mobileTimer.current = setTimeout(() => setExpanded(true), MOBILE_DELAY_MS);
       }
     });
-
     return () => {
-      clearTimeout(mobileTimer);
+      if (mobileTimer.current) clearTimeout(mobileTimer.current);
       if (collapseTimer.current) clearTimeout(collapseTimer.current);
     };
   }, []);
+
+  // ── Replay animation on every SPA navigation (mobile only) ────────────────
+  useEffect(() => {
+    // Skip until fonts/widths are measured
+    if (!widths || !isMobileRef.current) return;
+    // Record first pathname without animating — boot effect handles it
+    if (prevPathname.current === null) {
+      prevPathname.current = pathname;
+      return;
+    }
+    // Same page — nothing to do
+    if (prevPathname.current === pathname) return;
+    prevPathname.current = pathname;
+
+    // Clear any in-flight timers
+    if (mobileTimer.current) clearTimeout(mobileTimer.current);
+
+    // Snap back to collapsed instantly (disable transitions for one frame)
+    setAnimate(false);
+    setExpanded(false);
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        setAnimate(true);
+        mobileTimer.current = setTimeout(() => setExpanded(true), MOBILE_DELAY_MS);
+      });
+    });
+  }, [pathname, widths]);
 
   function handleEnter() {
     if (isMobileRef.current) return;
