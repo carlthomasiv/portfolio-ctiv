@@ -45,20 +45,14 @@ function AutoIcon() {
   );
 }
 
-// Sun / moon: exit slides right + down, enter comes from left + above.
-// Auto (system): the special one — rises straight up from below.
-// custom prop is `true` when the entering icon is the auto state.
+// Vertical ticker: current state slides up and out, next slides up into view.
 const ringVariants = {
-  initial: (isAuto: boolean) => ({
-    x: isAuto ?  0 : -6,
-    y: isAuto ?  8 : -4,
-    opacity: 0,
-  }),
-  animate: { x: 0, y: 0, opacity: 1 },
-  exit:    { x: 6, y: 4, opacity: 0 },
+  initial: { y:  8, opacity: 0 },
+  animate: { y:  0, opacity: 1 },
+  exit:    { y: -8, opacity: 0 },
 };
 const ringTransition = {
-  duration: 0.2,
+  duration: 0.18,
   ease: [0, 0, 0.2, 1] as [number, number, number, number],
 };
 
@@ -85,7 +79,6 @@ function ThemeToggle({ className }: { className?: string }) {
       <AnimatePresence mode="sync" initial={false}>
         <motion.span
           key={theme}
-          custom={theme === "system"}
           variants={ringVariants}
           initial="initial"
           animate="animate"
