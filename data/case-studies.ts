@@ -21,7 +21,8 @@ export type Block =
   | { type: "quote"; content: string; attribution?: string }
   | { type: "quote-list"; items: Array<{ text: string; attribution?: string }> }
   | { type: "two-col"; left: InlineBlock[]; right: InlineBlock[] }
-  | { type: "list"; items: string[] };
+  | { type: "list"; items: string[] }
+  | { type: "link"; label: string; href: string };
 
 export interface Section {
   label: string;
@@ -146,6 +147,11 @@ export const caseStudies: CaseStudy[] = [
           {
             type: "text",
             content: "I also added /ai <prompt>. A natural-language SQL assistant for users who didn't want to write queries from scratch. Type what you want, get something that runs. It lowered the floor without touching the ceiling.",
+          },
+          {
+            type: "link",
+            label: "Try it today",
+            href: "https://psql.sh/",
           },
         ],
       },

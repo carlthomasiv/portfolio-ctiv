@@ -3,7 +3,7 @@
 import React, { useRef, useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowLeft, TrendingUp, TrendingDown } from "lucide-react";
+import { ArrowLeft, TrendingUp, TrendingDown, ArrowRight } from "lucide-react";
 import type { CaseStudy, Block, InlineBlock, Section } from "@/data/case-studies";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
@@ -953,6 +953,33 @@ function BlockRenderer({ block }: { block: Block }) {
               </span>
             </div>
           ))}
+        </div>
+      );
+
+    case "link":
+      return (
+        <div style={{ marginBottom: "20px" }}>
+          <a
+            href={block.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "6px",
+              fontFamily: "var(--font-dm-mono)",
+              fontSize: "12px",
+              letterSpacing: "0.06em",
+              color: "var(--text-muted)",
+              textDecoration: "none",
+              borderBottom: "1px solid var(--border)",
+              paddingBottom: "1px",
+              lineHeight: 1,
+            }}
+          >
+            {block.label}
+            <ArrowRight size={12} strokeWidth={1.5} />
+          </a>
         </div>
       );
 
