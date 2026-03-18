@@ -316,6 +316,7 @@ export function ThinkingContent() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.15, duration: 0.6, ease: EASE }}
+            className="max-w-2xl"
             style={{ fontFamily: "var(--font-dm-serif-display)", fontSize: "clamp(32px, 4vw, 48px)", fontWeight: 400, lineHeight: 1.1, letterSpacing: "-0.01em", color: "var(--text)", margin: "0 0 16px" }}
           >
             On design, infrastructure, and how AI changes both.
@@ -324,7 +325,8 @@ export function ThinkingContent() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.5 }}
-            style={{ fontFamily: "var(--font-dm-sans)", fontSize: "15px", lineHeight: 1.65, color: "var(--text-muted)", maxWidth: "480px", margin: 0 }}
+            className="max-w-2xl"
+            style={{ fontFamily: "var(--font-dm-sans)", fontSize: "15px", lineHeight: 1.65, color: "var(--text-muted)", margin: 0 }}
           >
             Essays and posts on the problems worth thinking about — developer experience, AI-native workflows, and what it means to design for experts.
           </motion.p>
