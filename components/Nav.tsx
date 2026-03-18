@@ -34,15 +34,88 @@ function MoonIcon() {
   );
 }
 
+/// Half-filled circle: left half solid, right half ring outline.
+// Built with fills only — no stroke — so semi-transparent currentColor
+// doesn't compound where a stroke and fill would otherwise overlap.
+// Ring = outer circle (CW) + inner circle (CCW) with evenodd fill-rule.
+// Outer r=6.1 / inner r=4.9 matches the visual weight of stroke-width 1.2 on r=5.5.
+function AutoIcon() {
+  return (
+    <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor" aria-hidden>
+      {/* Annular ring: outer CW + inner CCW, evenodd fills only the ring area */}
+      <path
+        fillRule="evenodd"
+        d="M7.5 1.4 A6.1 6.1 0 0 1 7.5 13.6 A6.1 6.1 0 0 1 7.5 1.4 Z M7.5 2.6 A4.9 4.9 0 0 0 7.5 12.4 A4.9 4.9 0 0 0 7.5 2.6 Z"
+      />
+      {/* Left D-shape at inner radius — shares boundary with ring, zero overlap */}
+      <path d="M7.5 2.6 A4.9 4.9 0 0 0 7.5 12.4 Z" />
+    </svg>
+  );
+}
+
+// Vertical ticker: current state slides up and out, next slides up into view.
+const ringVariants = {
+  initial: { y:  8, opacity: 0 },
+  animate: { y:  0, opacity: 1 },
+  exit:    { y: -8, opacity: 0 },
+};
+const ringTransition = {
+  duration: 0.18,
+  ease: [0, 0, 0.2, 1] as [number, number, number, number],
+};
+
+const ARIA_LABELS: Record<string, string> = {
+  light:  "Switch to dark mode",
+  dark:   "Switch to system mode",
+  system: "Switch to light mode",
+};
+
+function ThemeToggle({ className }: { className?: string }) {
+  const { theme, cycle } = useTheme();
+
+  const icon =
+    theme === "light"  ? <SunIcon />  :
+    theme === "dark"   ? <MoonIcon /> :
+                         <AutoIcon />;
+
+  return (
+    <button
+      onClick={cycle}
+      aria-label={ARIA_LABELS[theme]}
+      className={`w-7 h-7 relative overflow-hidden [color:var(--text-muted)] hover:[color:var(--text)] transition-[color] duration-150 cursor-pointer bg-transparent border-0 p-0 ${className ?? ""}`}
+    >
+      <AnimatePresence mode="sync" initial={false}>
+        <motion.span
+          key={theme}
+          variants={ringVariants}
+          initial="initial"
+          animate="animate"
+          exit="exit"
+          transition={ringTransition}
+          style={{
+            position: "absolute",
+            inset: 0,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          {icon}
+        </motion.span>
+      </AnimatePresence>
+    </button>
+  );
+}
+
 const navLinks: { label: string; href: string; external?: boolean }[] = [
-  { label: "Work", href: "/work" },
+  { label: "Work",     href: "/work"     },
   { label: "Thinking", href: "/thinking" },
-  { label: "About", href: "/about" },
-  { label: "Resume", href: "/resume" },
+  { label: "About",    href: "/about"    },
+  { label: "Resume",   href: "/resume"   },
 ];
 
 export function Nav() {
-  const { theme, toggle } = useTheme();
+  const { resolvedTheme } = useTheme();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
@@ -53,7 +126,7 @@ export function Nav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const signatureFilter = theme === "dark"
+  const signatureFilter = resolvedTheme === "dark"
     ? "invert(1) drop-shadow(0 0 0.4px rgba(255,255,255,0.6)) drop-shadow(0 0 0.4px rgba(255,255,255,0.6))"
     : "drop-shadow(0 0 0.4px rgba(0,0,0,0.5)) drop-shadow(0 0 0.4px rgba(0,0,0,0.5))";
 
@@ -77,15 +150,11 @@ export function Nav() {
       >
         <div className="max-w-5xl mx-auto flex items-center justify-between">
           {/* Logo */}
-          <Link
-            href="/"
-            className="no-underline"
-            style={{ lineHeight: 0 }}
-          >
+          <Link href="/" className="no-underline" style={{ lineHeight: 0 }}>
             <NavMark />
           </Link>
 
-          {/* Desktop nav links */}
+          {/* Desktop nav links + theme toggle */}
           <div className="hidden md:flex items-center gap-6">
             {navLinks.map(({ label, href, external }) => {
               const isActive = !external && (href === "/" ? pathname === "/" : pathname.startsWith(href));
@@ -140,24 +209,12 @@ export function Nav() {
                 </Link>
               );
             })}
-            <button
-              onClick={toggle}
-              aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
-              className="w-7 h-7 flex items-center justify-center [color:var(--text-muted)] hover:[color:var(--text)] transition-[color] duration-150 cursor-pointer bg-transparent border-0 p-0"
-            >
-              {theme === "dark" ? <SunIcon /> : <MoonIcon />}
-            </button>
+            <ThemeToggle />
           </div>
 
           {/* Mobile: theme toggle + hamburger */}
           <div className="flex md:hidden items-center gap-3">
-            <button
-              onClick={toggle}
-              aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
-              className="w-7 h-7 flex items-center justify-center [color:var(--text-muted)] hover:[color:var(--text)] transition-[color] duration-150 cursor-pointer bg-transparent border-0 p-0"
-            >
-              {theme === "dark" ? <SunIcon /> : <MoonIcon />}
-            </button>
+            <ThemeToggle />
             <button
               onClick={() => setDrawerOpen(true)}
               aria-label="Open menu"
@@ -188,7 +245,7 @@ export function Nav() {
                 zIndex: 40,
                 backdropFilter: "blur(6px)",
                 WebkitBackdropFilter: "blur(6px)",
-                backgroundColor: theme === "dark" ? "rgba(0,0,0,0.4)" : "rgba(250,250,250,0.5)",
+                backgroundColor: resolvedTheme === "dark" ? "rgba(0,0,0,0.4)" : "rgba(250,250,250,0.5)",
               }}
             />
 
@@ -294,8 +351,8 @@ export function Nav() {
                 <div className="flex items-center gap-4">
                   {[
                     { label: "LinkedIn", href: "https://linkedin.com/in/carlthomas" },
-                    { label: "Bluesky", href: "https://bsky.app/profile/carlthomas.bsky.social" },
-                    { label: "Email", href: "mailto:carl@carlthomas.design" },
+                    { label: "Bluesky",  href: "https://bsky.app/profile/carlthomas.bsky.social" },
+                    { label: "Email",    href: "mailto:carl@carlthomas.design" },
                   ].map(({ label, href }) => (
                     <a
                       key={label}

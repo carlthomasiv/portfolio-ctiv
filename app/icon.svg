@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <title>Carl Thomas</title>
+  <rect width="32" height="32" rx="6" fill="#111318"/>
+  <text
+    x="16"
+    y="21"
+    text-anchor="middle"
+    font-family="'DM Mono', 'Courier New', monospace"
+    font-size="14"
+    font-weight="500"
+    fill="#f0ede8"
+  >CT</text>
+</svg>
