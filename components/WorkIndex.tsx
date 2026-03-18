@@ -192,6 +192,7 @@ export function WorkIndex() {
             Work
           </p>
           <h1
+            className="max-w-2xl"
             style={{
               fontFamily: "var(--font-dm-serif-display)",
               fontSize: "clamp(32px, 4vw, 48px)",
@@ -205,15 +206,15 @@ export function WorkIndex() {
             Curated case studies
           </h1>
           <p
+            className="max-w-2xl"
             style={{
               fontFamily: "var(--font-dm-sans)",
               fontSize: "15px",
               lineHeight: 1.65,
               color: "var(--text-muted)",
-              maxWidth: "480px",
               margin: 0,
             }}
-          >
+
             Developer infrastructure, AI platforms, and growth. Work spanning IC contribution, team leadership, and 0-to-1 product design.
           </p>
         </section>
