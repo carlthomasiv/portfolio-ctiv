@@ -160,6 +160,7 @@ export function Nav() {
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
+                  className="hover:[color:var(--text)]"
                   style={{
                     fontFamily: "var(--font-dm-mono)",
                     fontSize: "12px",
@@ -167,6 +168,7 @@ export function Nav() {
                     textTransform: "uppercase" as const,
                     color: "var(--text-muted)",
                     textDecoration: "none",
+                    transition: "color 0.15s ease",
                   }}
                 >
                   {label}
@@ -175,6 +177,7 @@ export function Nav() {
                 <Link
                   key={label}
                   href={href}
+                  className="hover:[color:var(--text)]"
                   style={{
                     fontFamily: "var(--font-dm-mono)",
                     fontSize: "12px",
@@ -209,8 +212,8 @@ export function Nav() {
             <button
               onClick={toggle}
               aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
-              style={{ color: "var(--text-muted)" }}
-              className="w-7 h-7 flex items-center justify-center hover:opacity-100 transition-opacity duration-200 cursor-pointer bg-transparent border-0 p-0"
+              style={{ color: "var(--text-muted)", transition: "color 0.15s ease" }}
+              className="w-7 h-7 flex items-center justify-center hover:[color:var(--text)] cursor-pointer bg-transparent border-0 p-0"
             >
               {theme === "dark" ? <SunIcon /> : <MoonIcon />}
             </button>
@@ -221,16 +224,16 @@ export function Nav() {
             <button
               onClick={toggle}
               aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
-              style={{ color: "var(--text-muted)" }}
-              className="w-7 h-7 flex items-center justify-center cursor-pointer bg-transparent border-0 p-0"
+              style={{ color: "var(--text-muted)", transition: "color 0.15s ease" }}
+              className="w-7 h-7 flex items-center justify-center hover:[color:var(--text)] cursor-pointer bg-transparent border-0 p-0"
             >
               {theme === "dark" ? <SunIcon /> : <MoonIcon />}
             </button>
             <button
               onClick={() => setDrawerOpen(true)}
               aria-label="Open menu"
-              style={{ color: "var(--text-muted)" }}
-              className="w-7 h-7 flex flex-col items-center justify-center gap-1.5 cursor-pointer bg-transparent border-0 p-0"
+              style={{ color: "var(--text-muted)", transition: "color 0.15s ease" }}
+              className="w-7 h-7 flex flex-col items-center justify-center gap-1.5 hover:[color:var(--text)] cursor-pointer bg-transparent border-0 p-0"
             >
               <span style={{ display: "block", width: "18px", height: "1.2px", backgroundColor: "currentColor" }} />
               <span style={{ display: "block", width: "18px", height: "1.2px", backgroundColor: "currentColor" }} />
