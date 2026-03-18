@@ -212,94 +212,6 @@ function ProjectRow({ project, index, isLast }: { project: Project; index: numbe
   );
 }
 
-function OnaComingSoonRow({ index }: { index: number }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 16 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.3 + index * 0.07, duration: 0.5, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }}
-    >
-      <div className="group grid grid-cols-[40px_1fr] md:grid-cols-[40px_200px_1fr_auto] gap-4 md:gap-6">
-        {/* Timeline column */}
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-          <div className="h-4 md:h-[34px]" style={{ flexShrink: 0 }} />
-          <div
-            style={{
-              width: "26px",
-              height: "26px",
-              borderRadius: "50%",
-              border: "1px solid var(--border)",
-              backgroundColor: "var(--bg)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              flexShrink: 0,
-              position: "relative",
-              zIndex: 2,
-            }}
-          >
-            <div style={{ width: "5px", height: "5px", borderRadius: "50%", backgroundColor: "var(--text-muted)", opacity: 0.4 }} />
-          </div>
-          <div
-            className="[margin-bottom:-16px] md:[margin-bottom:-34px]"
-            style={{ flex: 1, width: "1px", background: "repeating-linear-gradient(to bottom, var(--border) 0px, var(--border) 4px, transparent 4px, transparent 8px)", position: "relative", zIndex: 0 }}
-          />
-        </div>
-
-        {/* Content */}
-        <div className="md:contents">
-          <div className="pt-4 md:pt-6 md:pb-6">
-            <div
-              style={{
-                width: "100%",
-                aspectRatio: "3/2",
-                borderRadius: "6px",
-                background: "linear-gradient(140deg, #e8e6e1 0%, #d4d0c8 100%)",
-                opacity: 0.5,
-              }}
-            />
-          </div>
-
-          <div className="pt-3 pb-4 md:pt-6 md:pb-6" style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-              <span style={{ fontFamily: "var(--font-dm-mono)", fontSize: "11px", letterSpacing: "0.06em", textTransform: "uppercase", color: "var(--text-muted)", opacity: 0.5 }}>
-                Ona
-              </span>
-            </div>
-            <h3
-              style={{
-                fontFamily: "var(--font-dm-serif-display)",
-                fontSize: "26px",
-                fontWeight: 400,
-                lineHeight: 1.2,
-                color: "var(--text)",
-                margin: 0,
-                letterSpacing: "-0.01em",
-                opacity: 0.35,
-              }}
-            >
-              Case studies in progress
-            </h3>
-            <p
-              style={{
-                fontFamily: "var(--font-dm-sans)",
-                fontSize: "14px",
-                lineHeight: 1.5,
-                color: "var(--text-muted)",
-                margin: 0,
-                opacity: 0.6,
-              }}
-            >
-              Automations, Rethinking Conversations, Voice &amp; Tone
-            </p>
-          </div>
-        </div>
-
-        <div className="hidden md:flex" />
-      </div>
-    </motion.div>
-  );
-}
 
 export function WorkList() {
   return (
@@ -322,7 +234,6 @@ export function WorkList() {
         </motion.div>
 
         <div>
-          <OnaComingSoonRow index={0} />
           {featuredProjects.map((project, i) => (
             <ProjectRow
               key={project.slug}

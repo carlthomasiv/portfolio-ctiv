@@ -118,33 +118,7 @@ export function WorkIndex() {
         {/* Company groups */}
         <div style={{ display: "flex", flexDirection: "column", gap: "72px", paddingBottom: "96px" }}>
 
-          {/* Ona — coming soon */}
-          <motion.section
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2, duration: 0.4 }}
-          >
-            <div style={{ display: "flex", alignItems: "baseline", gap: "12px", borderBottom: "1px solid var(--border)", paddingBottom: "12px", marginBottom: "20px" }}>
-              <span style={{ fontFamily: "var(--font-dm-mono)", fontSize: "12px", letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--text)" }}>
-                Ona
-              </span>
-              <span style={{ fontFamily: "var(--font-dm-mono)", fontSize: "12px", letterSpacing: "0.04em", color: "var(--text-muted)" }}>
-                AI-native developer environments
-              </span>
-            </div>
-            <div style={{ display: "flex", alignItems: "center", gap: "8px", opacity: 0.5 }}>
-              <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden style={{ flexShrink: 0, color: "var(--text-muted)" }}>
-                <circle cx="8" cy="8" r="7" stroke="currentColor" strokeWidth="1.25" />
-                <path d="M8 7v5" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" />
-                <circle cx="8" cy="4.5" r="0.75" fill="currentColor" />
-              </svg>
-              <p style={{ fontFamily: "var(--font-dm-mono)", fontSize: "12px", letterSpacing: "0.04em", color: "var(--text-muted)", margin: 0 }}>
-                Automations · Rethinking Conversations · Voice &amp; Tone — in progress
-              </p>
-            </div>
-          </motion.section>
-
-          {groups.map((group, gi) => (
+{groups.map((group, gi) => (
             <motion.section
               key={group.company}
               initial={{ opacity: 0 }}

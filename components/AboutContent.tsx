@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ExternalLink } from "lucide-react";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
@@ -31,6 +31,27 @@ const experience = [
     role: "Design Manager, Growth",
     period: "Jan 2022 – Jan 2024",
     note: "Built the first Growth Design org. High-velocity experimentation framework that directly supported the path to $100M ARR.",
+  },
+];
+
+const publications = [
+  {
+    title: "Designing Automations: a new operating model for engineering at scale",
+    role: "Author",
+    publisher: "Ona",
+    href: "https://ona.com/stories/designing-automations",
+  },
+  {
+    title: "Designers Who Code: Can AI End Your Papercut Backlog?",
+    role: "Co-Author",
+    publisher: "Neon.tech",
+    href: "https://neon.com/blog/designers-who-code",
+  },
+  {
+    title: "Understanding Growth Design",
+    role: "Author",
+    publisher: "Medium",
+    href: "https://medium.com/@carlthomasiv/understanding-growth-design-5663b93a596c",
   },
 ];
 
@@ -232,7 +253,7 @@ export function AboutContent() {
                   <p style={{ fontFamily: "var(--font-dm-mono)", fontSize: "12px", letterSpacing: "0.04em", color: "var(--text-muted)", margin: "0 0 10px" }}>
                     {item.period}
                   </p>
-                  <p style={{ fontFamily: "var(--font-dm-sans)", fontSize: "14px", lineHeight: 1.65, color: "var(--text-muted)", margin: 0, maxWidth: "480px" }}>
+                  <p style={{ fontFamily: "var(--font-dm-sans)", fontSize: "14px", lineHeight: 1.65, color: "var(--text-muted)", margin: 0 }}>
                     {item.note}
                   </p>
                 </div>
@@ -273,40 +294,102 @@ export function AboutContent() {
         </section>
 
 
-        {/* Convictions */}
+        {/* Convictions + Writing */}
         <section style={{ paddingTop: "40px", paddingBottom: "56px" }}>
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3, duration: 0.4 }}
-            style={{
-              fontFamily: "var(--font-dm-mono)",
-              fontSize: "12px",
-              letterSpacing: "0.08em",
-              textTransform: "uppercase",
-              color: "var(--text-muted)",
-              marginBottom: "24px",
-            }}
-          >
-            Convictions
-          </motion.p>
+          <div className="grid grid-cols-1 md:grid-cols-[3fr_2fr] gap-12 md:gap-16 items-start">
 
-          <div style={{ display: "flex", flexDirection: "column", gap: "36px", maxWidth: "540px" }}>
-            {convictions.map((c, i) => (
-              <motion.div
-                key={c.label}
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.35 + i * 0.08, duration: 0.5, ease: EASE }}
+            {/* Convictions */}
+            <div>
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.3, duration: 0.4 }}
+                style={{
+                  fontFamily: "var(--font-dm-mono)",
+                  fontSize: "12px",
+                  letterSpacing: "0.08em",
+                  textTransform: "uppercase",
+                  color: "var(--text-muted)",
+                  marginBottom: "24px",
+                }}
               >
-                <p style={{ fontFamily: "var(--font-dm-sans)", fontSize: "15px", fontWeight: 500, color: "var(--text)", margin: "0 0 8px" }}>
-                  {c.label}
-                </p>
-                <p style={{ fontFamily: "var(--font-dm-sans)", fontSize: "14px", lineHeight: 1.7, color: "var(--text-muted)", margin: 0 }}>
-                  {c.body}
-                </p>
-              </motion.div>
-            ))}
+                Convictions
+              </motion.p>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: "36px" }}>
+                {convictions.map((c, i) => (
+                  <motion.div
+                    key={c.label}
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.35 + i * 0.08, duration: 0.5, ease: EASE }}
+                  >
+                    <p style={{ fontFamily: "var(--font-dm-sans)", fontSize: "15px", fontWeight: 500, color: "var(--text)", margin: "0 0 8px" }}>
+                      {c.label}
+                    </p>
+                    <p style={{ fontFamily: "var(--font-dm-sans)", fontSize: "14px", lineHeight: 1.7, color: "var(--text-muted)", margin: 0 }}>
+                      {c.body}
+                    </p>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+
+            {/* Writing */}
+            <div>
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.3, duration: 0.4 }}
+                style={{
+                  fontFamily: "var(--font-dm-mono)",
+                  fontSize: "12px",
+                  letterSpacing: "0.08em",
+                  textTransform: "uppercase",
+                  color: "var(--text-muted)",
+                  marginBottom: "24px",
+                }}
+              >
+                Writing
+              </motion.p>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+                {publications.map((pub, i) => (
+                  <motion.div
+                    key={pub.title}
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.35 + i * 0.08, duration: 0.5, ease: EASE }}
+                  >
+                    <a
+                      href={pub.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ textDecoration: "none", display: "block" }}
+                    >
+                      <p style={{
+                        fontFamily: "var(--font-dm-sans)",
+                        fontSize: "14px",
+                        fontWeight: 500,
+                        lineHeight: 1.45,
+                        color: "var(--text)",
+                        margin: "0 0 5px",
+                        display: "flex",
+                        alignItems: "flex-start",
+                        gap: "5px",
+                      }}>
+                        <span>{pub.title}</span>
+                        <ExternalLink size={12} strokeWidth={1.5} style={{ color: "var(--text-muted)", flexShrink: 0, marginTop: "3px" }} />
+                      </p>
+                      <p style={{ fontFamily: "var(--font-dm-mono)", fontSize: "11px", letterSpacing: "0.05em", color: "var(--text-muted)", margin: 0 }}>
+                        {pub.role} · {pub.publisher}
+                      </p>
+                    </a>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+
           </div>
         </section>
 
