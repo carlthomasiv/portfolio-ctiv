@@ -153,7 +153,7 @@ function ProjectRow({ project, index, isLast }: { project: Project; index: numbe
             style={{ display: "flex", flexDirection: "column", gap: "6px" }}
           >
             <div style={{ display: "flex", alignItems: "center", gap: "6px", flexWrap: "wrap" }}>
-              <CompanyTag company={project.company} />
+              <CompanyTag company={project.company ?? ""} />
               <span style={{ color: "var(--text-muted)", fontSize: "14px", lineHeight: 1 }}>·</span>
               <span
                 style={{

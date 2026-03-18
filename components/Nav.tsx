@@ -95,7 +95,7 @@ function MoonIcon() {
   );
 }
 
-const navLinks = [
+const navLinks: { label: string; href: string; external?: boolean }[] = [
   { label: "Work", href: "/work" },
   { label: "Thinking", href: "/thinking" },
   { label: "About", href: "/about" },

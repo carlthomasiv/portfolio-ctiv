@@ -1,5 +1,5 @@
 export interface Project {
-  company: string;
+  company?: string;
   category: string;
   title: string;
   description: string;
