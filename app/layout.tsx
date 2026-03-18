@@ -35,14 +35,31 @@ const caveat = Caveat({
 });
 
 export const metadata: Metadata = {
-  title: "Carl Thomas — Design Leader",
+  title: "Carl Thomas — Systems Architect & Principal Product Designer",
   description:
-    "Design leader with a decade of experience at the infrastructure layer: developer tools, AI platforms, and complex systems engineers live inside every day.",
+    "Architecting the infrastructure of design. Specializing in AI-native workflows, developer experience (DX), and agentic systems.",
+  metadataBase: new URL("https://www.carlthomasiv.com"),
   openGraph: {
-    title: "Carl Thomas — Design Leader",
-    description:
-      "Design leader specializing in developer tools, AI platforms, and infrastructure UX.",
+    title: "Carl Thomas — Systems Architect",
+    description: "Building mission control for developers and their AI agents.",
+    url: "https://www.carlthomasiv.com",
+    siteName: "Carl Thomas",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Carl Thomas — Systems Architect & Principal Product Designer",
+      },
+    ],
+    locale: "en_US",
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Carl Thomas — Systems Architect",
+    description: "Building mission control for developers and their AI agents.",
+    images: ["/og-image.png"],
   },
 };
 
