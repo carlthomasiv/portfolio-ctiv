@@ -159,49 +159,6 @@ export function ThinkingContent() {
           </motion.p>
         </section>
 
-        {/* Now */}
-        <section style={{ paddingBottom: "64px" }}>
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.25, duration: 0.4 }}
-            style={{
-              fontFamily: "var(--font-dm-mono)",
-              fontSize: "12px",
-              letterSpacing: "0.08em",
-              textTransform: "uppercase",
-              color: "var(--text-muted)",
-              marginBottom: "20px",
-            }}
-          >
-            Now
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.5, ease: EASE }}
-            style={{
-              borderLeft: "2px solid var(--border)",
-              paddingLeft: "20px",
-              display: "flex",
-              flexDirection: "column",
-              gap: "16px",
-              maxWidth: "580px",
-            }}
-          >
-            <p style={{ fontFamily: "var(--font-dm-sans)", fontSize: "15px", lineHeight: 1.75, color: "var(--text-muted)", margin: 0 }}>
-              The problem I keep coming back to is creating meaning out of complexity. AI tools are moving fast, but fast in a direction that often adds surface area rather than removes it. More features, faster releases, and the developer is still left managing noise instead of doing the work they actually care about.
-            </p>
-            <p style={{ fontFamily: "var(--font-dm-sans)", fontSize: "15px", lineHeight: 1.75, color: "var(--text-muted)", margin: 0 }}>
-              The bigger concern is trust. The industry is assuming engineers are ready to step away and let AI run. Most aren&apos;t, and that&apos;s not resistance to progress. It&apos;s a reasonable response to tools that haven&apos;t earned it yet. The real design opportunity is in what AI can&apos;t do, not just what it can. Building workflows that keep developers integrated by choice, not because the tool failed.
-            </p>
-            <p style={{ fontFamily: "var(--font-dm-sans)", fontSize: "15px", lineHeight: 1.75, color: "var(--text-muted)", margin: 0 }}>
-              Right now I&apos;m paying close attention to background agents. How Codex, Claude, Cursor, and others are approaching parallelism and tasks that can run while developers sleep. The question underneath all of it: how much independence we&apos;re actually ready to give these systems, and what risks we&apos;re willing to accept. I don&apos;t think anyone has answered that honestly yet.
-            </p>
-          </motion.div>
-        </section>
-
         {/* Publications */}
         <section style={{ paddingBottom: "96px" }}>
           {publications.map((pub, i) => (
