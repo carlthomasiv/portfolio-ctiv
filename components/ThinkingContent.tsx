@@ -7,13 +7,15 @@ import { useState, useEffect, useRef } from "react";
 import { posts } from "@/data/posts";
 import type { Post } from "@/data/posts";
 
-// Static '+' grid thumbnail — same visual language as PostHero, no animation
-const THUMB_CELL  = 14;   // tighter grid for small size
-const THUMB_FREQ  = 0.42;
-const THUMB_AMP   = 2.5;
-const THUMB_PHASE = 1.1;  // fixed time offset → frozen mid-wave
-const THUMB_OP_MIN = 0.07;
-const THUMB_OP_MAX = 0.5;
+// Static dot-grid thumbnail — frozen radial ripple from center, same visual language as PostHero
+const THUMB_CELL       = 13;   // tighter grid for small size
+const THUMB_FREQ       = 0.09; // radial cosine frequency — matches PostHero loosely
+const THUMB_PHASE      = 28;   // frozen distance offset → ripple caught mid-expansion
+const THUMB_FALLOFF    = 0.018; // radial fade so edges stay quiet
+const THUMB_SIZE_BASE  = 4.5;
+const THUMB_SIZE_DELTA = 2.5;
+const THUMB_OP_MIN     = 0.05;
+const THUMB_OP_MAX     = 0.38;
 
 function PostThumbnailCanvas() {
   const canvasRef    = useRef<HTMLCanvasElement>(null);
@@ -40,24 +42,30 @@ function PostThumbnailCanvas() {
     const color = getComputedStyle(document.documentElement)
       .getPropertyValue("--text").trim() || "#111318";
 
-    ctx.font        = `500 9px "DM Mono", monospace`;
-    ctx.textAlign   = "center";
+    ctx.textAlign    = "center";
     ctx.textBaseline = "middle";
 
+    const cx   = w / 2;
+    const cy   = h / 2;
     const cols = Math.ceil(w / THUMB_CELL) + 1;
     const rows = Math.ceil(h / THUMB_CELL) + 1;
 
     for (let row = 0; row < rows; row++) {
       for (let col = 0; col < cols; col++) {
-        const phase   = (col + row) * THUMB_FREQ;
-        const wave    = Math.sin(phase + THUMB_PHASE);
-        const x       = col * THUMB_CELL + THUMB_CELL / 2;
-        const y       = row * THUMB_CELL + THUMB_CELL / 2 + wave * THUMB_AMP;
-        const opacity = THUMB_OP_MIN + ((wave + 1) / 2) * (THUMB_OP_MAX - THUMB_OP_MIN);
+        const x    = col * THUMB_CELL + THUMB_CELL / 2;
+        const y    = row * THUMB_CELL + THUMB_CELL / 2;
+        const dist = Math.sqrt((x - cx) ** 2 + (y - cy) ** 2);
 
+        // Frozen ripple: cosine wave of radial distance with edge falloff
+        const wave    = Math.cos((dist - THUMB_PHASE) * THUMB_FREQ) * Math.exp(-dist * THUMB_FALLOFF);
+        const t01     = (wave + 1) / 2;
+        const size    = THUMB_SIZE_BASE + t01 * THUMB_SIZE_DELTA;
+        const opacity = THUMB_OP_MIN + t01 * (THUMB_OP_MAX - THUMB_OP_MIN);
+
+        ctx.font        = `400 ${size.toFixed(1)}px "DM Mono", monospace`;
         ctx.globalAlpha = opacity;
         ctx.fillStyle   = color;
-        ctx.fillText("+", x, y);
+        ctx.fillText("·", x, y);
       }
     }
   }, []);
