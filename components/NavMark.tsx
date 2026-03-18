@@ -26,6 +26,8 @@ function measureText(text: string, weight: number): number {
   const el = document.createElement("span");
   el.style.fontFamily = resolvedFontFamily();
   el.style.fontSize = "15px";
+  el.style.letterSpacing = "-0.03em";
+  el.style.wordSpacing = "-4px";
   el.style.fontWeight = String(weight);
   el.style.whiteSpace = "nowrap";
   el.style.lineHeight = "1";
@@ -62,8 +64,8 @@ export function NavMark() {
     document.fonts.ready.then(() => {
       isMobileRef.current = window.innerWidth < MOBILE_BREAKPOINT;
       setWidths({
-        arl: measureText("arl\u00A0", 500),
-        homas: measureText("homas", 500),
+        arl: measureText("arl\u00A0", 400),
+        homas: measureText("homas", 400),
       });
       // Two rAF frames so the collapsed width paints before transitions enable
       requestAnimationFrame(() => {
@@ -107,6 +109,8 @@ export function NavMark() {
     alignItems: "baseline",
     fontFamily: "var(--font-dm-mono), 'DM Mono', monospace",
     fontSize: "15px",
+    letterSpacing: "-0.03em",
+    wordSpacing: "-4px",
     lineHeight: 1,
     whiteSpace: "nowrap",
     cursor: "default",
@@ -120,7 +124,7 @@ export function NavMark() {
   if (!widths) {
     return (
       <div style={container}>
-        <span style={{ fontWeight: 500, color: "var(--text)" }}>CT</span>
+        <span style={{ fontWeight: 400, color: "var(--text)" }}>CT</span>
         <span style={{ fontWeight: 300, color: "var(--text)", opacity: 0.28 }}>_IV</span>
       </div>
     );
@@ -140,7 +144,7 @@ export function NavMark() {
   const revealText: React.CSSProperties = {
     display: "block",
     whiteSpace: "nowrap",
-    fontWeight: 500,
+    fontWeight: 400,
     color: "var(--text)",
   };
 
@@ -148,7 +152,7 @@ export function NavMark() {
     <div style={container} onMouseEnter={handleEnter} onMouseLeave={handleLeave}>
 
       {/* C — anchored */}
-      <span style={{ fontWeight: 500, color: "var(--text)" }}>C</span>
+      <span style={{ fontWeight: 400, color: "var(--text)" }}>C</span>
 
       {/* arl  — grows rightward from C */}
       <span style={clip(widths.arl)}>
@@ -156,7 +160,7 @@ export function NavMark() {
       </span>
 
       {/* T — shifts right as "arl" expands */}
-      <span style={{ fontWeight: 500, color: "var(--text)" }}>T</span>
+      <span style={{ fontWeight: 400, color: "var(--text)" }}>T</span>
 
       {/* homas — grows rightward from T, same timing */}
       <span style={clip(widths.homas)}>
