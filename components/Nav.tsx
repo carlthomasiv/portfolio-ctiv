@@ -34,15 +34,71 @@ function MoonIcon() {
   );
 }
 
+// Half-filled circle: left half solid = dark, right half outlined = light
+// Visual shorthand for "follow system / auto"
+function AutoIcon() {
+  return (
+    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden>
+      <circle cx="7.5" cy="7.5" r="5.5" stroke="currentColor" strokeWidth="1.2" />
+      <path d="M7.5 2a5.5 5.5 0 0 0 0 11V2z" fill="currentColor" />
+    </svg>
+  );
+}
+
+// Horizon animation: icon sinks below the horizon (exit), next rises from below (enter)
+const horizonVariants = {
+  initial: { opacity: 0, y: 5,  rotate: -12 },
+  animate: { opacity: 1, y: 0,  rotate: 0   },
+  exit:    { opacity: 0, y: 5,  rotate:  12 },
+};
+const horizonTransition = { duration: 0.22, ease: "easeInOut" as const };
+
+const ARIA_LABELS: Record<string, string> = {
+  light:  "Switch to dark mode",
+  dark:   "Switch to system mode",
+  system: "Switch to light mode",
+};
+
+function ThemeToggle({ className }: { className?: string }) {
+  const { theme, cycle } = useTheme();
+
+  const icon =
+    theme === "light"  ? <SunIcon />  :
+    theme === "dark"   ? <MoonIcon /> :
+                         <AutoIcon />;
+
+  return (
+    <button
+      onClick={cycle}
+      aria-label={ARIA_LABELS[theme]}
+      className={`w-7 h-7 flex items-center justify-center [color:var(--text-muted)] hover:[color:var(--text)] transition-[color] duration-150 cursor-pointer bg-transparent border-0 p-0 overflow-hidden ${className ?? ""}`}
+    >
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.span
+          key={theme}
+          variants={horizonVariants}
+          initial="initial"
+          animate="animate"
+          exit="exit"
+          transition={horizonTransition}
+          style={{ display: "flex", alignItems: "center", justifyContent: "center" }}
+        >
+          {icon}
+        </motion.span>
+      </AnimatePresence>
+    </button>
+  );
+}
+
 const navLinks: { label: string; href: string; external?: boolean }[] = [
-  { label: "Work", href: "/work" },
+  { label: "Work",     href: "/work"     },
   { label: "Thinking", href: "/thinking" },
-  { label: "About", href: "/about" },
-  { label: "Resume", href: "/resume" },
+  { label: "About",    href: "/about"    },
+  { label: "Resume",   href: "/resume"   },
 ];
 
 export function Nav() {
-  const { theme, toggle } = useTheme();
+  const { resolvedTheme } = useTheme();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
@@ -53,7 +109,7 @@ export function Nav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const signatureFilter = theme === "dark"
+  const signatureFilter = resolvedTheme === "dark"
     ? "invert(1) drop-shadow(0 0 0.4px rgba(255,255,255,0.6)) drop-shadow(0 0 0.4px rgba(255,255,255,0.6))"
     : "drop-shadow(0 0 0.4px rgba(0,0,0,0.5)) drop-shadow(0 0 0.4px rgba(0,0,0,0.5))";
 
@@ -77,15 +133,11 @@ export function Nav() {
       >
         <div className="max-w-5xl mx-auto flex items-center justify-between">
           {/* Logo */}
-          <Link
-            href="/"
-            className="no-underline"
-            style={{ lineHeight: 0 }}
-          >
+          <Link href="/" className="no-underline" style={{ lineHeight: 0 }}>
             <NavMark />
           </Link>
 
-          {/* Desktop nav links */}
+          {/* Desktop nav links + theme toggle */}
           <div className="hidden md:flex items-center gap-6">
             {navLinks.map(({ label, href, external }) => {
               const isActive = !external && (href === "/" ? pathname === "/" : pathname.startsWith(href));
@@ -140,24 +192,12 @@ export function Nav() {
                 </Link>
               );
             })}
-            <button
-              onClick={toggle}
-              aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
-              className="w-7 h-7 flex items-center justify-center [color:var(--text-muted)] hover:[color:var(--text)] transition-[color] duration-150 cursor-pointer bg-transparent border-0 p-0"
-            >
-              {theme === "dark" ? <SunIcon /> : <MoonIcon />}
-            </button>
+            <ThemeToggle />
           </div>
 
           {/* Mobile: theme toggle + hamburger */}
           <div className="flex md:hidden items-center gap-3">
-            <button
-              onClick={toggle}
-              aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
-              className="w-7 h-7 flex items-center justify-center [color:var(--text-muted)] hover:[color:var(--text)] transition-[color] duration-150 cursor-pointer bg-transparent border-0 p-0"
-            >
-              {theme === "dark" ? <SunIcon /> : <MoonIcon />}
-            </button>
+            <ThemeToggle />
             <button
               onClick={() => setDrawerOpen(true)}
               aria-label="Open menu"
@@ -188,7 +228,7 @@ export function Nav() {
                 zIndex: 40,
                 backdropFilter: "blur(6px)",
                 WebkitBackdropFilter: "blur(6px)",
-                backgroundColor: theme === "dark" ? "rgba(0,0,0,0.4)" : "rgba(250,250,250,0.5)",
+                backgroundColor: resolvedTheme === "dark" ? "rgba(0,0,0,0.4)" : "rgba(250,250,250,0.5)",
               }}
             />
 
@@ -294,8 +334,8 @@ export function Nav() {
                 <div className="flex items-center gap-4">
                   {[
                     { label: "LinkedIn", href: "https://linkedin.com/in/carlthomas" },
-                    { label: "Bluesky", href: "https://bsky.app/profile/carlthomas.bsky.social" },
-                    { label: "Email", href: "mailto:carl@carlthomas.design" },
+                    { label: "Bluesky",  href: "https://bsky.app/profile/carlthomas.bsky.social" },
+                    { label: "Email",    href: "mailto:carl@carlthomas.design" },
                   ].map(({ label, href }) => (
                     <a
                       key={label}
