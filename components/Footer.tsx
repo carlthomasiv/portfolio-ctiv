@@ -42,34 +42,35 @@ export function Footer() {
       className="w-full px-6 md:px-12 py-8"
     >
       <div className="max-w-5xl mx-auto flex items-center justify-between">
-      <span style={{ fontFamily: "var(--font-dm-sans)", fontSize: "13px", fontWeight: 400, color: "var(--text-muted)", lineHeight: 1 }}>
-        Carl Thomas
-      </span>
+        <span style={{ fontFamily: "var(--font-dm-sans)", fontSize: "13px", fontWeight: 400, color: "var(--text-muted)", lineHeight: 1 }}>
+          Carl Thomas
+        </span>
 
-      {/* Social links */}
-      <div className="flex items-center gap-5">
-        {socialLinks.map(({ label, href, icon }) => (
-          <a
-            key={label}
-            href={href}
-            target={href.startsWith("mailto") ? undefined : "_blank"}
-            rel={href.startsWith("mailto") ? undefined : "noopener noreferrer"}
-            aria-label={label}
-            className="flex items-center gap-1.5 no-underline link-hover"
-          >
-            {icon}
-            <span
-              style={{
-                fontFamily: "var(--font-dm-mono)",
-                fontSize: "12px",
-                letterSpacing: "0.06em",
-              }}
+        {/* Social links — labels hidden below sm to keep footer compact on mobile */}
+        <div className="flex items-center gap-4 sm:gap-5">
+          {socialLinks.map(({ label, href, icon }) => (
+            <a
+              key={label}
+              href={href}
+              target={href.startsWith("mailto") ? undefined : "_blank"}
+              rel={href.startsWith("mailto") ? undefined : "noopener noreferrer"}
+              aria-label={label}
+              className="flex items-center gap-1.5 no-underline link-hover"
             >
-              {label}
-            </span>
-          </a>
-        ))}
-      </div>
+              {icon}
+              <span
+                className="hidden sm:inline"
+                style={{
+                  fontFamily: "var(--font-dm-mono)",
+                  fontSize: "12px",
+                  letterSpacing: "0.06em",
+                }}
+              >
+                {label}
+              </span>
+            </a>
+          ))}
+        </div>
       </div>
     </motion.footer>
   );
