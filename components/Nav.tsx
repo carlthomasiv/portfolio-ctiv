@@ -1,76 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { useTheme } from "./ThemeProvider";
-
-const SCRAMBLE_CHARS = "abcdefghijklmnopqrstuvwxyz";
-const LOGO_IDLE = "ct iv";
-const LOGO_FULL = "Carl Thomas";
-
-function buildFrame(target: string, lockedCount: number): string {
-  return target
-    .split("")
-    .map((char, i) => {
-      if (char === " ") return " ";
-      if (i < lockedCount) return char;
-      return SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
-    })
-    .join("");
-}
-
-function LogoScramble() {
-  const [text, setText] = useState(LOGO_IDLE);
-  const rafRef = useRef<ReturnType<typeof requestAnimationFrame> | null>(null);
-
-  const runScramble = (target: string) => {
-    if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    const duration = 700;
-    const startTime = performance.now();
-    const tick = (now: number) => {
-      const progress = Math.min((now - startTime) / duration, 1);
-      // ease-in-out: scrambles freely at first, resolves smoothly at the end
-      const eased = progress < 0.5
-        ? 2 * progress * progress
-        : 1 - Math.pow(-2 * progress + 2, 2) / 2;
-      const locked = Math.floor(eased * (target.length + 1));
-      setText(buildFrame(target, locked));
-      if (progress < 1) {
-        rafRef.current = requestAnimationFrame(tick);
-      }
-    };
-    rafRef.current = requestAnimationFrame(tick);
-  };
-
-  useEffect(() => () => { if (rafRef.current) cancelAnimationFrame(rafRef.current); }, []);
-
-  const spaceIdx = text.indexOf(" ");
-  const first = spaceIdx >= 0 ? text.slice(0, spaceIdx) : text;
-  const rest = spaceIdx >= 0 ? text.slice(spaceIdx) : "";
-
-  return (
-    <span
-      onMouseEnter={() => runScramble(LOGO_FULL)}
-      onMouseLeave={() => runScramble(LOGO_IDLE)}
-      onTouchStart={() => runScramble(LOGO_FULL)}
-      onTouchEnd={() => runScramble(LOGO_IDLE)}
-      onTouchCancel={() => runScramble(LOGO_IDLE)}
-      style={{ cursor: "pointer" }}
-    >
-      <span style={{ fontFamily: "var(--font-dm-mono)", fontSize: "13px", fontWeight: 500, color: "var(--text)", lineHeight: 1, letterSpacing: "0.04em" }}>
-        {first}
-      </span>
-      {rest && (
-        <span style={{ fontFamily: "var(--font-dm-mono)", fontSize: "13px", fontWeight: 400, color: "var(--text)", lineHeight: 1, letterSpacing: "0.04em" }}>
-          {rest}
-        </span>
-      )}
-    </span>
-  );
-}
+import { NavMark } from "./NavMark";
 
 function SunIcon() {
   return (
@@ -147,7 +82,7 @@ export function Nav() {
             className="no-underline"
             style={{ lineHeight: 0 }}
           >
-            <LogoScramble />
+            <NavMark />
           </Link>
 
           {/* Desktop nav links */}
