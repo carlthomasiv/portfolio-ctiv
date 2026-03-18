@@ -1,8 +1,76 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { ExternalLink } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
+import { posts } from "@/data/posts";
+import type { Post } from "@/data/posts";
+
+// Static '+' grid thumbnail — same visual language as PostHero, no animation
+const THUMB_CELL  = 14;   // tighter grid for small size
+const THUMB_FREQ  = 0.42;
+const THUMB_AMP   = 2.5;
+const THUMB_PHASE = 1.1;  // fixed time offset → frozen mid-wave
+const THUMB_OP_MIN = 0.07;
+const THUMB_OP_MAX = 0.5;
+
+function PostThumbnailCanvas() {
+  const canvasRef    = useRef<HTMLCanvasElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const canvas    = canvasRef.current;
+    const container = containerRef.current;
+    if (!canvas || !container) return;
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const dpr = window.devicePixelRatio || 1;
+    const w   = container.offsetWidth;
+    const h   = container.offsetHeight;
+
+    canvas.width  = w * dpr;
+    canvas.height = h * dpr;
+    canvas.style.width  = `${w}px`;
+    canvas.style.height = `${h}px`;
+    ctx.scale(dpr, dpr);
+
+    const color = getComputedStyle(document.documentElement)
+      .getPropertyValue("--text").trim() || "#111318";
+
+    ctx.font        = `500 9px "DM Mono", monospace`;
+    ctx.textAlign   = "center";
+    ctx.textBaseline = "middle";
+
+    const cols = Math.ceil(w / THUMB_CELL) + 1;
+    const rows = Math.ceil(h / THUMB_CELL) + 1;
+
+    for (let row = 0; row < rows; row++) {
+      for (let col = 0; col < cols; col++) {
+        const phase   = (col + row) * THUMB_FREQ;
+        const wave    = Math.sin(phase + THUMB_PHASE);
+        const x       = col * THUMB_CELL + THUMB_CELL / 2;
+        const y       = row * THUMB_CELL + THUMB_CELL / 2 + wave * THUMB_AMP;
+        const opacity = THUMB_OP_MIN + ((wave + 1) / 2) * (THUMB_OP_MAX - THUMB_OP_MIN);
+
+        ctx.globalAlpha = opacity;
+        ctx.fillStyle   = color;
+        ctx.fillText("+", x, y);
+      }
+    }
+  }, []);
+
+  return (
+    <div
+      ref={containerRef}
+      style={{ width: "100%", height: "100%", position: "relative", background: "var(--bg)" }}
+    >
+      <canvas ref={canvasRef} style={{ position: "absolute", inset: 0 }} />
+    </div>
+  );
+}
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
@@ -127,6 +195,108 @@ function PublicationRow({ pub, index }: { pub: typeof publications[0]; index: nu
   );
 }
 
+
+function PostRow({ post, index }: { post: Post; index: number }) {
+  const [hovered, setHovered] = useState(false);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.25 + index * 0.07, duration: 0.5, ease: EASE }}
+    >
+      <Link
+        href={`/thinking/${post.slug}`}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        style={{ textDecoration: "none", display: "block" }}
+      >
+        <div style={{ borderTop: "1px solid var(--border)", paddingTop: "28px", paddingBottom: "28px" }}>
+          <div style={{ display: "flex", alignItems: "stretch", gap: "24px" }}>
+
+            {/* Thumbnail — fills full row height */}
+            <div
+              className="hidden sm:flex"
+              style={{ flexShrink: 0, width: "88px" }}
+            >
+              <div
+                style={{
+                  flex: 1,
+                  borderRadius: "6px",
+                  overflow: "hidden",
+                  border: "1px solid var(--border)",
+                  transition: "opacity 0.2s ease",
+                  opacity: hovered ? 0.85 : 1,
+                }}
+              >
+                {post.thumbnail ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={post.thumbnail}
+                    alt=""
+                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                  />
+                ) : (
+                  <PostThumbnailCanvas />
+                )}
+              </div>
+            </div>
+
+            {/* Content */}
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "12px", flexWrap: "wrap" }}>
+                <span style={{ fontFamily: "var(--font-dm-mono)", fontSize: "11px", letterSpacing: "0.06em", textTransform: "uppercase", color: "var(--text-muted)" }}>
+                  {post.date}
+                </span>
+                <span style={{ color: "var(--text-muted)", fontSize: "12px", opacity: 0.5 }}>·</span>
+                <span style={{ fontFamily: "var(--font-dm-mono)", fontSize: "11px", letterSpacing: "0.04em", color: "var(--text-muted)", opacity: 0.6 }}>
+                  {post.readTime} min read
+                </span>
+                {post.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    style={{
+                      fontFamily: "var(--font-dm-mono)",
+                      fontSize: "10px",
+                      letterSpacing: "0.06em",
+                      textTransform: "uppercase",
+                      color: "var(--text-muted)",
+                      border: "1px solid var(--border)",
+                      borderRadius: "4px",
+                      padding: "2px 7px",
+                      lineHeight: 1.6,
+                    }}
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+              <h2 style={{ fontFamily: "var(--font-dm-serif-display)", fontSize: "clamp(20px, 2.5vw, 26px)", fontWeight: 400, lineHeight: 1.25, letterSpacing: "-0.01em", color: "var(--text)", margin: "0 0 10px", opacity: hovered ? 1 : 0.9, transition: "opacity 0.15s ease" }}>
+                {post.title}
+              </h2>
+              <p style={{ fontFamily: "var(--font-dm-sans)", fontSize: "14px", lineHeight: 1.65, color: "var(--text-muted)", margin: 0, maxWidth: "560px" }}>
+                {post.excerpt}
+              </p>
+            </div>
+
+            {/* Arrow */}
+            <motion.div
+              animate={{ opacity: hovered ? 1 : 0, x: hovered ? 0 : -6 }}
+              transition={{ duration: 0.18, ease: "easeOut" }}
+              className="hidden md:flex"
+              style={{ color: "var(--text-muted)", paddingTop: "14px", flexShrink: 0 }}
+            >
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
+                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </motion.div>
+          </div>
+        </div>
+      </Link>
+    </motion.div>
+  );
+}
+
 export function ThinkingContent() {
   return (
     <div className="w-full px-6 md:px-12">
@@ -160,30 +330,52 @@ export function ThinkingContent() {
           </motion.p>
         </section>
 
-        {/* Publications */}
+        {/* Internal posts */}
+        {posts.length > 0 && (
+          <section style={{ paddingBottom: "64px" }}>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.22, duration: 0.4 }}
+              style={{
+                fontFamily: "var(--font-dm-mono)",
+                fontSize: "11px",
+                letterSpacing: "0.08em",
+                textTransform: "uppercase",
+                color: "var(--text-muted)",
+                marginBottom: "4px",
+                opacity: 0.6,
+              }}
+            >
+              Notes
+            </motion.p>
+            {posts.map((post, i) => (
+              <PostRow key={post.slug} post={post} index={i} />
+            ))}
+          </section>
+        )}
+
+        {/* External publications */}
         <section style={{ paddingBottom: "96px" }}>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3, duration: 0.4 }}
+            style={{
+              fontFamily: "var(--font-dm-mono)",
+              fontSize: "11px",
+              letterSpacing: "0.08em",
+              textTransform: "uppercase",
+              color: "var(--text-muted)",
+              marginBottom: "4px",
+              opacity: 0.6,
+            }}
+          >
+            Published elsewhere
+          </motion.p>
           {publications.map((pub, i) => (
             <PublicationRow key={pub.title} pub={pub} index={i} />
           ))}
-
-          {/* Footer note */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.55, duration: 0.4 }}
-            style={{
-              borderTop: "1px solid var(--border)",
-              paddingTop: "24px",
-              display: "flex",
-              alignItems: "center",
-              gap: "8px",
-            }}
-          >
-            <span style={{ width: "6px", height: "6px", borderRadius: "50%", backgroundColor: "var(--text-muted)", opacity: 0.3, flexShrink: 0 }} />
-            <p style={{ fontFamily: "var(--font-dm-mono)", fontSize: "11px", letterSpacing: "0.05em", color: "var(--text-muted)", margin: 0, opacity: 0.6 }}>
-              More writing in progress
-            </p>
-          </motion.div>
         </section>
 
       </div>
