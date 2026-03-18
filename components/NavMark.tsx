@@ -4,10 +4,10 @@ import { useEffect, useRef, useState } from "react";
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
-const EASING = "cubic-bezier(0.4, 0, 0.2, 1)";
-const EXPAND_MS = 260;
-const COLLAPSE_MS = 200;
-const COLLAPSE_DEBOUNCE_MS = 180; // grace period before collapsing on mouseleave
+const EASING = "cubic-bezier(0, 0, 0.2, 1)"; // strong ease-out: hits full speed immediately, decelerates into place
+const EXPAND_MS = 220;
+const COLLAPSE_MS = 160;
+const COLLAPSE_DEBOUNCE_MS = 160; // grace period before collapsing on mouseleave
 const MOBILE_DELAY_MS = 800;
 const MOBILE_BREAKPOINT = 768;
 
