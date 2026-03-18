@@ -42,9 +42,15 @@ export function Footer() {
       className="w-full px-6 md:px-12 py-8"
     >
       <div className="max-w-5xl mx-auto flex items-center justify-between">
-        <span style={{ fontFamily: "var(--font-dm-mono)", fontSize: "11px", letterSpacing: "0.04em", color: "var(--text-muted)", lineHeight: 1 }}>
-          © 2026 Carl Thomas · Built with Claude Code &amp; Next.js
-        </span>
+        <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-0">
+          <span style={{ fontFamily: "var(--font-dm-mono)", fontSize: "11px", letterSpacing: "0.04em", color: "var(--text-muted)", lineHeight: 1 }}>
+            © 2026 Carl Thomas
+          </span>
+          <span className="hidden sm:inline" style={{ fontFamily: "var(--font-dm-mono)", fontSize: "11px", color: "var(--text-muted)", opacity: 0.4, margin: "0 6px" }}>·</span>
+          <span style={{ fontFamily: "var(--font-dm-mono)", fontSize: "10px", letterSpacing: "0.04em", color: "var(--text-muted)", opacity: 0.6, lineHeight: 1 }}>
+            Built with Claude Code &amp; Next.js
+          </span>
+        </div>
 
         {/* Social links — labels hidden below sm to keep footer compact on mobile */}
         <div className="flex items-center gap-4 sm:gap-5">
