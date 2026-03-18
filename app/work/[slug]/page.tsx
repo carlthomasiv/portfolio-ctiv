@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { CaseStudyContent } from "@/components/CaseStudyContent";
 import { getCaseStudy, caseStudies } from "@/data/case-studies";
@@ -39,7 +38,6 @@ export default async function WorkPage({
 
   return (
     <div style={{ minHeight: "100vh", background: "var(--bg)", color: "var(--text)" }}>
-      <Nav />
       <CaseStudyContent study={study} />
       <Footer />
     </div>

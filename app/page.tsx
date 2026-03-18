@@ -1,4 +1,3 @@
-import { Nav } from "@/components/Nav";
 import { Hero } from "@/components/Hero";
 import { WorkList } from "@/components/WorkList";
 import { NowSection } from "@/components/NowSection";
@@ -14,7 +13,6 @@ export default function Home() {
         background: "var(--bg)",
       }}
     >
-      <Nav />
       <main style={{ flex: 1 }}>
         <Hero />
         <WorkList />

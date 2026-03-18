@@ -1,4 +1,3 @@
-import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { ThinkingContent } from "@/components/ThinkingContent";
 
@@ -10,7 +9,6 @@ export const metadata = {
 export default function ThinkingPage() {
   return (
     <main style={{ background: "var(--bg)", minHeight: "100vh" }}>
-      <Nav />
       <ThinkingContent />
       <Footer />
     </main>

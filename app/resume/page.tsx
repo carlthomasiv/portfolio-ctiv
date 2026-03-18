@@ -1,4 +1,3 @@
-import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { ResumeContent } from "@/components/ResumeContent";
 
@@ -10,7 +9,6 @@ export const metadata = {
 export default function ResumePage() {
   return (
     <main style={{ background: "var(--bg)", minHeight: "100vh" }}>
-      <Nav />
       <ResumeContent />
       <Footer />
     </main>

@@ -3,6 +3,7 @@ import { DM_Serif_Display, DM_Sans, DM_Mono, Caveat } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { PageTransition } from "@/components/PageTransition";
+import { Nav } from "@/components/Nav";
 
 const dmSerifDisplay = DM_Serif_Display({
   weight: ["400"],
@@ -54,6 +55,7 @@ export default function RootLayout({
         className={`${dmSerifDisplay.variable} ${dmSans.variable} ${dmMono.variable} ${caveat.variable}`}
       >
         <ThemeProvider>
+          <Nav />
           <PageTransition>{children}</PageTransition>
         </ThemeProvider>
       </body>
