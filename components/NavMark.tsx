@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { usePathname } from "next/navigation";
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -14,9 +13,18 @@ const MOBILE_BREAKPOINT = 768;
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
+// Resolve --font-dm-mono from the root element so the measurement span
+// uses the exact same font stack as the rendered spans.
+function resolvedFontFamily(): string {
+  const v = getComputedStyle(document.documentElement)
+    .getPropertyValue("--font-dm-mono")
+    .trim();
+  return v ? `${v}, 'DM Mono', monospace` : "'DM Mono', monospace";
+}
+
 function measureText(text: string, weight: number): number {
   const el = document.createElement("span");
-  el.style.fontFamily = "var(--font-dm-mono), 'DM Mono', monospace";
+  el.style.fontFamily = resolvedFontFamily();
   el.style.fontSize = "15px";
   el.style.fontWeight = String(weight);
   el.style.whiteSpace = "nowrap";
@@ -30,7 +38,8 @@ function measureText(text: string, weight: number): number {
   document.body.appendChild(el);
   const w = el.getBoundingClientRect().width;
   document.body.removeChild(el);
-  return Math.ceil(w) + 1;
+  // +2px buffer for sub-pixel rounding on high-DPI mobile screens
+  return Math.ceil(w) + 2;
 }
 
 // ─── NavMark ─────────────────────────────────────────────────────────────────
@@ -41,17 +50,14 @@ interface Widths {
 }
 
 export function NavMark() {
-  const pathname = usePathname();
   const [widths, setWidths] = useState<Widths | null>(null);
   const [expanded, setExpanded] = useState(false);
   const [animate, setAnimate] = useState(false);
   const isMobileRef = useRef(false);
   const collapseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const mobileTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  // Tracks the last pathname we played the expand animation for
-  const prevPathname = useRef<string | null>(null);
 
-  // ── Initial boot: measure fonts, fire first mobile animation ──────────────
+  // ── Boot: measure fonts, fire mobile animation once on first page load ─────
   useEffect(() => {
     document.fonts.ready.then(() => {
       isMobileRef.current = window.innerWidth < MOBILE_BREAKPOINT;
@@ -72,34 +78,6 @@ export function NavMark() {
       if (collapseTimer.current) clearTimeout(collapseTimer.current);
     };
   }, []);
-
-  // ── Replay animation on every SPA navigation (mobile only) ────────────────
-  useEffect(() => {
-    // Skip until fonts/widths are measured
-    if (!widths || !isMobileRef.current) return;
-    // Record first pathname without animating — boot effect handles it
-    if (prevPathname.current === null) {
-      prevPathname.current = pathname;
-      return;
-    }
-    // Same page — nothing to do
-    if (prevPathname.current === pathname) return;
-    prevPathname.current = pathname;
-
-    // Clear any in-flight timers
-    if (mobileTimer.current) clearTimeout(mobileTimer.current);
-
-    // Snap back to collapsed instantly (disable transitions for one frame)
-    setAnimate(false);
-    setExpanded(false);
-
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        setAnimate(true);
-        mobileTimer.current = setTimeout(() => setExpanded(true), MOBILE_DELAY_MS);
-      });
-    });
-  }, [pathname, widths]);
 
   function handleEnter() {
     if (isMobileRef.current) return;
