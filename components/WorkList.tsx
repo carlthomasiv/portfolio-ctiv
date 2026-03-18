@@ -222,15 +222,37 @@ export function WorkList() {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.25, duration: 0.4 }}
           style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            paddingBottom: "20px",
+          }}
+        >
+          <span style={{
             fontFamily: "var(--font-dm-mono)",
             fontSize: "12px",
             letterSpacing: "0.08em",
             textTransform: "uppercase",
             color: "var(--text-muted)",
-            paddingBottom: "20px",
-          }}
-        >
-          Case Studies
+          }}>
+            Case Studies
+          </span>
+          <Link
+            href="/work"
+            style={{
+              fontFamily: "var(--font-dm-mono)",
+              fontSize: "12px",
+              letterSpacing: "0.06em",
+              textTransform: "uppercase",
+              color: "var(--text-muted)",
+              textDecoration: "none",
+              borderBottom: "1px solid var(--border)",
+              paddingBottom: "1px",
+              lineHeight: 1,
+            }}
+          >
+            View all
+          </Link>
         </motion.div>
 
         <div>
