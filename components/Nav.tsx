@@ -34,13 +34,21 @@ function MoonIcon() {
   );
 }
 
-// Half-filled circle: left half solid = dark, right half outlined = light
-// Visual shorthand for "follow system / auto"
+/// Half-filled circle: left half solid, right half ring outline.
+// Built with fills only — no stroke — so semi-transparent currentColor
+// doesn't compound where a stroke and fill would otherwise overlap.
+// Ring = outer circle (CW) + inner circle (CCW) with evenodd fill-rule.
+// Outer r=6.1 / inner r=4.9 matches the visual weight of stroke-width 1.2 on r=5.5.
 function AutoIcon() {
   return (
-    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden>
-      <circle cx="7.5" cy="7.5" r="5.5" stroke="currentColor" strokeWidth="1.2" />
-      <path d="M7.5 2a5.5 5.5 0 0 0 0 11V2z" fill="currentColor" />
+    <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor" aria-hidden>
+      {/* Annular ring: outer CW + inner CCW, evenodd fills only the ring area */}
+      <path
+        fillRule="evenodd"
+        d="M7.5 1.4 A6.1 6.1 0 0 1 7.5 13.6 A6.1 6.1 0 0 1 7.5 1.4 Z M7.5 2.6 A4.9 4.9 0 0 0 7.5 12.4 A4.9 4.9 0 0 0 7.5 2.6 Z"
+      />
+      {/* Left D-shape at inner radius — shares boundary with ring, zero overlap */}
+      <path d="M7.5 2.6 A4.9 4.9 0 0 0 7.5 12.4 Z" />
     </svg>
   );
 }
