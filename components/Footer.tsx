@@ -58,16 +58,6 @@ export function Footer() {
               className="flex items-center gap-1.5 no-underline link-hover"
             >
               {icon}
-              <span
-                className="hidden sm:inline"
-                style={{
-                  fontFamily: "var(--font-dm-mono)",
-                  fontSize: "12px",
-                  letterSpacing: "0.06em",
-                }}
-              >
-                {label}
-              </span>
             </a>
           ))}
         </div>
