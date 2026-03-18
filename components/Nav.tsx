@@ -136,7 +136,7 @@ export function Nav() {
           backdropFilter: scrolled ? "blur(12px)" : "none",
           WebkitBackdropFilter: scrolled ? "blur(12px)" : "none",
           borderBottom: scrolled ? "1px solid var(--border)" : "1px solid transparent",
-          transition: "background 0.25s ease, backdrop-filter 0.25s ease, border-color 0.25s ease",
+          transition: "background 0.25s ease, backdrop-filter 0.25s ease",
         }}
         className="w-full px-6 md:px-12 py-5"
       >

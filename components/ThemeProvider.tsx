@@ -41,10 +41,13 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   }
 
   function toggle() {
+    const root = document.documentElement;
+    root.classList.add("theme-switching");
     const next = theme === "light" ? "dark" : "light";
     setTheme(next);
     applyTheme(next);
     localStorage.setItem("theme", next);
+    setTimeout(() => root.classList.remove("theme-switching"), 300);
   }
 
   // Prevent flash by hiding until mounted

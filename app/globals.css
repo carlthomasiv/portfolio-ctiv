@@ -45,6 +45,17 @@
   box-sizing: border-box;
 }
 
+/* While the theme class is toggling, transition every color property in sync */
+html.theme-switching *,
+html.theme-switching *::before,
+html.theme-switching *::after {
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease !important;
+}
+
 /* Utility: hide scrollbar while keeping scroll behaviour */
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 .no-scrollbar::-webkit-scrollbar { display: none; }
@@ -61,7 +72,6 @@ body {
   font-family: var(--font-dm-sans), "DM Sans", system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 /* Link hover utility */
@@ -73,7 +83,3 @@ body {
   color: var(--text);
 }
 
-/* Smooth border-color on theme toggle */
-.theme-border {
-  transition: border-color 0.2s ease;
-}
