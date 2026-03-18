@@ -1,36 +1,73 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# cft-portfolio
 
-## Getting Started
+Personal portfolio for Carl Thomas — design leader specialising in developer tools, AI platforms, and infrastructure UX.
 
-First, run the development server:
+Live at [carlthomasiv.com](https://carlthomasiv.com)
+
+---
+
+## Stack
+
+- **Framework** — Next.js 16 (App Router)
+- **Styling** — Tailwind CSS v4 + CSS custom properties
+- **Animation** — Framer Motion 12
+- **Fonts** — DM Serif Display, DM Sans, DM Mono, Caveat (all via `next/font/google`)
+- **Language** — TypeScript
+- **Deploy** — Vercel (Hobby), custom domain via Bluehost DNS
+
+## Project structure
+
+```
+app/
+  globals.css            # Design tokens (CSS vars), dark mode, utility classes
+  layout.tsx             # Root layout — fonts, Nav, PageTransition
+  page.tsx               # Home — Hero, WorkList, NowSection
+  work/
+    page.tsx             # Work index — grouped case study grid
+    [slug]/page.tsx      # Individual case study
+  thinking/page.tsx      # Writing & publications index
+  about/page.tsx         # About — bio, experience, convictions, writing
+  resume/page.tsx        # Full resume — experience, publications, skills
+
+components/
+  Nav.tsx                # Sticky nav, logo scramble, theme toggle, mobile drawer
+  Hero.tsx               # Homepage hero — headline, intro, availability badge
+  WorkList.tsx           # Homepage case study list (top 5, timeline layout)
+  WorkIndex.tsx          # /work grid grouped by company
+  CaseStudyContent.tsx   # Case study renderer — block-based content system
+  NowSection.tsx         # Homepage "Now" section
+  ThinkingContent.tsx    # Publication index with hover rows
+  AboutContent.tsx       # About page content
+  ResumeContent.tsx      # Resume page content
+  Footer.tsx             # Signature, social links
+  ThemeProvider.tsx      # Dark/light mode via .dark class on <html>
+  PageTransition.tsx     # Crossfade page transitions via AnimatePresence
+
+data/
+  work-projects.ts       # All projects — feeds WorkList, WorkIndex, case study pages
+  case-studies.ts        # Full case study content — block-based content model
+```
+
+## Design tokens
+
+Theming is handled entirely via CSS custom properties in `globals.css`. The `.dark` class on `<html>` switches the palette.
+
+| Token | Light | Dark |
+|---|---|---|
+| `--bg` | `#fafafa` | `#111110` |
+| `--text` | `#111318` | `#f0ede8` |
+| `--text-muted` | 50% opacity | 50% opacity |
+| `--border` | 8% opacity | 8% opacity |
+| `--border-strong` | 16% opacity | 16% opacity |
+| `--bg-card` | `#ffffff` | `#1c1c1b` |
+| `--bg-glass` | 80% opacity | 80% opacity |
+
+## Dev
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+> **Note:** Uses `node node_modules/next/dist/bin/next dev` internally due to a broken `.bin/next` symlink resolution. Don't change this back to plain `next dev`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Opens at [http://localhost:3000](http://localhost:3000)
