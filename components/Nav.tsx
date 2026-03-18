@@ -54,7 +54,7 @@ function LogoScramble() {
       onTouchStart={() => runScramble(LOGO_FULL)}
       onTouchEnd={() => runScramble(LOGO_IDLE)}
       onTouchCancel={() => runScramble(LOGO_IDLE)}
-      style={{ cursor: "default" }}
+      style={{ cursor: "pointer" }}
     >
       <span style={{ fontFamily: "var(--font-dm-mono)", fontSize: "13px", fontWeight: 500, color: "var(--text)", lineHeight: 1, letterSpacing: "0.04em" }}>
         {first}
@@ -99,7 +99,7 @@ const navLinks = [
   { label: "Work", href: "/work" },
   { label: "Thinking", href: "/thinking" },
   { label: "About", href: "/about" },
-  { label: "Resume", href: "/resume.pdf", external: true },
+  { label: "Resume", href: "/resume" },
 ];
 
 export function Nav() {

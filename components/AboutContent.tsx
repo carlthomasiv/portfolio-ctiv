@@ -2,6 +2,8 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
@@ -16,7 +18,7 @@ const experience = [
     company: "Neon",
     role: "Head of Design",
     period: "Jul 2024 – May 2025",
-    note: "Built the design org from zero. Defined the vision for serverless Postgres as a design-led product and pioneered AI-native workflows across the design team.",
+    note: "Built the design org from zero. Defined the vision for serverless Postgres as a design-led product and cut the concept-to-prototype cycle by 40% by bringing AI tools into the team workflow.",
   },
   {
     company: "Kong",
@@ -247,10 +249,8 @@ export function AboutContent() {
               <span style={{ fontFamily: "var(--font-dm-mono)", fontSize: "12px", letterSpacing: "0.05em", color: "var(--text-muted)" }}>
                 Previously: Meta · Google · Microsoft
               </span>
-              <a
-                href="https://www.linkedin.com/in/cthomasiv/"
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                href="/resume"
                 style={{
                   fontFamily: "var(--font-dm-mono)",
                   fontSize: "12px",
@@ -260,10 +260,14 @@ export function AboutContent() {
                   borderBottom: "1px solid var(--border)",
                   paddingBottom: "1px",
                   lineHeight: 1,
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "5px",
                 }}
               >
-                Full history ↗
-              </a>
+                Full history
+                <ArrowRight size={12} strokeWidth={1.5} />
+              </Link>
             </motion.div>
           </div>
         </section>
