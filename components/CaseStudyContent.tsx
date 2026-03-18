@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowLeft, TrendingUp, TrendingDown, ArrowRight } from "lucide-react";
 import type { CaseStudy, Block, InlineBlock, Section } from "@/data/case-studies";
+import { allProjects } from "@/data/work-projects";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
@@ -1026,6 +1027,8 @@ function SectionRenderer({ section, index }: { section: Section; index: number }
 }
 
 export function CaseStudyContent({ study }: { study: CaseStudy }) {
+  const disciplines = allProjects.find((p) => p.slug === study.slug)?.disciplines ?? [];
+
   return (
     <div className="w-full px-6 md:px-12" style={{ paddingBottom: "96px" }}>
       <div className="max-w-5xl mx-auto">
@@ -1060,21 +1063,40 @@ export function CaseStudyContent({ study }: { study: CaseStudy }) {
 
         {/* Header */}
         <header style={{ paddingTop: "40px", paddingBottom: "48px" }}>
-          <motion.p
+          <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1, duration: 0.5, ease: EASE }}
-            style={{
-              fontFamily: "var(--font-dm-mono)",
-              fontSize: "12px",
-              letterSpacing: "0.08em",
-              textTransform: "uppercase",
-              color: "var(--text-muted)",
-              margin: "0 0 16px",
-            }}
+            style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap", margin: "0 0 16px" }}
           >
-            {study.company} &middot; {study.category}
-          </motion.p>
+            <span style={{ fontFamily: "var(--font-dm-mono)", fontSize: "12px", letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--text-muted)" }}>
+              {study.company}
+            </span>
+            {disciplines.length > 0 && (
+              <>
+                <span style={{ color: "var(--text-muted)", opacity: 0.4, fontSize: "12px" }}>·</span>
+                {disciplines.map((d) => (
+                  <span
+                    key={d}
+                    style={{
+                      fontFamily: "var(--font-dm-mono)",
+                      fontSize: "10px",
+                      letterSpacing: "0.06em",
+                      textTransform: "uppercase",
+                      color: "var(--text-muted)",
+                      border: "1px solid var(--border)",
+                      borderRadius: "4px",
+                      padding: "2px 7px",
+                      lineHeight: 1.6,
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {d}
+                  </span>
+                ))}
+              </>
+            )}
+          </motion.div>
 
           <motion.h1
             initial={{ opacity: 0, y: 12 }}

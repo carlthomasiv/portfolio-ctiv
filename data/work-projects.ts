@@ -1,6 +1,7 @@
 export interface Project {
   company?: string;
   category: string;
+  disciplines: string[];
   title: string;
   description: string;
   slug: string;
@@ -22,6 +23,7 @@ export const groups: CompanyGroup[] = [
     projects: [
       {
         category: "Developer Tools",
+        disciplines: ["DX", "Growth"],
         title: "Instant Postgres Playground",
         description: "Zero-config database environments that spin up in milliseconds. No signup required.",
         slug: "instant-postgres-playground",
@@ -31,6 +33,7 @@ export const groups: CompanyGroup[] = [
       },
       {
         category: "Infrastructure UX",
+        disciplines: ["Infrastructure"],
         title: "Console Navigation",
         description: "Restructuring the mental model for a multi-tenant cloud console.",
         slug: "console-navigation",
@@ -40,6 +43,7 @@ export const groups: CompanyGroup[] = [
       },
       {
         category: "Growth",
+        disciplines: ["Growth"],
         title: "Upgrade Flow Redesign",
         description: "Reducing friction in the path from free to paid without the hard sell.",
         slug: "upgrade-flow-redesign",
@@ -55,6 +59,7 @@ export const groups: CompanyGroup[] = [
     projects: [
       {
         category: "Infrastructure UX",
+        disciplines: ["Infrastructure", "DX"],
         title: "Serverless Gateways",
         description: "Turning complex infrastructure setup into a zero-to-one experience developers could complete in minutes.",
         slug: "serverless-gateways",
@@ -64,6 +69,7 @@ export const groups: CompanyGroup[] = [
       },
       {
         category: "Developer Education",
+        disciplines: ["DX"],
         title: "Learning Hub",
         description: "A developer-first education portal built to reduce time-to-value across the Konnect platform.",
         slug: "learning-hub",
@@ -73,6 +79,7 @@ export const groups: CompanyGroup[] = [
       },
       {
         category: "Growth",
+        disciplines: ["Growth"],
         title: "Konnect Plus Trial",
         description: "Self-serve trial flows that converted enterprise prospects without high-touch sales.",
         slug: "konnect-plus-trial",
@@ -88,6 +95,7 @@ export const groups: CompanyGroup[] = [
     projects: [
       {
         category: "Growth",
+        disciplines: ["Growth"],
         title: "Notification Center 2.0",
         description: "Redesigning how 25M+ users stay informed across a complex collaborative platform.",
         slug: "notification-center",
@@ -97,6 +105,7 @@ export const groups: CompanyGroup[] = [
       },
       {
         category: "Collaboration",
+        disciplines: ["Growth"],
         title: "Domain Visibility",
         description: "Making team boundaries legible inside invite flows to reduce workspace confusion.",
         slug: "domain-visibility",
@@ -112,6 +121,7 @@ export const groups: CompanyGroup[] = [
     projects: [
       {
         category: "Developer Tools",
+        disciplines: ["DX"],
         title: "Layout Inspector 2.0",
         description: "Giving Android developers a live, hierarchical view of their UI at runtime.",
         slug: "layout-inspector",
@@ -121,6 +131,7 @@ export const groups: CompanyGroup[] = [
       },
       {
         category: "Developer Tools",
+        disciplines: ["DX"],
         title: "Resource Management",
         description: "0-to-1 asset management for Android Studio, serving a community of 2.5M+ developers.",
         slug: "resource-management",
@@ -136,6 +147,7 @@ export const groups: CompanyGroup[] = [
     projects: [
       {
         category: "Cloud Infrastructure",
+        disciplines: ["Infrastructure"],
         title: "Azure SQL Overview",
         description: "Redesigning the entry point for enterprise cloud database management at global scale.",
         slug: "azure-sql-overview",
@@ -145,6 +157,7 @@ export const groups: CompanyGroup[] = [
       },
       {
         category: "Cloud Infrastructure",
+        disciplines: ["Infrastructure", "Growth"],
         title: "Azure SQL Resources & Pricing",
         description: "Making complex pricing tiers and resource configuration legible for enterprise buyers.",
         slug: "azure-sql-resources",
@@ -156,7 +169,7 @@ export const groups: CompanyGroup[] = [
   },
 ];
 
-// Flat list of all available projects with company name attached
+// Flat list of all projects with company name attached
 export const allProjects = groups.flatMap((g) =>
   g.projects.map((p) => ({ ...p, company: g.company }))
 );
