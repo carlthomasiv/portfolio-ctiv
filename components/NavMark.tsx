@@ -27,15 +27,18 @@ const BASE_FONT = {
  */
 function measureText(text: string, weight: number): number {
   const el = document.createElement("span");
-  Object.assign(el.style, {
-    ...BASE_FONT,
-    fontWeight: String(weight),
-    position: "fixed",
-    visibility: "hidden",
-    pointerEvents: "none",
-    top: "-9999px",
-    left: "-9999px",
-  });
+  // Set each property explicitly — CSSStyleDeclaration expects strings and
+  // doesn't always behave well with Object.assign + numeric values.
+  el.style.fontFamily = "var(--font-dm-mono), 'DM Mono', monospace";
+  el.style.fontSize = "15px";
+  el.style.fontWeight = String(weight);
+  el.style.whiteSpace = "nowrap";
+  el.style.lineHeight = "1";
+  el.style.position = "fixed";
+  el.style.visibility = "hidden";
+  el.style.pointerEvents = "none";
+  el.style.top = "-9999px";
+  el.style.left = "-9999px";
   el.textContent = text;
   document.body.appendChild(el);
   const w = el.getBoundingClientRect().width;
@@ -96,7 +99,7 @@ function Segment({
         style={{
           ...BASE_FONT,
           display: "block",
-          fontWeight,
+          fontWeight: weight,
           color: "var(--text)",
           opacity: expanded ? 0 : targetOpacity,
           transition: `opacity ${xfadeMs}ms ease`,
@@ -112,7 +115,7 @@ function Segment({
           position: "absolute",
           top: 0,
           left: 0,
-          fontWeight,
+          fontWeight: weight,
           color: "var(--text)",
           opacity: expanded ? targetOpacity : 0,
           transition: `opacity ${xfadeMs}ms ease ${longDelay}ms`,
