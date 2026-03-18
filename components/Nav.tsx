@@ -76,10 +76,8 @@ function ThemeToggle({ className }: { className?: string }) {
     <button
       onClick={cycle}
       aria-label={ARIA_LABELS[theme]}
-      // overflow-hidden clips the icons as they rotate in/out of the drum window
-      // perspective gives the 3D depth that makes it read as a ring not a flat flip
-      className={`w-7 h-7 relative [color:var(--text-muted)] hover:[color:var(--text)] transition-[color] duration-150 cursor-pointer bg-transparent border-0 p-0 overflow-hidden ${className ?? ""}`}
-      style={{ perspective: "160px" }}
+      // No overflow-hidden here — it kills CSS 3D transforms in Chrome
+      className={`w-7 h-7 relative [color:var(--text-muted)] hover:[color:var(--text)] transition-[color] duration-150 cursor-pointer bg-transparent border-0 p-0 ${className ?? ""}`}
     >
       <AnimatePresence mode="sync" initial={false}>
         <motion.span
@@ -89,13 +87,16 @@ function ThemeToggle({ className }: { className?: string }) {
           animate="animate"
           exit="exit"
           transition={ringTransition}
-          // absolute so exiting + entering icons overlap during the rotation
           style={{
             position: "absolute",
             inset: 0,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
+            // transformPerspective on the element itself is how Framer Motion
+            // injects perspective() into its transform string — parent CSS
+            // perspective alone doesn't propagate into FM's transform pipeline
+            transformPerspective: 120,
           }}
         >
           {icon}
