@@ -150,24 +150,20 @@ export function Nav() {
           <div className="hidden md:flex items-center gap-6">
             {navLinks.map(({ label, href, external }) => {
               const isActive = !external && (href === "/" ? pathname === "/" : pathname.startsWith(href));
-              const linkStyle = {
-                fontFamily: "var(--font-dm-mono)",
-                fontSize: "12px",
-                letterSpacing: "0.08em",
-                textTransform: "uppercase" as const,
-                color: isActive ? "var(--text)" : "var(--text-muted)",
-                borderBottom: isActive ? "1.5px solid var(--text)" : "1.5px solid transparent",
-                paddingBottom: "2px",
-                transition: "color 0.15s ease, border-color 0.15s ease",
-              };
               return external ? (
                 <a
                   key={label}
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  style={linkStyle}
-                  className="no-underline"
+                  style={{
+                    fontFamily: "var(--font-dm-mono)",
+                    fontSize: "12px",
+                    letterSpacing: "0.08em",
+                    textTransform: "uppercase" as const,
+                    color: "var(--text-muted)",
+                    textDecoration: "none",
+                  }}
                 >
                   {label}
                 </a>
@@ -175,10 +171,34 @@ export function Nav() {
                 <Link
                   key={label}
                   href={href}
-                  style={linkStyle}
-                  className="no-underline"
+                  style={{
+                    fontFamily: "var(--font-dm-mono)",
+                    fontSize: "12px",
+                    letterSpacing: "0.08em",
+                    textTransform: "uppercase" as const,
+                    color: isActive ? "var(--text)" : "var(--text-muted)",
+                    textDecoration: "none",
+                    position: "relative" as const,
+                    paddingBottom: "3px",
+                    transition: "color 0.15s ease",
+                  }}
                 >
                   {label}
+                  {isActive && (
+                    <motion.span
+                      layoutId="nav-indicator"
+                      style={{
+                        position: "absolute",
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        height: "1.5px",
+                        backgroundColor: "var(--text)",
+                        borderRadius: "1px",
+                      }}
+                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                    />
+                  )}
                 </Link>
               );
             })}
