@@ -46,7 +46,15 @@ export function Hero() {
               color: "var(--text-muted)",
             }}
           >
-            Currently designing at Ona
+            Currently designing at{" "}
+          <a
+            href="https://ona.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: "inherit", textDecoration: "underline", textUnderlineOffset: "3px" }}
+          >
+            Ona
+          </a>
           </span>
         </motion.div>
 
@@ -66,8 +74,8 @@ export function Hero() {
             margin: 0,
           }}
         >
-          Most teams build AI into their products. The best ones build around
-          what it makes possible for the humans using them.
+          Most AI products are designed for the moment of wonder. I&apos;m more
+          interested in what happens after.
         </motion.h1>
 
         {/* Intro */}
@@ -84,9 +92,10 @@ export function Hero() {
             margin: 0,
           }}
         >
-          I&apos;m Carl Thomas, a design leader with a decade of experience at
-          the infrastructure layer: developer tools, AI platforms, and the
-          complex systems that engineers live inside every day.
+          I&apos;m Carl Thomas, a design leader with a decade at the
+          infrastructure layer. Currently at Ona, building the interface between
+          developers and their AI agents. Before that: Neon, Kong, Postman,
+          Google, Microsoft.
         </motion.p>
 
       </div>

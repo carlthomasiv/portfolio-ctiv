@@ -1,41 +1,13 @@
 "use client";
 
-import Image from "next/image";
 import { motion } from "framer-motion";
 import { useTheme } from "./ThemeProvider";
+import { Linkedin, Mail } from "lucide-react";
 
-function LinkedInIcon() {
+function BlueskyIcon() {
   return (
-    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden>
-      <rect x="1" y="1" width="13" height="13" rx="2" stroke="currentColor" strokeWidth="1.2" />
-      <path
-        d="M4 6v5M4 4v.5M7 11V8.5c0-1.38.896-2.5 2-2.5s2 1.12 2 2.5V11M7 6v5"
-        stroke="currentColor"
-        strokeWidth="1.2"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}
-
-function BlueSkyIcon() {
-  return (
-    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden>
-      <path
-        d="M7.5 5.5C6.5 3.5 3 1.5 1.5 3c-1.5 1.5.5 4 2 5l4 3 4-3c1.5-1 3.5-3.5 2-5-1.5-1.5-5 .5-6 2.5z"
-        stroke="currentColor"
-        strokeWidth="1.2"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function EmailIcon() {
-  return (
-    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden>
-      <rect x="1" y="3" width="13" height="9" rx="1.5" stroke="currentColor" strokeWidth="1.2" />
-      <path d="M1.5 3.5l6 4.5 6-4.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+      <path d="M12 10.8c-1.087-2.114-4.046-6.053-6.798-7.995C2.566.944 1.077 1.514.9 3.738.816 4.908.709 7.575 1.032 9.656c.496 3.084 2.21 4.96 4.654 5.5-2.444.54-4.158 2.416-4.654 5.5-.323 2.081-.216 4.748-.132 5.918.177 2.224 1.666 2.794 4.302.933 2.752-1.942 5.711-5.881 6.798-7.995zm0 0c1.087-2.114 4.046-6.053 6.798-7.995 2.636-1.861 4.125-1.291 4.302.933.084 1.17.191 3.837-.132 5.918-.496 3.084-2.21 4.96-4.654 5.5 2.444.54 4.158 2.416 4.654 5.5.323 2.081.216 4.748.132 5.918-.177 2.224-1.666 2.794-4.302.933-2.752-1.942-5.711-5.881-6.798-7.995z" />
     </svg>
   );
 }
@@ -43,18 +15,18 @@ function EmailIcon() {
 const socialLinks = [
   {
     label: "LinkedIn",
-    href: "https://linkedin.com/in/carlthomas",
-    icon: <LinkedInIcon />,
+    href: "https://www.linkedin.com/in/cthomasiv/",
+    icon: <Linkedin size={15} strokeWidth={1.5} />,
   },
   {
     label: "Bluesky",
-    href: "https://bsky.app/profile/carlthomas.bsky.social",
-    icon: <BlueSkyIcon />,
+    href: "https://bsky.app/profile/ctiv.bsky.social",
+    icon: <BlueskyIcon />,
   },
   {
     label: "Email",
-    href: "mailto:carl@carlthomas.design",
-    icon: <EmailIcon />,
+    href: "mailto:carlthomasiv@gmail.com",
+    icon: <Mail size={15} strokeWidth={1.5} />,
   },
 ];
 

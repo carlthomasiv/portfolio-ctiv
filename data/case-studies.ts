@@ -1035,7 +1035,205 @@ export const caseStudies: CaseStudy[] = [
     role: "Design Manager, Growth",
     period: "Nov 2023",
     heroImage: "/images/work/postman/notification-center/1.3-viewing-all.png",
-    sections: [],
+    sections: [
+      {
+        label: "",
+        blocks: [
+          { type: "text", content: "Staying up to date on everything happening across your team should be intuitive. At Postman, it wasn't. The in-app notification center was a flat, unprioritized list that most users never opened. Users who did engage with notifications were 30% more likely to convert and retain, but only 0.8% of users were engaging week over week." },
+          { type: "text", content: "As Lead Growth Product Designer I redesigned the notification center from the ground up, building a prioritized, categorized system with a new alert pattern and stronger notification templates. Shipped as an A/B test in February 2023, rolled out to 100% of users in May 2023." },
+          { type: "metrics", items: [
+            { value: "331%", label: "Growth in bell clicks per month", trend: "up" },
+            { value: "+15%", label: "Invite acceptances", trend: "up" },
+            { value: "+13%", label: "In-app notification usage", trend: "up" },
+          ]},
+        ],
+      },
+      {
+        label: "The Problem",
+        blocks: [
+          { type: "text", content: "The value of a Postman team is centralized collaboration within the platform. But users were engaging with email notifications over in-app ones, and even email engagement was low. Digging into the data revealed a system that was actively working against itself." },
+          { type: "image-aside-stack",
+            images: [
+              { src: "/images/work/postman/notification-center/trends.png", alt: "Notification engagement trends data" },
+              { src: "/images/work/postman/notification-center/data-total-users-cat.png", alt: "Total users by category data" },
+            ],
+            children: [
+              { type: "heading", content: "Quantitative findings" },
+              { type: "list", items: [
+                "0.8% of users engaged with the in-app notification center week over week",
+                "Users who did engage were 30% more likely to convert and retain",
+                "5x more users would disable email notifications than in-app",
+                "Less than 50% of team users were active week over week",
+              ]},
+            ],
+          },
+          { type: "heading", content: "Qualitative findings" },
+          { type: "text", content: "A heuristic evaluation and user surveying confirmed what the data suggested:" },
+          { type: "list", items: [
+            "Invites got lost in email and were easy to miss",
+            "Users couldn't find recent high priority notifications",
+            "Most users didn't know there was an in-app notification center at all",
+            "The existing center was a flat, unprioritized list with no way to filter or search",
+            "Notifications were visually inconsistent across templates",
+          ]},
+        ],
+      },
+      {
+        label: "Market Analysis",
+        blocks: [
+          { type: "text", content: "I investigated 10+ products to understand how other systems handled notifications and user alerts. Key findings that shaped the direction:" },
+          { type: "slideshow", images: [
+            { src: "/images/work/postman/notification-center/postmanlabs.atlassian.net_wiki_spaces_GROW_pages_4164125269_Wut.png", alt: "Market analysis — notification systems overview" },
+            { src: "/images/work/postman/notification-center/postmanlabs.atlassian.net_jira_dashboards.png", alt: "Jira — notification system" },
+            { src: "/images/work/postman/notification-center/start.atlassian.com_notifications.png", alt: "Atlassian — notification system" },
+            { src: "/images/work/postman/notification-center/www.facebook.com_.png", alt: "Facebook — notification system" },
+          ]},
+          { type: "list", items: [
+            "Notifications grouped by value or priority outperform flat chronological lists",
+            "Unread notifications carry the highest user priority and should be surfaced first",
+            "Strong focus on action and date: users scan for what they need to do, not what happened",
+            "Minimal variation in notification type reduces cognitive load and builds familiarity",
+          ]},
+        ],
+      },
+      {
+        label: "Hypothesis",
+        blocks: [
+          { type: "quote", content: "Improving visibility and organization of the notification center will ensure users find value and actionability within it. This will lead to higher retention by providing stronger direction and prioritization of efforts for users." },
+        ],
+      },
+      {
+        label: "Goals",
+        blocks: [
+          { type: "text", content: "With 2.2M+ weekly active users across paid and free plans, about 14% were active in team workspaces. A 4% increase would add approximately 13,000 active team users per week, or 670,000 per year." },
+          { type: "two-col",
+            left: [
+              { type: "heading", content: "User Goals" },
+              { type: "list", items: [
+                "Stay aware of important changes within my Postman workspace",
+                "Quickly take action on high priority events without digging",
+              ]},
+            ],
+            right: [
+              { type: "heading", content: "Business Goals" },
+              { type: "list", items: [
+                "Increase retention and team conversion through notification visibility",
+                "Shift engagement from email to in-app to increase platform stickiness",
+              ]},
+            ],
+          },
+        ],
+      },
+      {
+        label: "Before",
+        blocks: [
+          { type: "image", src: "/images/work/postman/notification-center/postman.postman.co_settings_me_notifications-copy-2-2024x1138.png", alt: "Postman notification center before state", caption: "The notification center before the redesign: flat, unsorted, and hard to act on." },
+          { type: "text", content: "The notification center at Postman was a minimal, underdeveloped surface that gave users very little to work with:" },
+          { type: "list", items: [
+            "Ordered by time only, no prioritization",
+            "Quality varied heavily depending on which template was used",
+            "No way to view all, filter, or search",
+            "Hard to discover with no clear entry point",
+          ]},
+        ],
+      },
+      {
+        label: "Defining a Notification",
+        blocks: [
+          { type: "text", content: "To ensure the new notification center extended beyond this initiative and held up across the product, I spent time defining what notifications are and how they should behave." },
+          { type: "text", content: "Notifications serve as methods to inform users of system status. Often as a means to create action from them, whether that action is immediate or informative." },
+          { type: "image", src: "/images/work/postman/notification-center/analysis.png", alt: "Notification framework — priority types and delivery methods defined" },
+          { type: "two-col",
+            left: [
+              { type: "heading", content: "Priority types" },
+              { type: "list", items: [
+                "High: immediate action needed",
+                "Medium: act on at some point",
+                "Low: muted, no action needed",
+              ]},
+            ],
+            right: [
+              { type: "heading", content: "Delivery methods" },
+              { type: "list", items: [
+                "Global: visible anywhere in-app",
+                "Contextual: within context of a specific space",
+                "External: outside app methods such as email",
+              ]},
+            ],
+          },
+        ],
+      },
+      {
+        label: "Low-Mid Fidelity",
+        blocks: [
+          { type: "text", content: "I explored approximately 5 design directions, each focused on better aligning in-app notifications to user expectations and ensuring high priority alerts were actionable. As the variants evolved you can see more refined approaches as I aimed to match the old world with the new. The work had a deep focus on:" },
+          { type: "list", items: [
+            "Build trust through system visibility",
+            "Bring awareness, not noise",
+            "Expose users to a community over a silo",
+            "Provide actionable next steps based on notification priority",
+          ]},
+          { type: "image-grid", columns: 3, images: [
+            { src: "/images/work/postman/notification-center/Low-fi/1.2-Notif-panel-visibility-New-notif.png", alt: "Low-fidelity exploration — variant A" },
+            { src: "/images/work/postman/notification-center/Low-fi/1.3-Notif-panel-visibility-Viewing-all-Notifs-2.png", alt: "Low-fidelity exploration — variant B" },
+            { src: "/images/work/postman/notification-center/Low-fi/1.3-Notif-panel-visibility-Viewing-all-Notifs.png", alt: "Low-fidelity exploration — variant C" },
+          ]},
+        ],
+      },
+      {
+        label: "High Fidelity",
+        blocks: [
+          { type: "text", content: "The solution reorganized notifications into priority-based categories with a new alert pattern. A pulsing animation on the notification bell catches attention when a high priority notification arrives. Non-intrusive, but hard to miss. After a few pulses it settles back to a standard indicator and waits for the user to engage." },
+          { type: "text", content: "To ensure success I validated designs through crits and reviews, collaborated with engineering on quality of UX, established animation needs, and tracked success through growth experimentation timelines." },
+          { type: "slideshow", images: [
+            { src: "/images/work/postman/notification-center/high-fi/1.1-Notif-panel-visibility-Default-no-new-notifs.png", alt: "Notification center — default, no new notifications" },
+            { src: "/images/work/postman/notification-center/high-fi/1.2-Notif-panel-visibility-New-notif-1.png", alt: "Notification center — new high priority notification arriving" },
+            { src: "/images/work/postman/notification-center/high-fi/1.3-Notif-panel-visibility-Viewing-all-Notifs-1-1.png", alt: "Notification center — viewing all notifications" },
+            { src: "/images/work/postman/notification-center/high-fi/1.3-Notif-panel-visibility-Viewing-all-Notifs-3.png", alt: "Notification center — notification detail" },
+            { src: "/images/work/postman/notification-center/high-fi/1.3-Notif-panel-visibility-Viewing-watching-Notifs.png", alt: "Notification center — watching notifications" },
+          ]},
+        ],
+      },
+      {
+        label: "Experiment Results",
+        blocks: [
+          { type: "text", content: "The A/B test ran through February 2023. Results showed a clear positive impact and the experiment was pushed to 100% of users." },
+          { type: "metrics", items: [
+            { value: "331%", label: "Growth in bell clicks per month", trend: "up" },
+            { value: "+15%", label: "Invite acceptances", trend: "up" },
+            { value: "+13%", label: "In-app notification usage", trend: "up" },
+          ]},
+          { type: "list", items: [
+            "Pulse indicator performed slightly better than the no-pulse variant",
+            "Impact grew steadily over time rather than spiking in the first week",
+            "GA'd May 15, 2023, establishing the new notification pattern across Postman",
+            "Findings sparked a larger re-evaluation of notification and user campaigns platform-wide",
+          ]},
+        ],
+      },
+      {
+        label: "Road to GA",
+        blocks: [
+          { type: "text", content: "With the experiment showing clear positive results, the next step was preparing for a full rollout. That meant tightening the work before it reached 100% of users:" },
+          { type: "list", items: [
+            "Worked closely with product partners to share and promote findings across the org",
+            "Made final decisions on what to ship, cutting anything that added noise without value",
+            "Applied UI tweaks to better align with Postman's evolving brand standards",
+            "Partnered with teams across the platform to ensure new notifications followed the defined pattern",
+            "Ran a final evaluation of all existing notification types within the system",
+            "Kicked off planning for the next set of experiments to build on the impact",
+          ]},
+        ],
+      },
+      {
+        label: "Learnings",
+        blocks: [
+          { type: "text", content: "The biggest unlock was framing notifications as a prioritization system, not a feed. Once we had a clear definition of what high, medium, and low priority meant, every other design decision followed naturally. That definitional work upstream made the visual and interaction decisions downstream much faster." },
+          { type: "text", content: "The pulse animation was a small detail that had an outsized impact. It respected user attention rather than demanding it, which is exactly what a notification system should do. The data showing it outperformed the no-pulse variant validated that restraint often works better than loudness." },
+          { type: "text", content: "Shipping as an A/B test first was the right call. The experiment gave us real signal on what actually changed behavior versus what we assumed would. That data made the GA conversation easy and set a precedent for how the growth team approached future experiments." },
+        ],
+      },
+    ],
   },
   {
     slug: "domain-visibility",
@@ -1043,10 +1241,193 @@ export const caseStudies: CaseStudy[] = [
     category: "Collaboration",
     title: "Domain Visibility",
     description: "Making team boundaries legible inside invite flows to reduce workspace confusion.",
-    role: "Design Manager, Growth",
-    period: "Sep 2023",
+    role: "Lead Growth Product Designer",
+    period: "Aug – Oct 2022",
     heroImage: "/images/work/postman/domain-visibility/1.2-invite-all.png",
-    sections: [],
+    sections: [
+      {
+        label: "",
+        blocks: [
+          { type: "text", content: "Collaborating with teammates should be intuitive. At Postman, the invite flow made it anything but. Teams were invisible to the people trying to build them, and the data showed it: 80% of teams had no visibility into who else was in their domain, and 95% of surveyed users didn't see the value of teams at all." },
+          { type: "text", content: "As Lead Growth Product Designer I redesigned the invite experience to surface domain members directly inside the flow, giving users a searchable directory of coworkers they could add in a few clicks. Shipped as a multi-variant A/B test in August 2022, GA'd in October 2022. It became the highest-impact Growth project of the year, contributing to Postman's $100M ARR goal." },
+          { type: "metrics", items: [
+            { value: "+7%", label: "Increase in invites sent", trend: "up" },
+            { value: "67%", label: "Invites went to new users", trend: "up" },
+            { value: "86%", label: "Invite acceptance rate", trend: "up" },
+          ]},
+        ],
+      },
+      {
+        label: "The Problem",
+        blocks: [
+          { type: "text", content: "The value of a Postman team is centralized collaboration within the platform. But the data told a different story: teams were tiny, invisible, and mostly unused." },
+          { type: "list", items: [
+            "80% of teams had no visibility into other members of their Pro domain",
+            "85% of teams had only a single user",
+            "95% of surveyed users didn't see the value of teams within Postman",
+          ]},
+          { type: "heading", content: "Qualitative findings" },
+          { type: "text", content: "A heuristic evaluation and user surveying confirmed the friction users experienced when trying to collaborate:" },
+          { type: "list", items: [
+            "Users couldn't easily find and invite the right people",
+            "Invites were inconvenient and inefficient to send",
+            "No way to browse or search for potential collaborators",
+            "Email notifications were frequently missed",
+            "Sharing was tedious and error-prone",
+          ]},
+        ],
+      },
+      {
+        label: "User Flows",
+        blocks: [
+          { type: "text", content: "Based on research and market patterns, it was clear the way users shared and invited coworkers was not working. I spent a cycle analyzing existing flows beyond just team discovery, focusing on the fundamentals of how a user gets teammates onto their team. These flows became the foundation for all future work within the squad." },
+          { type: "image", src: "/images/work/postman/domain-visibility/user-flow.png", alt: "User flow mapping — inviting teammates and accepting invites", caption: "These flows showcase how user A can invite user B to their team and how B can accept an invite." },
+        ],
+      },
+      {
+        label: "Before",
+        blocks: [
+          { type: "image", src: "/images/work/postman/domain-visibility/original-invite-modal.png", alt: "Original Postman invite modal", caption: "The original invite modal: no domain context, no suggestions, no directory." },
+          { type: "text", content: "The existing invite flow had no awareness of who else was in the user's domain. Users had to know exactly who they wanted to invite and type them in manually. There was nothing to help them discover collaborators, and no visibility into whether a coworker was already on Postman." },
+        ],
+      },
+      {
+        label: "Market Analysis",
+        blocks: [
+          { type: "text", content: "I investigated 8+ products to understand how other systems handle directory-based inviting and suggestive invites. Three patterns stood out:" },
+          { type: "list", items: [
+            "Directory-focused inviting is the standard across collaborative tools",
+            "Suggestions based on domain or org are commonly leveraged to lower friction",
+            "A directory view aids user decision-making by reducing the cognitive load of recall",
+            "Exposure to coworkers creates a social proof effect that drives invite behavior",
+          ]},
+          { type: "slideshow", images: [
+            { src: "/images/work/postman/domain-visibility/market-analysis/app.slack_.com_client_T02G7V5JE_C062ZSNKDN3.png", alt: "Slack — directory-based inviting" },
+            { src: "/images/work/postman/domain-visibility/market-analysis/github.com_postmanaut_rest-apis-project_settings_access.png", alt: "GitHub — access and member management" },
+            { src: "/images/work/postman/domain-visibility/market-analysis/www.facebook.com_groups_fitbitlocalseattle.png", alt: "Facebook — group member discovery" },
+            { src: "/images/work/postman/domain-visibility/market-analysis/www.notion.so_postman_Getting-Started-b95b131be194454e96a420fa1f76030b.png", alt: "Notion — workspace inviting" },
+          ]},
+        ],
+      },
+      {
+        label: "Hypothesis",
+        blocks: [
+          { type: "quote", content: "Providing Postman team members with a seamless way to discover and invite coworkers will lead to increased team size and paid license sales." },
+        ],
+      },
+      {
+        label: "Goals",
+        blocks: [
+          { type: "text", content: "About 500 teams sent invites daily, with over 70% having domain users who weren't yet team members. If teams were exposed to all available users and invited just 2.5% more per day, that would add approximately 10 more accepted invites daily. Projected out: an MRR increase of $54K and ARR increase of over $600K." },
+          { type: "two-col",
+            left: [
+              { type: "heading", content: "User Goals" },
+              { type: "list", items: [
+                "Ensure the people I need to collaborate with are on my team",
+                "Have a centralized place to work together",
+              ]},
+            ],
+            right: [
+              { type: "heading", content: "Business Goals" },
+              { type: "list", items: [
+                "Increase team sizes of newly created teams",
+                "Prevent deprecation of paid team plans through proactive outreach",
+              ]},
+            ],
+          },
+        ],
+      },
+      {
+        label: "Low-Mid Fidelity",
+        blocks: [
+          { type: "text", content: "I explored approximately 12 variants, each focused on how to integrate a meaningful directory view and help users better decide who belongs on their team. As the explorations evolved, approaches became more refined as I worked to match the old world with the new. The work had a deep focus on:" },
+          { type: "list", items: [
+            "Encourage more invites by exposing users to coworkers in their domain",
+            "Build trust through system visibility",
+            "Align old expectations with new expectations",
+            "Leverage concepts of social proofing and the exposure effect",
+          ]},
+          { type: "image-grid", columns: 3, images: [
+            { src: "/images/work/postman/domain-visibility/low-fi/1.1.3b.2b-Promoting-Team-Clicking-promote-modal-Select-users.png", alt: "Low-fidelity exploration — promoting team, select users" },
+            { src: "/images/work/postman/domain-visibility/low-fi/2.3b-Promoting-team-via-through-invite-Invite-only-who-I-select-from-my-domain.png", alt: "Low-fidelity exploration — invite selected domain members" },
+            { src: "/images/work/postman/domain-visibility/low-fi/6.1c-Invite-all-from-domain-Invite-modal-All-Selected.png", alt: "Low-fidelity exploration — invite all from domain" },
+          ]},
+        ],
+      },
+      {
+        label: "High Fidelity",
+        blocks: [
+          { type: "text", content: "To gather more signal on user behavior I opted for a multi-variant A/B test. This would let us understand whether users engaged with the full modal, whether they preferred recommendations, and whether the UI itself drove more invites and acceptances." },
+          { type: "two-col",
+            left: [
+              { type: "heading", content: "Variant A" },
+              { type: "image", src: "/images/work/postman/domain-visibility/hi-fi/1.2-Invite-all-from-domain-Invite-modal-All-Selected.png", alt: "Variant A — all domain members selected by default" },
+            ],
+            right: [
+              { type: "heading", content: "Variant B" },
+              { type: "image", src: "/images/work/postman/domain-visibility/hi-fi/2.2-Invite-modal-changed-to-allow-invite-all-Invite-modal-unchecked.png", alt: "Variant B — all unchecked by default" },
+            ],
+          },
+          { type: "heading", content: "Flow A: Inviting teammates within your company's domain" },
+          { type: "text", content: "To walk through a full flow, lets take a hyper focus of Variant A. I chose this based on how it engaged with users and the data that was found post experiment." },
+          { type: "text", content: "This flow shows how a user can invite coworkers, within their domain, to their team. The main change is domain visibility through a searchable list. The user would be able to select multiple as well as invite people from outside of their domain. This approach was much more streamlined and focused on in domain collaboration." },
+          { type: "slideshow", images: [
+            { src: "/images/work/postman/domain-visibility/hi-fi/flow-a/1.1-Invite-all-from-domain-Home.png", alt: "Flow A — home state" },
+            { src: "/images/work/postman/domain-visibility/hi-fi/flow-a/1.2-Invite-all-from-domain-Invite-modal-All-Selected.png", alt: "Flow A — invite modal, all selected" },
+            { src: "/images/work/postman/domain-visibility/hi-fi/flow-a/1.2.1.1-Invite-all-from-domain-Invite-modal-Some-Selected.png", alt: "Flow A — some members selected" },
+            { src: "/images/work/postman/domain-visibility/hi-fi/flow-a/1.2.1.2-Invite-all-from-domain-Invite-modal-User-entered.png", alt: "Flow A — user entered manually" },
+            { src: "/images/work/postman/domain-visibility/hi-fi/flow-a/1.2.1.4-Invite-all-from-domain-Invite-modal-Enter-multiple-users_success.png", alt: "Flow A — multiple users, success state" },
+          ]},
+        ],
+      },
+      {
+        label: "Experiment Results",
+        blocks: [
+          { type: "text", content: "The experiment ran August 9 through September 9, 2022. Results were clear: the change in inviting significantly outperformed the previous experience." },
+          { type: "metrics", items: [
+            { value: "+7%", label: "Increase in invites sent", trend: "up" },
+            { value: "67%", label: "Invites went to new users", trend: "up" },
+            { value: "86%", label: "Invite acceptance rate", trend: "up" },
+          ]},
+          { type: "list", items: [
+            "Teams that invited all users had a 26% acceptance rate, showing that quality of selection mattered",
+            "More invites were sent from Basic tier users than Professional tier, pointing to untapped growth potential",
+            "Variant A (select all by default) was not the ideal default, but the core experience change was the real driver",
+            "Projected ARR growth from findings was estimated to double original expectations",
+          ]},
+        ],
+      },
+      {
+        label: "Road to GA",
+        blocks: [
+          { type: "text", content: "With strong experiment results, the focus shifted to preparing for a full rollout:" },
+          { type: "list", items: [
+            "Worked with product partners to share and promote findings across the org",
+            "Removed 'invite all' as the default selection based on experiment data",
+            "Applied UI tweaks to better align with Postman's branding",
+            "Kicked off planning for the next round of experiments to expand on the impact",
+          ]},
+          { type: "two-col",
+            left: [
+              { type: "heading", content: "Original" },
+              { type: "image", src: "/images/work/postman/domain-visibility/original-invite-modal.png", alt: "Original invite modal" },
+            ],
+            right: [
+              { type: "heading", content: "New" },
+              { type: "image", src: "/images/work/postman/domain-visibility/hi-fi/2.2-Invite-modal-changed-to-allow-invite-all-Invite-modal-unchecked.png", alt: "New invite modal — GA version" },
+            ],
+          },
+        ],
+      },
+      {
+        label: "Learnings",
+        blocks: [
+          { type: "text", content: "The biggest insight was that visibility alone was enough to change behavior. Users didn't need to be told to invite more people. They just needed to see who was already there. Surfacing domain members inside the flow removed the barrier of recall and made collaboration feel low-effort rather than manual." },
+          { type: "text", content: "The multi-variant test was the right call. We learned that defaulting to 'select all' felt presumptuous and actually hurt acceptance rates, even though it drove more invites. The distinction between invite volume and invite quality became a key finding that shaped how we approached the next round of experiments." },
+          { type: "text", content: "This project becoming the highest-impact Growth initiative of 2022 validated the hypothesis that small UX changes in the right place, specifically at the moment a user is already motivated to invite, can have outsized business outcomes. It set the playbook for how the team approached collaboration experiments going forward." },
+        ],
+      },
+    ],
   },
 
   // --- Google ---
@@ -1056,10 +1437,63 @@ export const caseStudies: CaseStudy[] = [
     category: "Developer Tools",
     title: "Layout Inspector 2.0",
     description: "Giving Android developers a live, hierarchical view of their UI at runtime.",
-    role: "Interaction Designer II",
-    period: "Apr 2020",
+    role: "Lead UX Designer",
+    period: "May 2020",
     heroImage: "/images/work/google/layout-inspector/1.4-3d-view-full.png",
-    sections: [],
+    sections: [
+      {
+        label: "",
+        blocks: [
+          { type: "text", content: "The original Layout Inspector in Android Studio was full of friction: it took over the full screen, showed post-rendered pixel data instead of developer-coded attributes, and didn't map 1:1 with the Layout Editor. Developers were bouncing in and out of the tool constantly just to complete simple debug tasks." },
+          { type: "text", content: "As Lead UX Designer I redesigned the inspector end to end. The new version introduced a docked tool window, a live attributes panel tied directly to XML, a streamlined flow connecting the inspector to the emulator, and a 3D modeler for surfacing layering issues invisible in 2D. Shipped to Canary early 2020, stable May 2020." },
+          { type: "two-col",
+            left: [
+              { type: "heading", content: "Before" },
+              { type: "image", src: "/images/work/google/layout-inspector/0.1-original.png", alt: "Original Layout Inspector — full-screen takeover with pixel data" },
+            ],
+            right: [
+              { type: "heading", content: "After" },
+              { type: "image", src: "/images/work/google/layout-inspector/1.5-breakdown.png", alt: "New Layout Inspector — docked tool window with attribute panel" },
+            ],
+          },
+        ],
+      },
+      {
+        label: "Key Problems",
+        blocks: [
+          { type: "list", items: [
+            "Inspector didn't map 1:1 with the Layout Editor, causing constant context switching",
+            "Showed pixel-based data instead of DP and XML attributes developers actually work in",
+            "Full-screen takeover made it impossible to run alongside code or the emulator",
+            "Low discoverability meant the tool went unused despite existing in the IDE",
+            "Lagging behind Xcode and Chrome DevTools in core inspection capabilities",
+          ]},
+        ],
+      },
+      {
+        label: "The Solution",
+        blocks: [
+          { type: "text", content: "Three major changes drove the redesign: docking the inspector as a tool window so it could run side by side with code, replacing pixel metadata with the actual XML layout attributes developers wrote, and connecting the inspector directly to the live emulator for real-time iteration without redeployment." },
+          { type: "slideshow", images: [
+            { src: "/images/work/google/layout-inspector/1.1-emulator.png", alt: "Tool window — inspector docked next to emulator" },
+            { src: "/images/work/google/layout-inspector/1.2-emulator.png", alt: "Tool window — inspector alongside code" },
+            { src: "/images/work/google/layout-inspector/1.3-3d-view.png", alt: "3D modeler — layer separation view" },
+            { src: "/images/work/google/layout-inspector/1.4-3d-view-full.png", alt: "3D modeler — full hierarchy" },
+          ]},
+          { type: "text", content: "The 3D modeler was an entirely new capability, letting developers view their app in 3D space to find layering and alignment issues that are invisible in a flat 2D view. Users can drag into 3D, toggle views, inspect hierarchy, and click nested elements directly." },
+        ],
+      },
+      {
+        label: "Outcomes",
+        blocks: [
+          { type: "list", items: [
+            "Shipped to Canary early 2020, stable release May 2020 in Android Studio 4.0",
+            "Received organic community coverage on Reddit and Medium from Canary users highlighting the improved debugging workflow",
+            "Positive reception validated the core thesis: making the tool speak the developer's language, not the device's, was the right call",
+          ]},
+        ],
+      },
+    ],
   },
   {
     slug: "resource-management",
@@ -1067,10 +1501,58 @@ export const caseStudies: CaseStudy[] = [
     category: "Developer Tools",
     title: "Resource Management",
     description: "0-to-1 asset management for Android Studio, serving 2.5M+ developers.",
-    role: "Interaction Designer II",
+    role: "Lead UX Designer",
     period: "Jan 2019",
     heroImage: "/images/work/google/resource-management/res-1.png",
-    sections: [],
+    sections: [
+      {
+        label: "",
+        blocks: [
+          { type: "text", content: "Before this project, Android Studio had no visual resource manager. Developers navigated raw folder structures to find assets, added resources one at a time through inconsistent wizard flows, and manually handled density variants for every icon, image, and animation in the app. It was one of the most tedious parts of Android development." },
+          { type: "text", content: "As Lead UX Designer I built Android Studio's first dedicated Resource Manager from the ground up: a visual panel for importing, browsing, and managing all app assets in one place. Shipped in Android Studio 3.4 Canary in January 2019, presented at Google I/O 2019, and grew to 90,000 28-day active users by year end." },
+          { type: "metrics", items: [
+            { value: "90K", label: "28-day active users by end of 2019", trend: "up" },
+          ]},
+        ],
+      },
+      {
+        label: "Key Problems",
+        blocks: [
+          { type: "list", items: [
+            "No central location for viewing or managing resources in Android Studio",
+            "Import required manually creating each resource, one at a time, with different flows per type",
+            "No way to preview assets visually without opening individual files",
+            "Generating density variants for different devices was a fully manual process",
+            "New developers faced a steep learning curve with no discoverability aids",
+          ]},
+        ],
+      },
+      {
+        label: "The Solution",
+        blocks: [
+          { type: "text", content: "The Resource Manager introduced two core capabilities: a drag-and-drop import flow that handles density conversion automatically, and a visual browsing panel organized by resource type. Together they eliminated the need for manual file management and made the entire asset library visible at a glance." },
+          { type: "slideshow", images: [
+            { src: "/images/work/google/resource-management/import-1.png", alt: "Resource import — initiating a drag and drop import" },
+            { src: "/images/work/google/resource-management/import-3.png", alt: "Resource import — configuring density variants" },
+            { src: "/images/work/google/resource-management/import-6.png", alt: "Resource import — import complete" },
+            { src: "/images/work/google/resource-management/res-1.png", alt: "Resource Manager panel — drawable overview" },
+            { src: "/images/work/google/resource-management/res-2.png", alt: "Resource Manager panel — resource detail" },
+            { src: "/images/work/google/resource-management/res-3.png", alt: "Resource Manager panel — color resources" },
+          ]},
+        ],
+      },
+      {
+        label: "Outcomes",
+        blocks: [
+          { type: "list", items: [
+            "Shipped in Android Studio 3.4 Canary: January 2019",
+            "Grew to 90,000 28-day active users through 2019",
+            "Presented at Google I/O 2019 to strong developer reception",
+            "Community highlighted visual preview and batch import as the highest-impact improvements",
+          ]},
+        ],
+      },
+    ],
   },
 
   // --- Microsoft ---
@@ -1080,10 +1562,49 @@ export const caseStudies: CaseStudy[] = [
     category: "Cloud Infrastructure",
     title: "Azure SQL Overview",
     description: "Redesigning the entry point for enterprise cloud database management at global scale.",
-    role: "Designer II",
-    period: "2017",
+    role: "Lead UX Designer",
+    period: "Fall 2017",
     heroImage: "/images/work/microsoft/azure-sql-overview/1.1-overview.png",
-    sections: [],
+    sections: [
+      {
+        label: "",
+        blocks: [
+          { type: "text", content: "The SQL database overview blade in Azure was slow to load and hard to navigate. Customers couldn't quickly understand the health of their database, couldn't find key features, and the layout created more questions than it answered. As the sole designer on this project I partnered with a researcher, PM, and engineering to redesign the overview experience from the ground up." },
+          { type: "text", content: "The goal was clear: customers needed to understand their database's health at a glance, know where to troubleshoot, and find features without hunting. We also had a hard performance target: the blade had to load in under 2 seconds." },
+        ],
+      },
+      {
+        label: "Key Problems",
+        blocks: [
+          { type: "list", items: [
+            "The overview blade had longer than necessary load times, frustrating customers before they even started",
+            "Feature discoverability was poor: customers couldn't find options that directly impacted performance and security",
+            "The layout didn't communicate resource health, leaving customers uncertain about the state of their database",
+            "No clear path to troubleshooting when issues arose",
+          ]},
+        ],
+      },
+      {
+        label: "The Solution",
+        blocks: [
+          { type: "text", content: "The redesigned overview prioritized health and status signals at the top, organized features by task rather than system hierarchy, and stripped out visual noise that was contributing to both cognitive load and load time. It also established a new pattern that other Azure teams could adopt across services." },
+          { type: "slideshow", images: [
+            { src: "/images/work/microsoft/azure-sql-overview/1.1-overview.png", alt: "Azure SQL overview — redesigned blade" },
+            { src: "/images/work/microsoft/azure-sql-overview/1.2-overview-alt.png", alt: "Azure SQL overview — alternate view" },
+          ]},
+        ],
+      },
+      {
+        label: "Outcomes",
+        blocks: [
+          { type: "list", items: [
+            "Launched fall 2017 with measurable decrease in customer complaints around performance",
+            "Increased navigation and feature discoverability across the SQL database experience",
+            "The new pattern was adopted and extended to other products across the Azure family",
+          ]},
+        ],
+      },
+    ],
   },
   {
     slug: "azure-sql-resources",
@@ -1091,10 +1612,54 @@ export const caseStudies: CaseStudy[] = [
     category: "Cloud Infrastructure",
     title: "Azure SQL Resources & Pricing",
     description: "Making complex pricing tiers and resource configuration legible for enterprise buyers.",
-    role: "Designer II",
-    period: "2016",
-    heroImage: "/images/work/microsoft/azure-sql-resources/0.1-before.png",
-    sections: [],
+    role: "Lead UX Designer",
+    period: "Spring 2017",
+    heroImage: "/images/work/microsoft/azure-sql-resources/1.1-pricing.png",
+    sections: [
+      {
+        label: "",
+        blocks: [
+          { type: "text", content: "Azure SQL database pricing used a card-based model that confused customers and made scaling decisions feel opaque. Users couldn't understand the relationship between pricing tiers, couldn't visualize what they were getting, and had no intuitive way to control resource allocation. As UX Design Lead I redesigned the pricing and resource configuration experience to make tiers and customization feel legible and controllable." },
+        ],
+      },
+      {
+        label: "Key Problems",
+        blocks: [
+          { type: "list", items: [
+            "The card-based pricing model obscured connections between tiers, making scaling decisions confusing",
+            "Customers had no way to understand what they were getting at each level",
+            "Resource allocation felt technical and inaccessible, especially for less experienced users",
+            "The model was inconsistent with how customers thought about their workload needs",
+          ]},
+        ],
+      },
+      {
+        label: "The Solution",
+        blocks: [
+          { type: "text", content: "The redesign introduced a two-concept model: Tier for selecting storage type and database class, and Customization for fine-tuning resource allocation within that tier. This framing gave customers a mental model that matched how they actually thought about their workload, making the tradeoffs between levels immediately clear." },
+          { type: "two-col",
+            left: [
+              { type: "heading", content: "Before" },
+              { type: "image", src: "/images/work/microsoft/azure-sql-resources/0.1-before.png", alt: "Before — card-based pricing model" },
+            ],
+            right: [
+              { type: "heading", content: "After" },
+              { type: "image", src: "/images/work/microsoft/azure-sql-resources/1.1-pricing.png", alt: "After — tier and customization model" },
+            ],
+          },
+        ],
+      },
+      {
+        label: "Outcomes",
+        blocks: [
+          { type: "list", items: [
+            "Launched spring 2017, with measurable increase in customers actively adjusting database resource levels",
+            "Received positive feedback from customers and internal stakeholders on the new experience",
+            "The tier and customization pattern was adopted by multiple other Azure product teams as the standard approach",
+          ]},
+        ],
+      },
+    ],
   },
 ];
 
