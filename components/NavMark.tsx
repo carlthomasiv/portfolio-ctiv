@@ -65,6 +65,7 @@ interface SegmentProps {
   shortWidth: number;
   longWidth: number;
   expanded: boolean;
+  animate: boolean; // false on first mount to suppress the entry transition
   delay: number;   // ms
   duration: number; // ms
 }
@@ -77,6 +78,7 @@ function Segment({
   shortWidth,
   longWidth,
   expanded,
+  animate,
   delay,
   duration,
 }: SegmentProps) {
@@ -90,8 +92,12 @@ function Segment({
       style={{
         position: "relative",
         overflow: "hidden",
+        // width is always longWidth so the element has room to grow.
+        // max-width clips it to shortWidth when collapsed — as max-width
+        // animates outward the layout pushes naturally.
+        width: longWidth,
         maxWidth: expanded ? longWidth : shortWidth,
-        transition: `max-width ${duration}ms ${EASING} ${delay}ms`,
+        transition: animate ? `max-width ${duration}ms ${EASING} ${delay}ms` : "none",
       }}
     >
       {/* Short label — stays in normal flow to hold height; fades out on expand */}
@@ -139,6 +145,8 @@ interface Widths {
 export function NavMark() {
   const [widths, setWidths] = useState<Widths | null>(null);
   const [expanded, setExpanded] = useState(false);
+  // Suppress the transition on first paint so there's no entry animation
+  const [animate, setAnimate] = useState(false);
   // Use a ref so event handlers always read the current value without stale closure
   const isMobileRef = useRef(false);
 
@@ -154,6 +162,12 @@ export function NavMark() {
         ivShort: measureText("_IV", 300),
         // Non-breaking space so the leading space is preserved after clipping
         ivLong: measureText("\u00A0IV", 300),
+      });
+
+      // Allow one rAF for the initial paint at collapsed width before
+      // enabling transitions — prevents an animate-in from zero on mount
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => setAnimate(true));
       });
 
       // Mobile: auto-expand once after a short delay and stay expanded
@@ -200,6 +214,7 @@ export function NavMark() {
         shortWidth={widths.ctShort}
         longWidth={widths.ctLong}
         expanded={expanded}
+        animate={animate}
         delay={0}
         duration={duration}
       />
@@ -213,6 +228,7 @@ export function NavMark() {
         shortWidth={widths.ivShort}
         longWidth={widths.ivLong}
         expanded={expanded}
+        animate={animate}
         delay={STAGGER_MS}
         duration={duration}
       />
