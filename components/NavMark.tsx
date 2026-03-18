@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from "react";
 const EASING = "cubic-bezier(0.4, 0, 0.2, 1)";
 const EXPAND_MS = 480;
 const COLLAPSE_MS = 380;
+const COLLAPSE_DEBOUNCE_MS = 320; // grace period before collapsing on mouseleave
 const MOBILE_DELAY_MS = 800;
 const MOBILE_BREAKPOINT = 768;
 
@@ -28,60 +29,74 @@ function measureText(text: string, weight: number): number {
   document.body.appendChild(el);
   const w = el.getBoundingClientRect().width;
   document.body.removeChild(el);
-  return Math.ceil(w) + 1; // +1px buffer against sub-pixel clipping
+  return Math.ceil(w) + 1;
 }
 
 // ─── NavMark ─────────────────────────────────────────────────────────────────
 
 interface Widths {
-  arl: number;   // "arl " (trailing nbsp keeps the space from collapsing)
-  homas: number; // "homas"
+  arl: number;
+  homas: number;
 }
 
 export function NavMark() {
   const [widths, setWidths] = useState<Widths | null>(null);
   const [expanded, setExpanded] = useState(false);
-  // Suppresses the transition for two rAF frames after mount so the
-  // initial collapsed state paints instantly with no entry animation
   const [animate, setAnimate] = useState(false);
   const isMobileRef = useRef(false);
+  const collapseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    let timerId: ReturnType<typeof setTimeout>;
+    let mobileTimer: ReturnType<typeof setTimeout>;
 
     document.fonts.ready.then(() => {
       isMobileRef.current = window.innerWidth < MOBILE_BREAKPOINT;
 
       setWidths({
-        // nbsp after "arl" so the trailing space is preserved in rendering
         arl: measureText("arl\u00A0", 500),
         homas: measureText("homas", 500),
       });
 
+      // Two rAF frames so the initial collapsed width paints before
+      // transitions are enabled — prevents an animate-in from zero
       requestAnimationFrame(() => {
         requestAnimationFrame(() => setAnimate(true));
       });
 
       if (isMobileRef.current) {
-        timerId = setTimeout(() => setExpanded(true), MOBILE_DELAY_MS);
+        mobileTimer = setTimeout(() => setExpanded(true), MOBILE_DELAY_MS);
       }
     });
 
-    return () => clearTimeout(timerId);
+    return () => {
+      clearTimeout(mobileTimer);
+      if (collapseTimer.current) clearTimeout(collapseTimer.current);
+    };
   }, []);
 
   function handleEnter() {
-    if (!isMobileRef.current && widths) setExpanded(true);
+    if (isMobileRef.current) return;
+    if (collapseTimer.current) {
+      clearTimeout(collapseTimer.current);
+      collapseTimer.current = null;
+    }
+    if (widths) setExpanded(true);
   }
+
   function handleLeave() {
-    if (!isMobileRef.current && widths) setExpanded(false);
+    if (isMobileRef.current) return;
+    // Debounce the collapse so small mouse movements don't cause flicker
+    collapseTimer.current = setTimeout(() => {
+      setExpanded(false);
+      collapseTimer.current = null;
+    }, COLLAPSE_DEBOUNCE_MS);
   }
 
   const duration = expanded ? EXPAND_MS : COLLAPSE_MS;
-  const expandT = animate ? `max-width ${duration}ms ${EASING}` : "none";
+  // Only enable transitions after first paint at collapsed width
+  const expandT = animate ? `width ${duration}ms ${EASING}` : "none";
   const underscoreT = animate ? `opacity ${Math.round(duration * 0.45)}ms ease` : "none";
 
-  // Shared container style
   const container: React.CSSProperties = {
     display: "inline-flex",
     alignItems: "baseline",
@@ -91,9 +106,12 @@ export function NavMark() {
     whiteSpace: "nowrap",
     cursor: "default",
     userSelect: "none" as const,
+    // Extend the hover zone with padding, offset with negative margin so
+    // surrounding layout isn't affected
+    padding: "6px 10px 6px 0",
+    margin: "-6px -10px -6px 0",
   };
 
-  // Static fallback rendered before fonts are measured — no layout shift
   if (!widths) {
     return (
       <div style={container}>
@@ -103,17 +121,19 @@ export function NavMark() {
     );
   }
 
-  // Clip span that grows from 0 → measured width
-  const clipStyle = (w: number, transition: string): React.CSSProperties => ({
-    display: "inline-block",
+  // Clip container for the expanding letter groups.
+  // flex-shrink:0 + min-width:0 prevents the flex algorithm from fighting
+  // the width animation. Use `width` not `max-width` — more reliable in flex.
+  const clip = (w: number): React.CSSProperties => ({
+    flexShrink: 0,
+    minWidth: 0,
     overflow: "hidden",
-    maxWidth: expanded ? w : 0,
-    transition,
+    width: expanded ? w : 0,
+    transition: expandT,
   });
 
-  // Inner text that must not wrap while being revealed
   const revealText: React.CSSProperties = {
-    display: "inline-block",
+    display: "block",
     whiteSpace: "nowrap",
     fontWeight: 500,
     color: "var(--text)",
@@ -122,28 +142,23 @@ export function NavMark() {
   return (
     <div style={container} onMouseEnter={handleEnter} onMouseLeave={handleLeave}>
 
-      {/* ── Left mark: C[arl ]T[homas] ────────────────────────────────── */}
-
-      {/* "C" — anchored, never moves */}
+      {/* C — anchored */}
       <span style={{ fontWeight: 500, color: "var(--text)" }}>C</span>
 
-      {/* "arl " — grows rightward from C */}
-      <span style={clipStyle(widths.arl, expandT)}>
+      {/* arl  — grows rightward from C */}
+      <span style={clip(widths.arl)}>
         <span style={revealText}>arl{"\u00A0"}</span>
       </span>
 
-      {/* "T" — shifts right naturally as "arl" expands */}
+      {/* T — shifts right as "arl" expands */}
       <span style={{ fontWeight: 500, color: "var(--text)" }}>T</span>
 
-      {/* "homas" — grows rightward from T, same timing as "arl" */}
-      <span style={clipStyle(widths.homas, expandT)}>
+      {/* homas — grows rightward from T, same timing */}
+      <span style={clip(widths.homas)}>
         <span style={revealText}>homas</span>
       </span>
 
-      {/* ── Right mark: _IV ────────────────────────────────────────────── */}
-
-      {/* "_" — fades to invisible on expand; opacity:0 preserves its width
-           so "IV" stays in place and the gap reads as a natural space */}
+      {/* _ — fades out, width preserved so IV stays in place */}
       <span style={{
         fontWeight: 300,
         color: "var(--text)",
@@ -151,7 +166,7 @@ export function NavMark() {
         transition: underscoreT,
       }}>_</span>
 
-      {/* "IV" — always visible at muted weight */}
+      {/* IV — always visible at muted weight */}
       <span style={{ fontWeight: 300, color: "var(--text)", opacity: 0.28 }}>IV</span>
 
     </div>
