@@ -155,7 +155,7 @@ export function ResumeContent() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.25, duration: 0.5 }}
-              className="hover:[border-color:var(--border-strong)]"
+              className="hover:[border-color:var(--border-strong)] hover:[background:var(--bg-card)] hover:[box-shadow:0_4px_16px_rgba(0,0,0,0.08)]"
               style={{
                 fontFamily: "var(--font-dm-mono)",
                 fontSize: "12px",
@@ -167,7 +167,7 @@ export function ResumeContent() {
                 padding: "10px 20px",
                 textDecoration: "none",
                 whiteSpace: "nowrap",
-                transition: "border-color 0.15s ease",
+                transition: "border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease",
                 alignSelf: "flex-start",
                 marginTop: "40px",
                 display: "flex",
