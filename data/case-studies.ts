@@ -123,35 +123,25 @@ export const caseStudies: CaseStudy[] = [
         label: "The Solution",
         blocks: [
           {
-            type: "text",
-            content: "I pitched and designed psql.sh. An instant demo environment built on real Neon infrastructure. No signup. No configuration. A browser tab that drops you straight into a live Postgres session.",
+            type: "slideshow",
+            images: [
+              { src: "/images/work/neon/instant-postgres-playground/1.1-psql-sh.png", alt: "psql.sh — the Neon Instant Postgres Playground" },
+              { src: "/images/work/neon/instant-postgres-playground/1.2-psql-sh.png", alt: "Running queries in the playground" },
+              { src: "/images/work/neon/instant-postgres-playground/1.4-psql-sh.png", alt: "Exploring branching" },
+              { src: "/images/work/neon/instant-postgres-playground/1.5-psql-sh-signup.png", alt: "Continue in Neon — the signup CTA preserves demo state" },
+            ],
           },
           {
-            type: "image",
-            src: "/images/work/neon/instant-postgres-playground/1.1-psql-sh.png",
-            alt: "psql.sh -- the Neon Instant Postgres Playground",
+            type: "text",
+            content: "I pitched and designed psql.sh. An instant demo environment built on real Neon infrastructure. No signup. No configuration. A browser tab that drops you straight into a live Postgres session.",
           },
           {
             type: "text",
             content: "The environment came pre-seeded with a relatable schema and examples that demonstrated Neon's core differentiators: branching, autoscaling, and storage separation. Not documentation. Live commands you could run.",
           },
           {
-            type: "image-grid",
-            images: [
-              { src: "/images/work/neon/instant-postgres-playground/1.2-psql-sh.png", alt: "Running queries in the playground" },
-              { src: "/images/work/neon/instant-postgres-playground/1.4-psql-sh.png", alt: "Exploring branching" },
-            ],
-            columns: 2,
-          },
-          {
             type: "text",
             content: "When a developer was ready to go further, a 'Continue in Neon' CTA preserved their demo session. Their work carried into a real account without starting over. The transition became the moment of commitment, not the entry point.",
-          },
-          {
-            type: "image",
-            src: "/images/work/neon/instant-postgres-playground/1.5-psql-sh-signup.png",
-            alt: "Continue in Neon -- the signup CTA preserves demo state",
-            caption: "The CTA carries the demo session into a real account, reducing the perceived cost of committing.",
           },
           {
             type: "text",
