@@ -45,17 +45,21 @@ function AutoIcon() {
   );
 }
 
-// Ring/drum rotation: icons live on a spinning cylinder viewed through the button.
-// Current icon rolls up and over the top; next rolls in from the bottom.
-// perspective on the button container creates the 3D depth.
+// Sun / moon: exit slides right + down, enter comes from left + above.
+// Auto (system): the special one — rises straight up from below.
+// custom prop is `true` when the entering icon is the auto state.
 const ringVariants = {
-  initial: { rotateX:  65, opacity: 0 },
-  animate: { rotateX:   0, opacity: 1 },
-  exit:    { rotateX: -65, opacity: 0 },
+  initial: (isAuto: boolean) => ({
+    x: isAuto ?  0 : -6,
+    y: isAuto ?  8 : -4,
+    opacity: 0,
+  }),
+  animate: { x: 0, y: 0, opacity: 1 },
+  exit:    { x: 6, y: 4, opacity: 0 },
 };
 const ringTransition = {
-  duration: 0.28,
-  ease: [0.4, 0, 0.2, 1] as [number, number, number, number],
+  duration: 0.2,
+  ease: [0, 0, 0.2, 1] as [number, number, number, number],
 };
 
 const ARIA_LABELS: Record<string, string> = {
@@ -76,12 +80,12 @@ function ThemeToggle({ className }: { className?: string }) {
     <button
       onClick={cycle}
       aria-label={ARIA_LABELS[theme]}
-      // No overflow-hidden here — it kills CSS 3D transforms in Chrome
-      className={`w-7 h-7 relative [color:var(--text-muted)] hover:[color:var(--text)] transition-[color] duration-150 cursor-pointer bg-transparent border-0 p-0 ${className ?? ""}`}
+      className={`w-7 h-7 relative overflow-hidden [color:var(--text-muted)] hover:[color:var(--text)] transition-[color] duration-150 cursor-pointer bg-transparent border-0 p-0 ${className ?? ""}`}
     >
       <AnimatePresence mode="sync" initial={false}>
         <motion.span
           key={theme}
+          custom={theme === "system"}
           variants={ringVariants}
           initial="initial"
           animate="animate"
@@ -93,10 +97,6 @@ function ThemeToggle({ className }: { className?: string }) {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            // transformPerspective on the element itself is how Framer Motion
-            // injects perspective() into its transform string — parent CSS
-            // perspective alone doesn't propagate into FM's transform pipeline
-            transformPerspective: 120,
           }}
         >
           {icon}
