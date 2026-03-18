@@ -25,18 +25,16 @@ function ProjectCard({ project, company, index, groupIndex }: { project: Project
       >
         {/* Thumbnail */}
         <div
-          className="theme-border"
           style={{
             width: "100%",
             aspectRatio: "3/2",
             borderRadius: "6px",
             overflow: "hidden",
             marginBottom: "16px",
+            position: "relative",
             transition: "opacity 0.2s ease",
             opacity: hovered ? 0.85 : 1,
             background: project.thumbnail,
-            boxShadow: project.thumbnailImage ? "inset 0 0 0 1px var(--border-strong)" : "none",
-            transition: "opacity 0.2s ease, box-shadow 0.2s ease",
           }}
         >
           {project.thumbnailImage && (
@@ -46,6 +44,7 @@ function ProjectCard({ project, company, index, groupIndex }: { project: Project
               style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
             />
           )}
+          <div className="theme-border" style={{ position: "absolute", inset: 0, borderRadius: "6px", border: "1px solid var(--border-strong)", pointerEvents: "none" }} />
         </div>
 
         {/* Meta */}
