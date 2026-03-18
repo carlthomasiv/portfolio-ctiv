@@ -36,7 +36,6 @@ export function NowSection() {
             lineHeight: 1.7,
             color: "var(--text-muted)",
             margin: "0 0 20px",
-            maxWidth: "540px",
           }}
         >
           Right now I&apos;m thinking about trust: specifically, how much of it
