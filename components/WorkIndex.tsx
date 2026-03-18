@@ -214,7 +214,7 @@ export function WorkIndex() {
               color: "var(--text-muted)",
               margin: 0,
             }}
-
+          >
             Developer infrastructure, AI platforms, and growth. Work spanning IC contribution, team leadership, and 0-to-1 product design.
           </p>
         </section>
