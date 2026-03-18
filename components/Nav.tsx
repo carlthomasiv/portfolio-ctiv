@@ -28,13 +28,17 @@ function LogoScramble() {
 
   const runScramble = (target: string) => {
     if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    let frame = 0;
-    const totalFrames = 20;
-    const tick = () => {
-      frame++;
-      const locked = Math.floor((frame / totalFrames) * (target.length + 1));
+    const duration = 700;
+    const startTime = performance.now();
+    const tick = (now: number) => {
+      const progress = Math.min((now - startTime) / duration, 1);
+      // ease-in-out: scrambles freely at first, resolves smoothly at the end
+      const eased = progress < 0.5
+        ? 2 * progress * progress
+        : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+      const locked = Math.floor(eased * (target.length + 1));
       setText(buildFrame(target, locked));
-      if (frame < totalFrames) {
+      if (progress < 1) {
         rafRef.current = requestAnimationFrame(tick);
       }
     };
