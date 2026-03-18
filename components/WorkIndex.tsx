@@ -25,6 +25,7 @@ function ProjectCard({ project, company, index, groupIndex }: { project: Project
       >
         {/* Thumbnail */}
         <div
+          className="theme-border"
           style={{
             width: "100%",
             aspectRatio: "3/2",

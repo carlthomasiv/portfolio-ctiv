@@ -51,11 +51,11 @@ export function NowSection() {
         >
           <Link
             href="/thinking"
+            className="link-hover"
             style={{
               fontFamily: "var(--font-dm-mono)",
               fontSize: "12px",
               letterSpacing: "0.06em",
-              color: "var(--text-muted)",
               textDecoration: "none",
               borderBottom: "1px solid var(--border)",
               paddingBottom: "1px",

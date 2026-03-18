@@ -126,6 +126,7 @@ function ProjectRow({ project, index, isLast }: { project: Project; index: numbe
           {/* Thumbnail */}
           <div className="pt-4 md:pt-6 md:pb-6">
             <div
+              className="theme-border"
               style={{
                 width: "100%",
                 aspectRatio: "3/2",
@@ -239,12 +240,12 @@ export function WorkList() {
           </span>
           <Link
             href="/work"
+            className="link-hover"
             style={{
               fontFamily: "var(--font-dm-mono)",
               fontSize: "12px",
               letterSpacing: "0.06em",
               textTransform: "uppercase",
-              color: "var(--text-muted)",
               textDecoration: "none",
               borderBottom: "1px solid var(--border)",
               paddingBottom: "1px",

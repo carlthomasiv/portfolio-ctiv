@@ -48,6 +48,7 @@ function PublicationRow({ pub, index }: { pub: typeof publications[0]; index: nu
         rel="noopener noreferrer"
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
+        className="link-hover"
         style={{ textDecoration: "none", display: "block", cursor: "pointer" }}
       >
         <div

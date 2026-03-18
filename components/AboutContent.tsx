@@ -272,11 +272,11 @@ export function AboutContent() {
               </span>
               <Link
                 href="/resume"
+                className="link-hover"
                 style={{
                   fontFamily: "var(--font-dm-mono)",
                   fontSize: "12px",
                   letterSpacing: "0.05em",
-                  color: "var(--text-muted)",
                   textDecoration: "none",
                   borderBottom: "1px solid var(--border)",
                   paddingBottom: "1px",

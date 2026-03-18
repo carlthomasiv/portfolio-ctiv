@@ -61,3 +61,17 @@ body {
   -moz-osx-font-smoothing: grayscale;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
+
+/* Link hover utility */
+.link-hover {
+  color: var(--text-muted);
+  transition: color 0.15s ease;
+}
+.link-hover:hover {
+  color: var(--text);
+}
+
+/* Smooth border-color on theme toggle */
+.theme-border {
+  transition: border-color 0.2s ease;
+}

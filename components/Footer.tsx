@@ -55,8 +55,7 @@ export function Footer() {
             target={href.startsWith("mailto") ? undefined : "_blank"}
             rel={href.startsWith("mailto") ? undefined : "noopener noreferrer"}
             aria-label={label}
-            style={{ color: "var(--text-muted)" }}
-            className="flex items-center gap-1.5 no-underline hover:opacity-100 transition-opacity duration-200"
+            className="flex items-center gap-1.5 no-underline link-hover"
           >
             {icon}
             <span
