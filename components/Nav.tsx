@@ -45,13 +45,18 @@ function AutoIcon() {
   );
 }
 
-// Horizon animation: icon sinks below the horizon (exit), next rises from below (enter)
-const horizonVariants = {
-  initial: { opacity: 0, y: 5,  rotate: -12 },
-  animate: { opacity: 1, y: 0,  rotate: 0   },
-  exit:    { opacity: 0, y: 5,  rotate:  12 },
+// Ring/drum rotation: icons live on a spinning cylinder viewed through the button.
+// Current icon rolls up and over the top; next rolls in from the bottom.
+// perspective on the button container creates the 3D depth.
+const ringVariants = {
+  initial: { rotateX:  65, opacity: 0 },
+  animate: { rotateX:   0, opacity: 1 },
+  exit:    { rotateX: -65, opacity: 0 },
 };
-const horizonTransition = { duration: 0.22, ease: "easeInOut" as const };
+const ringTransition = {
+  duration: 0.28,
+  ease: [0.4, 0, 0.2, 1] as [number, number, number, number],
+};
 
 const ARIA_LABELS: Record<string, string> = {
   light:  "Switch to dark mode",
@@ -71,17 +76,27 @@ function ThemeToggle({ className }: { className?: string }) {
     <button
       onClick={cycle}
       aria-label={ARIA_LABELS[theme]}
-      className={`w-7 h-7 flex items-center justify-center [color:var(--text-muted)] hover:[color:var(--text)] transition-[color] duration-150 cursor-pointer bg-transparent border-0 p-0 overflow-hidden ${className ?? ""}`}
+      // overflow-hidden clips the icons as they rotate in/out of the drum window
+      // perspective gives the 3D depth that makes it read as a ring not a flat flip
+      className={`w-7 h-7 relative [color:var(--text-muted)] hover:[color:var(--text)] transition-[color] duration-150 cursor-pointer bg-transparent border-0 p-0 overflow-hidden ${className ?? ""}`}
+      style={{ perspective: "160px" }}
     >
-      <AnimatePresence mode="wait" initial={false}>
+      <AnimatePresence mode="sync" initial={false}>
         <motion.span
           key={theme}
-          variants={horizonVariants}
+          variants={ringVariants}
           initial="initial"
           animate="animate"
           exit="exit"
-          transition={horizonTransition}
-          style={{ display: "flex", alignItems: "center", justifyContent: "center" }}
+          transition={ringTransition}
+          // absolute so exiting + entering icons overlap during the rotation
+          style={{
+            position: "absolute",
+            inset: 0,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
         >
           {icon}
         </motion.span>
