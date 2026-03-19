@@ -128,9 +128,8 @@ export function Nav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Edge swipe-to-open: right 30px of screen, swipe left ≥60px, more horizontal than vertical
+  // Swipe gestures — shared touch tracking, one effect handles both states
   useEffect(() => {
-    if (drawerOpen) return;
     const onStart = (e: TouchEvent) => {
       swipeStartX.current = e.touches[0].clientX;
       swipeStartY.current = e.touches[0].clientY;
@@ -138,8 +137,16 @@ export function Nav() {
     const onEnd = (e: TouchEvent) => {
       const dx = e.changedTouches[0].clientX - swipeStartX.current;
       const dy = Math.abs(e.changedTouches[0].clientY - swipeStartY.current);
-      if (swipeStartX.current > window.innerWidth - 30 && dx < -60 && dy < 80) {
-        setDrawerOpen(true);
+      if (!drawerOpen) {
+        // Edge swipe-to-open: must start in right 30px, swipe left ≥60px
+        if (swipeStartX.current > window.innerWidth - 30 && dx < -60 && dy < 80) {
+          setDrawerOpen(true);
+        }
+      } else {
+        // Swipe-to-close: right swipe ≥60px anywhere on screen
+        if (dx > 60 && dy < 80) {
+          setDrawerOpen(false);
+        }
       }
     };
     document.addEventListener("touchstart", onStart, { passive: true });
