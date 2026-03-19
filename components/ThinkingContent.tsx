@@ -8,14 +8,14 @@ import { posts } from "@/data/posts";
 import type { Post } from "@/data/posts";
 
 // Static dot-grid thumbnail — frozen radial ripple from center, same visual language as PostHero
-const THUMB_CELL       = 13;   // tighter grid for small size
-const THUMB_FREQ       = 0.09; // radial cosine frequency — matches PostHero loosely
-const THUMB_PHASE      = 28;   // frozen distance offset → ripple caught mid-expansion
-const THUMB_FALLOFF    = 0.018; // radial fade so edges stay quiet
-const THUMB_SIZE_BASE  = 4.5;
-const THUMB_SIZE_DELTA = 2.5;
-const THUMB_OP_MIN     = 0.05;
-const THUMB_OP_MAX     = 0.38;
+const THUMB_CELL       = 12;   // denser grid so wave pattern has enough points to read
+const THUMB_FREQ       = 0.10; // slightly tighter frequency for legibility at small size
+const THUMB_PHASE      = 26;   // frozen distance offset → ripple caught mid-expansion
+const THUMB_FALLOFF    = 0.014; // softer falloff so ring stays visible toward edges
+const THUMB_SIZE_BASE  = 5.5;  // larger resting size
+const THUMB_SIZE_DELTA = 4.0;  // wider gap between crest and trough — wave reads clearly
+const THUMB_OP_MIN     = 0.06;
+const THUMB_OP_MAX     = 0.55; // brighter peak so the ring pops
 
 function PostThumbnailCanvas() {
   const canvasRef    = useRef<HTMLCanvasElement>(null);
