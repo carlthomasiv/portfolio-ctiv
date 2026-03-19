@@ -224,7 +224,10 @@ export function Nav() {
                   {label}
                   {isActive && (
                     <motion.span
-                      layoutId="nav-indicator"
+                      initial={{ scaleX: 0, opacity: 0 }}
+                      animate={{ scaleX: 1, opacity: 1 }}
+                      exit={{ scaleX: 0, opacity: 0 }}
+                      transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
                       style={{
                         position: "absolute",
                         bottom: 0,
@@ -233,8 +236,8 @@ export function Nav() {
                         height: "1.5px",
                         backgroundColor: "var(--text)",
                         borderRadius: "1px",
+                        transformOrigin: "left",
                       }}
-                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
                     />
                   )}
                 </Link>
