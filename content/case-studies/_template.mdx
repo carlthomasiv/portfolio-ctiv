@@ -1,0 +1,83 @@
+---
+title: "Case Study Title"
+company: "Company Name"
+category: "Category"
+description: "One sentence description shown in the header and meta."
+role: "Your Role"
+period: "2025"
+heroImage: "/images/work/slug/hero.png"
+---
+
+<SectionLabel>Overview</SectionLabel>
+
+Write your opening here. Plain paragraphs render as body text automatically.
+No need to wrap anything in components for prose — just write markdown.
+
+<Metrics
+  items={[
+    { value: "40%", label: "Reduction in time", trend: "down" },
+    { value: "1,020+", label: "Sessions in 60 days", trend: "up" },
+    { value: "34%", label: "CTA click-through", trend: "up" },
+  ]}
+/>
+
+<SectionLabel>The Problem</SectionLabel>
+
+Describe the problem. You can use **bold**, _italic_, and regular markdown freely.
+
+- List items work naturally
+- No component needed
+
+<SectionLabel>The Solution</SectionLabel>
+
+<Slideshow
+  images={[
+    { src: "/images/work/slug/1.png", alt: "Description of first screen" },
+    { src: "/images/work/slug/2.png", alt: "Description of second screen" },
+  ]}
+/>
+
+More prose after a visual component.
+
+<ImageGrid
+  images={[
+    { src: "/images/work/slug/detail-1.png", alt: "Detail one" },
+    { src: "/images/work/slug/detail-2.png", alt: "Detail two" },
+    { src: "/images/work/slug/detail-3.png", alt: "Detail three" },
+    { src: "/images/work/slug/detail-4.png", alt: "Detail four" },
+  ]}
+  columns={2}
+/>
+
+<SectionLabel>How It Worked</SectionLabel>
+
+<Comparison
+  before={{
+    label: "Before",
+    steps: [
+      { text: "Step one of the old flow" },
+      { text: "Step two that caused friction", warning: true },
+      { text: "Step three" },
+    ],
+    note: "Took ~8 minutes on average.",
+  }}
+  after={{
+    label: "After",
+    steps: [
+      { text: "Simplified step one" },
+      { text: "Step two, now frictionless" },
+    ],
+    note: "Reduced to ~2 minutes.",
+  }}
+/>
+
+<Callout label="Key insight">
+  A callout is good for surfacing a key takeaway, quote, or principle
+  without it getting lost in prose.
+</Callout>
+
+<SectionLabel>Outcome</SectionLabel>
+
+Wrap up the narrative here.
+
+<CaseLink href="https://example.com" label="View live" />
