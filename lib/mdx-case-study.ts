@@ -12,9 +12,11 @@ export interface CaseStudyFrontmatter {
   role: string;
   period: string;
   heroImage?: string;
+  draft?: boolean;
 }
 
-/** Returns the raw MDX source + frontmatter for a slug, or null if no file exists. */
+/** Returns the raw MDX source + frontmatter for a slug, or null if no file exists.
+ *  Files with `draft: true` in frontmatter are hidden in production but visible locally. */
 export function getMdxCaseStudy(slug: string): {
   frontmatter: CaseStudyFrontmatter;
   source: string;
@@ -25,17 +27,25 @@ export function getMdxCaseStudy(slug: string): {
   const raw = fs.readFileSync(filePath, "utf-8");
   const { data, content } = matter(raw);
 
+  // Hide drafts in production — falls through to placeholder page
+  if (data.draft && process.env.NODE_ENV !== "development") return null;
+
   return {
     frontmatter: data as CaseStudyFrontmatter,
     source: content,
   };
 }
 
-/** Returns all slugs that have an MDX file. */
+/** Returns all slugs that have a published (non-draft) MDX file. */
 export function getMdxCaseStudySlugs(): string[] {
   if (!fs.existsSync(CONTENT_DIR)) return [];
   return fs
     .readdirSync(CONTENT_DIR)
-    .filter((f) => f.endsWith(".mdx"))
-    .map((f) => f.replace(/\.mdx$/, ""));
+    .filter((f) => f.endsWith(".mdx") && !f.startsWith("_"))
+    .map((f) => f.replace(/\.mdx$/, ""))
+    .filter((slug) => {
+      const raw = fs.readFileSync(path.join(CONTENT_DIR, `${slug}.mdx`), "utf-8");
+      const { data } = matter(raw);
+      return !data.draft || process.env.NODE_ENV === "development";
+    });
 }
