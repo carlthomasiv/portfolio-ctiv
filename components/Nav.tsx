@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { useTheme } from "./ThemeProvider";
 import { NavMark } from "./NavMark";
@@ -119,12 +119,36 @@ export function Nav() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
+  const swipeStartX = useRef(0);
+  const swipeStartY = useRef(0);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  // Edge swipe-to-open: right 30px of screen, swipe left ≥60px, more horizontal than vertical
+  useEffect(() => {
+    if (drawerOpen) return;
+    const onStart = (e: TouchEvent) => {
+      swipeStartX.current = e.touches[0].clientX;
+      swipeStartY.current = e.touches[0].clientY;
+    };
+    const onEnd = (e: TouchEvent) => {
+      const dx = e.changedTouches[0].clientX - swipeStartX.current;
+      const dy = Math.abs(e.changedTouches[0].clientY - swipeStartY.current);
+      if (swipeStartX.current > window.innerWidth - 30 && dx < -60 && dy < 80) {
+        setDrawerOpen(true);
+      }
+    };
+    document.addEventListener("touchstart", onStart, { passive: true });
+    document.addEventListener("touchend", onEnd, { passive: true });
+    return () => {
+      document.removeEventListener("touchstart", onStart);
+      document.removeEventListener("touchend", onEnd);
+    };
+  }, [drawerOpen]);
 
   const signatureFilter = resolvedTheme === "dark"
     ? "invert(1) drop-shadow(0 0 0.4px rgba(255,255,255,0.6)) drop-shadow(0 0 0.4px rgba(255,255,255,0.6))"
@@ -256,6 +280,15 @@ export function Nav() {
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+              drag="x"
+              dragConstraints={{ left: 0, right: 0 }}
+              dragElastic={{ left: 0, right: 0.25 }}
+              dragMomentum={false}
+              onDragEnd={(_, info) => {
+                if (info.offset.x > 80 || info.velocity.x > 400) {
+                  setDrawerOpen(false);
+                }
+              }}
               style={{
                 position: "fixed",
                 top: 0,
