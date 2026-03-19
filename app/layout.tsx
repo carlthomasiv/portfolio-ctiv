@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { PageTransition } from "@/components/PageTransition";
 import { Nav } from "@/components/Nav";
+import { Analytics } from "@vercel/analytics/next";
 
 const dmSerifDisplay = DM_Serif_Display({
   weight: ["400"],
@@ -75,6 +76,7 @@ export default function RootLayout({
           <Nav />
           <PageTransition>{children}</PageTransition>
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );
