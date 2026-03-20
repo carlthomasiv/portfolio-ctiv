@@ -1,13 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
-const SESSION_KEY = "hero-verb-played";
-// Sequence ends on "designing" — the true role — so the line settles factually correct
-const SEQUENCE = ["building", "coding", "creating", "designing"];
-const WORD_DURATION = 2600; // ms per word
 
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
@@ -19,25 +14,6 @@ const fadeUp = {
 };
 
 export function Hero() {
-  const [word, setWord] = useState("designing");
-  const [cycling, setCycling] = useState(false);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    if (sessionStorage.getItem(SESSION_KEY)) return;
-
-    sessionStorage.setItem(SESSION_KEY, "1");
-
-    // Batch: jump to first word and mark as cycling — no entry animation on "building"
-    setWord(SEQUENCE[0]);
-    setCycling(true);
-
-    // Schedule remaining words
-    SEQUENCE.slice(1).forEach((w, i) => {
-      setTimeout(() => setWord(w), (i + 1) * WORD_DURATION);
-    });
-  }, []);
-
   return (
     <section className="w-full px-6 md:px-12 pt-20 pb-24">
       <div className="max-w-5xl mx-auto">
@@ -70,32 +46,7 @@ export function Hero() {
               color: "var(--text-muted)",
             }}
           >
-            Currently{" "}
-            {/* Ghost "designing" holds max-width so the line never shifts */}
-            <span style={{ display: "inline-grid", position: "relative" }}>
-              <span style={{ visibility: "hidden", pointerEvents: "none", gridArea: "1/1" }}>
-                designing
-              </span>
-              <span style={{ gridArea: "1/1", display: "flex", alignItems: "center" }}>
-                {cycling ? (
-                  <AnimatePresence mode="wait" initial={false}>
-                    <motion.span
-                      key={word}
-                      initial={{ opacity: 0, y: 5 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -5 }}
-                      transition={{ duration: 0.28, ease: EASE }}
-                      style={{ display: "block" }}
-                    >
-                      {word}
-                    </motion.span>
-                  </AnimatePresence>
-                ) : (
-                  <span>{word}</span>
-                )}
-              </span>
-            </span>
-            {" "}at{" "}
+            Currently designing at{" "}
           <a
             href="https://ona.com"
             target="_blank"
