@@ -5,10 +5,15 @@ import { NavMark } from "@/components/NavMark";
 
 export function NavMarkDemo() {
   const [isMobile, setIsMobile] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   useEffect(() => {
     setIsMobile(window.innerWidth < 768);
   }, []);
+
+  const label = isMobile
+    ? isExpanded ? "Tap to collapse" : "Tap to expand"
+    : "Hover to expand";
 
   return (
     <div
@@ -23,7 +28,7 @@ export function NavMarkDemo() {
         gap: "20px",
       }}
     >
-      <NavMark />
+      <NavMark onExpandChange={setIsExpanded} />
 
       <span
         style={{
@@ -33,9 +38,10 @@ export function NavMarkDemo() {
           textTransform: "uppercase",
           color: "var(--text-muted)",
           opacity: 0.5,
+          transition: "opacity 0.2s ease",
         }}
       >
-        {isMobile ? "Tap to expand" : "Hover to expand"}
+        {label}
       </span>
     </div>
   );

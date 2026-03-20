@@ -51,13 +51,25 @@ interface Widths {
   homas: number;
 }
 
-export function NavMark() {
+interface NavMarkProps {
+  onExpandChange?: (expanded: boolean) => void;
+}
+
+export function NavMark({ onExpandChange }: NavMarkProps = {}) {
   const [widths, setWidths] = useState<Widths | null>(null);
   const [expanded, setExpanded] = useState(false);
   const [animate, setAnimate] = useState(false);
   const isMobileRef = useRef(false);
   const collapseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const mobileTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const setExpandedWithCallback = (val: boolean | ((prev: boolean) => boolean)) => {
+    setExpanded((prev) => {
+      const next = typeof val === "function" ? val(prev) : val;
+      onExpandChange?.(next);
+      return next;
+    });
+  };
 
   // ── Boot: measure fonts, fire mobile animation once on first page load ─────
   useEffect(() => {
@@ -74,8 +86,8 @@ export function NavMark() {
       if (isMobileRef.current) {
         // Auto-expand → auto-collapse so both directions of the animation are shown
         mobileTimer.current = setTimeout(() => {
-          setExpanded(true);
-          mobileTimer.current = setTimeout(() => setExpanded(false), 2000);
+          setExpandedWithCallback(true);
+          mobileTimer.current = setTimeout(() => setExpandedWithCallback(false), 2000);
         }, MOBILE_DELAY_MS);
       }
     });
@@ -91,14 +103,14 @@ export function NavMark() {
       clearTimeout(collapseTimer.current);
       collapseTimer.current = null;
     }
-    if (widths) setExpanded(true);
+    if (widths) setExpandedWithCallback(true);
   }
 
   function handleLeave() {
     if (isMobileRef.current) return;
     // Debounce the collapse so small mouse movements don't cause flicker
     collapseTimer.current = setTimeout(() => {
-      setExpanded(false);
+      setExpandedWithCallback(false);
       collapseTimer.current = null;
     }, COLLAPSE_DEBOUNCE_MS);
   }
@@ -110,7 +122,7 @@ export function NavMark() {
       clearTimeout(mobileTimer.current);
       mobileTimer.current = null;
     }
-    setExpanded((prev) => !prev);
+    setExpandedWithCallback((prev) => !prev);
   }
 
   const duration = expanded ? EXPAND_MS : COLLAPSE_MS;
