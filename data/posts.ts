@@ -155,7 +155,7 @@ export const posts: Post[] = [
       {
         type: "text",
         content:
-          "The portfolio is still evolving. Case studies on AI-native product work are on their way. But the infrastructure is solid: the component model, the data layer, the theme system, the routing. Adding real content to a solid foundation is the easy part. That's the right state to be in.",
+          "The portfolio is still evolving. Case studies on AI-native product work are on their way. But the infrastructure is solid: the component model, the data layer, the theme system, the routing. Adding real content to a solid foundation is the easy part.",
       },
       {
         type: "footnote",
