@@ -72,7 +72,11 @@ export function NavMark() {
         requestAnimationFrame(() => setAnimate(true));
       });
       if (isMobileRef.current) {
-        mobileTimer.current = setTimeout(() => setExpanded(true), MOBILE_DELAY_MS);
+        // Auto-expand → auto-collapse so both directions of the animation are shown
+        mobileTimer.current = setTimeout(() => {
+          setExpanded(true);
+          mobileTimer.current = setTimeout(() => setExpanded(false), 2000);
+        }, MOBILE_DELAY_MS);
       }
     });
     return () => {
@@ -97,6 +101,16 @@ export function NavMark() {
       setExpanded(false);
       collapseTimer.current = null;
     }, COLLAPSE_DEBOUNCE_MS);
+  }
+
+  function handleTap() {
+    if (!isMobileRef.current || !widths) return;
+    // Clear any pending auto-collapse timers before toggling
+    if (mobileTimer.current) {
+      clearTimeout(mobileTimer.current);
+      mobileTimer.current = null;
+    }
+    setExpanded((prev) => !prev);
   }
 
   const duration = expanded ? EXPAND_MS : COLLAPSE_MS;
@@ -149,7 +163,7 @@ export function NavMark() {
   };
 
   return (
-    <div style={container} onMouseEnter={handleEnter} onMouseLeave={handleLeave}>
+    <div style={container} onMouseEnter={handleEnter} onMouseLeave={handleLeave} onClick={handleTap}>
 
       {/* C — anchored */}
       <span style={{ fontWeight: 400, color: "var(--text)" }}>C</span>

@@ -1,8 +1,15 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { NavMark } from "@/components/NavMark";
 
 export function NavMarkDemo() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768);
+  }, []);
+
   return (
     <div
       style={{
@@ -28,7 +35,7 @@ export function NavMarkDemo() {
           opacity: 0.5,
         }}
       >
-        Hover to expand
+        {isMobile ? "Tap to expand" : "Hover to expand"}
       </span>
     </div>
   );
