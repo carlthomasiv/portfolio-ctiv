@@ -18,6 +18,22 @@ export interface CompanyGroup {
 
 export const groups: CompanyGroup[] = [
   {
+    company: "Ona",
+    context: "Agentic engineering platform",
+    projects: [
+      {
+        category: "Infrastructure · DX",
+        disciplines: ["AI & Agents", "Agentic orchestration", "Infrastructure", "0-1"],
+        title: "Ona Automations",
+        description: "Trigger-based workflows that blend AI reasoning with deterministic execution, unlocking parallel changes across 1,000 repositories from a single engineer.",
+        slug: "automations",
+        thumbnail: "linear-gradient(140deg, #e4e8f0 0%, #b8c4d8 100%)",
+        thumbnailImage: "/images/work/automations/Automations-case-study.png",
+        year: "2025",
+      },
+    ],
+  },
+  {
     company: "Neon",
     context: "Serverless Postgres",
     projects: [

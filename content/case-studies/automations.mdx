@@ -1,0 +1,166 @@
+---
+title: "Ona Automations"
+company: "Ona"
+category: "Infrastructure · DX"
+description: "Trigger-based workflows that blend AI reasoning with deterministic execution, unlocking parallel changes across 1,000 repositories from a single engineer."
+role: "Lead Product Designer"
+period: "Shipped November 19, 2025"
+heroImage: "/images/work/automations/Automations view.png"
+draft: true
+---
+
+Automations transformed how the engineering organization managed global changes, moving from manual, repo-by-repo updates to a continuous background execution model.
+
+<Metrics items={[{ value: "36K+", label: "Executions in 5 months", trend: "up" }, { value: "99.7%", label: "Trigger-to-execution reliability" }, { value: "97.5%", label: "Runs completed without intervention" }, { value: "9×", label: "Growth in monthly volume, launch to month 5", trend: "up" }]} />
+
+<SectionLabel>Context</SectionLabel>
+
+By 2025, AI was finally good at generating code. You could hand a ticket to an agent, get a fix, and ship a PR in minutes. This worked for a single repository, but the model collapsed when the same change needed to be applied to 500 repos at once.
+
+Teams were losing months to work that was technically simple but logistically cumbersome. They often had the fix for a critical vulnerability or a library migration, but distributing that change across many repos remained a manual process. This meant chasing down hundreds of individual repo owners, babysitting broken CI pipelines, and managing the rollout in Linear or Jira. 
+
+This is where Ona Automations comes in. This new product feature allowed teams to move away from using agents for isolated tasks and instead rethink what work they could actually hand off to Ona. The goal was to consolidate all that scattered, manual overhead into a single automated process. Turning efforts like a multi-month migration into a task that a single platform engineer could oversee in an afternoon.
+
+<RepoFanout />
+
+<SectionLabel>The problem: Scaling a fix</SectionLabel>
+
+While meeting with customers and diving into their workflows, a consistent theme emerged. Teams did use AI to solve problems, but when it came to applying a solution across many repos, in some cases 1,000 repos, that is where they experienced the most pain.
+
+If you look at how we use agents today, the process is designed around a single linear loop: find a task, generate a solution, review it, and ship it.  This works for isolated problems, but the time cost multiplies when you scale the scope of that work. For example, migrating your company from Node 22 to Node 24 might only take an afternoon to figure out, but the real cost is everything around it. You have to update each repo, validate that nothing broke, and track what is done versus what still needs attention.
+
+That is months of engineering time spent on work nobody wants to do. The same story plays out with dependency bumps, compliance fixes, and security patches. These are solved problems that are just expensive to ship everywhere.
+
+That pushed the design question in a different direction. It became less about helping an engineer finish a task and more about letting them define a change once, so it runs across the whole codebase.  For engineers, this removes the drag of repetitive work, allowing them to focus on problems that actually require judgment. At that point, agents are not just accelerating individual work. They are changing how the team operates at scale.
+
+<SectionLabel>The approach</SectionLabel>
+
+## The Framework: Trigger, Context, Steps, and Report
+
+The challenge was moving from a chat interface to a structured execution experience. To make this work at scale, I had to move away from the "black box" of a conversation and define a predictable lifecycle for an automation. I broke this down into a four-stage framework:
+
+<SystemModel />
+
+<NumberedList items={[
+  { label: "Trigger", description: "This is where an engineer defines the intent. Instead of a vague prompt, the trigger is a specific catalyst, such as a security vulnerability, a library deprecation, or a custom script. It turns the AI from a reactive assistant into a proactive agent that knows exactly why it is running." },
+  { label: "Context", description: "In a large organization, you do not want to run a script on every single repository or project. You need to identify which ones are actually affected. This stage allows the user to define the impact area of an automation by project, direct selection of specific repos, or a filtered selection of repos, ensuring the agent only touches what it needs to." },
+  { label: "Steps", description: "This is the mechanical heart of the process. I designed this as a hybrid of probabilistic AI and deterministic code. You can tell the agent to find a specific pattern, apply a fix using an LLM, and then run a shell script to validate the build. By blending these two, we created a system that is flexible enough to solve complex problems but rigid enough to trust." },
+  { label: "Report", description: "When you are running a change across 500 repositories, you cannot review 500 pull requests individually. The Report is a high-density view that surfaces the state of every affected project. It uses management by exception, highlighting only the repositories where the build failed or the agent got stuck. This allows a single engineer to oversee a global rollout by focusing only on the outliers." }
+]} />
+
+<SectionLabel>Designing the product</SectionLabel>
+
+When you are looking to push a change across 10 to 1,000+ repos, a prompt component is the wrong experience. Automations needed a customizable workflow builder that could support both deterministic and non-deterministic steps. Something that could adapt to what happens mid-run while still reaching the same outcome, with a human able to step in at any point.
+
+Other products have tackled sequential workflow experiences in ways that served as useful references. GitHub Actions, n8n, and Dagster each showed how structured pipelines could scale without losing flexibility. They also helped surface the gaps where background agents could genuinely add something those tools don't cover.
+
+With those requirements and that market context, a clearer product direction came into focus.
+
+## The Automation Builder
+
+Building an automation can be a complex workflow. As a user you would need to think systematically about how Ona should be triggered and what actions the agent should take across the specific resources you provided. This changes how we need to think fundamentally. It needs to be more deterministic than a standard agent conversational experience.
+
+I didn't adhere to a specific method during the exploration phase, but typically, each day I designed a complete set of screens and rapid prototypes. During this process, I experimented with different types of workflow, node maps, complex conversation paradigms, and then linked the screens together as a working prototype to assess their functionality.
+
+Through this process, I generated hundreds of screens and was able to narrow down a few major directions that resonated most. Around this time, I began sharing the screens with other people within the company and some customers to gather feedback and additional insights.
+
+<CaseImage src="/images/work/automations/figma-screenshot.png" alt="Exploration screens from the design process" />
+
+Ultimately, I focused in on node maps. This type of experience would allow users to see how the automation will work and fine tune it to their needs. Here they could choose when Ona can trigger an automation (scheduled, manual, webhook), when an Ona loop or non-deterministic solution is needed, when a script is needed, and at what point to either kill an automation or push a change for review.
+
+Working with this type of component also ensured we could create a calm and empowering experience that never feels like a black box, but more of an unlock.
+
+<Slideshow images={[{ src: "/images/work/automations/Automations view.png", alt: "Automation home with Templates" }, { src: "/images/work/automations/Create automation 1.png", alt: "Starting the automation creation flow" }, { src: "/images/work/automations/Create automation 2.png", alt: "Defining the trigger" }, { src: "/images/work/automations/Create automation 3.png", alt: "Setting context and scope" }, { src: "/images/work/automations/Create automation 4.png", alt: "Composing steps" }, { src: "/images/work/automations/Create automation 5-done.png", alt: "Automation ready to run" }]} />
+
+To make this predictable at scale, the entry point is built around reusable templates. Instead of only starting from a blank canvas, engineers can draw on a library of pre-configured workflows for common tasks such as library upgrades or security patches. Users can then adjust the trigger and any steps to match their company's needs.
+
+This creates a "low-floor, high-ceiling" experience. It is simple enough to launch a standard fix in seconds, yet structured enough to enable deep customization of the underlying logic when a rollout gets complex.
+
+## Agents and scripts, working together
+
+Agents are strong at reasoning but are not reliable execution engines on their own. To solve for this, I designed the system to combine agent-driven reasoning with deterministic execution steps. This includes shell commands, unit tests, and CI checks that behave consistently regardless of the repository context.
+
+This hybrid approach creates a clear boundary between flexibility and control. By anchoring the agent's work in hard validations, the system can scale to 1,000 repositories without becoming unpredictable. If a deterministic check fails, such as a broken build or a failed test suite, the automation stops immediately. The LLM provides the solution, but the infrastructure provides the safety.
+
+<HybridModel />
+
+## Managing executions
+
+At scale, showing every successful log is just noise. I designed the reporting to treat success as the baseline and aggressively surface only the 10% that need attention. Whether it is a broken CI pipeline or a merge conflict the agent could not resolve, these outliers are promoted to the top of the list. This turns a multi-week manual audit into a 20-minute triage session.
+
+<CaseImage src="/images/work/automations/Execution list.png" alt="Execution list showing run statuses at a glance — success, failure, and in-progress" />
+
+## Execution reports and sampling
+
+Once an automation finishes across hundreds of repositories, the challenge shifts from "can this run" to "how do I know it won't break production?"
+
+Early adoption data reflected a clear confidence gap. While the system was technically capable of global rollouts, teams initially limited runs to a handful of repositories. Early trigger volume was low as teams cautiously tested what the system would actually do. Teams weren't hitting technical limits. They just had no visibility into what was actually happening across all those repositories.
+
+I designed the Execution Reports to close this gap. By introducing sampling, the UI surfaces representative runs first. This allows engineers to validate agent behavior and command outputs in real-time before committing to a full-scale merge. As that visibility became the baseline, monthly automation volume grew 9x from launch to month five. Providing a verifiable history turned the system from an experimental tool into a trusted part of the daily engineering workflow.
+
+<Slideshow images={[{ src: "/images/work/automations/2.2 [Proposal] Automations_ Breadcrumbs - Execution Details.png", alt: "Execution details showing sampled runs, status, and what needs review" }, { src: "/images/work/automations/2.3b.1 [Proposal] Automations_ Breadcrumbs - Execution Details.png", alt: "Drilling into a failed execution to understand and continue the work" }]} />
+
+## Debugging with Ona
+
+Failures are inevitable at scale, so the design treats them as entry points rather than dead ends. Every automation step runs in an isolated environment. When an agent gets stuck or a build fails, the system preserves that specific state and surfaces a unique Action ID.
+
+I designed this hand-off to allow engineers to step directly into the context where the agent stopped. By entering the Action ID into a new Ona conversation, the user can inspect the full logs, see exactly where the logic diverged, and manually unblock the process. This shifts the engineer's role from babysitting scripts to performing high-level triage on the few cases that require human judgment.
+
+<Slideshow images={[{ src: "/images/work/automations/2.3b.1 [Proposal] Automations_ Breadcrumbs - Execution Details.png", alt: "Execution details with a failed step highlighted" }, { src: "/images/work/automations/2 - Failure -- full convo.png", alt: "Full conversation log for the failed execution" }, { src: "/images/work/automations/3 - Failure -- copy actoin id.png", alt: "Copying the action ID to investigate or escalate" }, { src: "/images/work/automations/4 - Failure -- convo to look into the issue.png", alt: "Using the action ID in an Ona conversation to investigate the failure" }]} />
+
+<SectionLabel>Reducing the cost of starting</SectionLabel>
+
+As Automations became more powerful, a bottleneck emerged at the start of the user journey. Even when engineers understood the underlying model, the perceived risk of a misconfigured global run was too high. The hesitation was not about technical capability; it was about the confidence to execute across 1,000 repositories without a safety net.
+
+I saw a strategic opportunity to transition the entry point from a blank canvas to a library of verified templates. Instead of asking users to define an automation from scratch, the system provides pre-configured patterns for common workflows, such as dependency upgrades, PR reviews, and release notes. These act as "known-good" configurations that teams can adapt to their specific context.
+
+Templates also gave Ona a way to embed expertise directly in the product. Common patterns come pre-configured by the people who know the system best. Engineers get a running start, and the flexibility is still there when they need to go deeper.
+
+<CaseImage src="/images/work/automations/Templates-upgrade-view.png" alt="Template selection alongside existing automations, providing pre-configured starting points" />
+
+
+<SectionLabel>Kingland Case Study: Accelerating onboarding and productivity</SectionLabel>
+
+The true value of the platform shows up in a high-scale migration. Kingland had a 15-year legacy codebase and needed to roll out a Jest v30 migration across hundreds of repositories. Previously that kind of work required around five hours of focused engineering effort per repository.
+
+Using Automations, they defined the target repos, composed the steps, and ran the change in parallel. The migration completed in 30 minutes. The same engine that handled Jest also got used for agent-generated JavaDocs, SQL optimization, and documentation work by non-engineering teams, which was not something the original design anticipated.
+
+<ArticleCard href="https://ona.com/stories/kingland" label="How Kingland accelerates onboarding and productivity with Ona" description="Ona Case Study" image="/images/work/automations/kingland-logo.png" imageBg="#070D2B" />
+
+<SectionLabel>Outcomes</SectionLabel>
+
+Automations matured from a high-touch creation tool into a background layer of the engineering workflow. Over the first four months, trigger volume grew 10x and the intervention rate stayed under 2%. Engineers went from running cautious five-repo tests to trusting the system with their full codebase.
+
+<AutomationFunnel />
+
+## From active tool to background layer
+
+The lifecycle of an automation followed a clear path. Usage initially peaked during the Creation phase as engineers fine-tuned logic and verified steps. Once trust was established, the product moved into a background state, executing thousands of triggers with minimal oversight. This allowed engineers to increase their leverage by delegating the "quiet" work of the codebase, such as dependency upgrades, release coordination, and security patching, to the agent.
+
+## Output split
+
+The platform branched its output based on the specific engineering intent:
+
+- **849 pull requests** were opened to execute active changes.
+- **2,291 reports** were surfaced to provide oversight on existing workflows. 
+This distribution proves the majority of the value came from the agent performing continuous health checks and surfacing visibility, rather than just writing code.
+
+## Human involvement
+
+The Management by Exception UI successfully filtered the noise of global rollouts. Out of 36,000+ triggers, **only ~457 runs** required human intervention. By surfacing only the 10% of outliers, the platform turned a multi-week manual audit into a 20-minute triage session. Engineers stopped babysitting every run and started supervising the results.
+
+## Growth reflects trust
+
+Monthly automation volume grew 9x from launch to month five. What started as cautious experimentation became part of the daily engineering workflow.
+
+<Callout info>Note: Metrics reflect internal engineering usage where full system visibility and telemetry were available to measure end-to-end impact.</Callout>
+
+<SectionLabel>Reflection</SectionLabel>
+
+Automations was the most systems-level design work I have done. Every decision had downstream effects across hundreds of repositories and the engineers responsible for them.
+
+One gap that became clear was observability at the orchestration layer. While execution success was easy to measure, tracking multi-repo impact and end-to-end outcomes required deeper instrumentation. The thing I keep coming back to is how much of this work was really about legibility. When a system runs autonomously across hundreds of codebases, the design question changes. People need to understand what happened and whether to care, fast. That is harder to get right than the feature itself.
+
+<ArticleCard href="https://ona.com/stories/introducing-automations" label="Introducing Automations" description="Launch announcement" image="/images/work/automations/List_of_Automations.avif" />
+
+<ArticleCard href="https://ona.com/stories/designing-automations" label="Designing Automations" description="Ona blog" image="/images/work/automations/List_of_Automations.avif" />

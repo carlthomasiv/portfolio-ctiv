@@ -1,24 +1,15 @@
-"use client";
-
 /**
  * MDX component library for case studies.
- *
- * These are the building blocks you use inside .mdx files.
- * Prose (paragraphs, headings, lists) is handled by the base
- * MDX typography styles below. Richer blocks use these components.
- *
- * Usage in MDX:
- *   <Metrics items={[{ value: "40%", label: "reduction in time", trend: "down" }]} />
- *   <Comparison before={...} after={...} />
- *   <ImageGrid images={[{ src: "/...", alt: "..." }]} columns={2} />
- *   <Callout>Some highlighted insight.</Callout>
+ * Pure rendering components — no client hooks. Interactive components
+ * (CaseImage, ImageGrid, Slideshow) live in mdx-components-interactive.tsx.
  */
 
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React from "react";
 import { TrendingUp, TrendingDown, ArrowRight } from "lucide-react";
 
+export { CaseImage, ImageGrid, Slideshow, AutomationFunnel, RepoFanout, SystemModel, HybridModel, NumberedList } from "./mdx-components-interactive";
+
 // ─── Typography defaults ──────────────────────────────────────────────────────
-// Applied to plain markdown elements rendered by MDX
 
 export const mdxTypography = {
   p: (props: React.HTMLAttributes<HTMLParagraphElement>) => (
@@ -39,11 +30,11 @@ export const mdxTypography = {
       {...props}
       style={{
         fontFamily: "var(--font-dm-serif-display)",
-        fontSize: "26px",
+        fontSize: "18px",
         fontWeight: 400,
         color: "var(--text)",
-        marginTop: "48px",
-        marginBottom: "12px",
+        marginTop: "40px",
+        marginBottom: "10px",
         ...props.style,
       }}
     />
@@ -102,6 +93,18 @@ export const mdxTypography = {
       </span>
       <span>{(props as { children?: React.ReactNode }).children}</span>
     </li>
+  ),
+  strong: (props: React.HTMLAttributes<HTMLElement>) => (
+    <strong
+      {...props}
+      style={{
+        fontFamily: "var(--font-dm-serif-display)",
+        fontSize: "1.08em",
+        fontWeight: 400,
+        color: "var(--text)",
+        ...props.style,
+      }}
+    />
   ),
   blockquote: (props: React.HTMLAttributes<HTMLQuoteElement>) => (
     <blockquote
@@ -187,9 +190,53 @@ export function Metrics({ items }: { items: MetricItem[] }) {
   );
 }
 
+// ─── Pullquote ────────────────────────────────────────────────────────────────
+
+export function Pullquote({ children }: { children: React.ReactNode }) {
+  return (
+    <div style={{ margin: "36px 0", padding: "0 0 0 20px", borderLeft: "2px solid var(--text)" }}>
+      <p style={{
+        fontFamily: "var(--font-dm-serif-display)",
+        fontSize: "18px",
+        fontWeight: 400,
+        lineHeight: 1.3,
+        color: "var(--text)",
+        margin: 0,
+      }}>
+        {children}
+      </p>
+    </div>
+  );
+}
+
 // ─── Callout ──────────────────────────────────────────────────────────────────
 
-export function Callout({ children, label }: { children: React.ReactNode; label?: string }) {
+export function Callout({ children, label, info }: { children: React.ReactNode; label?: string; info?: boolean }) {
+  if (info) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          alignItems: "flex-start",
+          gap: "10px",
+          borderTop: "1px solid var(--border)",
+          borderBottom: "1px solid var(--border)",
+          padding: "12px 0",
+          margin: "24px 0",
+        }}
+      >
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" style={{ flexShrink: 0, marginTop: "2px", opacity: 0.4 }}>
+          <circle cx="8" cy="8" r="7" stroke="currentColor" strokeWidth="1.5"/>
+          <path d="M8 7v5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+          <circle cx="8" cy="4.5" r="0.75" fill="currentColor"/>
+        </svg>
+        <p style={{ fontFamily: "var(--font-dm-sans)", fontSize: "13px", lineHeight: 1.6, color: "var(--text-muted)", margin: 0, opacity: 0.7 }}>
+          {children}
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div
       style={{
@@ -234,150 +281,6 @@ export function SectionLabel({ children }: { children: React.ReactNode }) {
   );
 }
 
-// ─── Image ────────────────────────────────────────────────────────────────────
-
-export function CaseImage({
-  src,
-  alt,
-  caption,
-}: {
-  src: string;
-  alt: string;
-  caption?: string;
-}) {
-  const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    if (!open) return;
-    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [open]);
-
-  return (
-    <>
-      <div style={{ marginBottom: "32px", cursor: "zoom-in" }} onClick={() => setOpen(true)}>
-        <img
-          src={src}
-          alt={alt}
-          style={{ width: "100%", height: "auto", borderRadius: "8px", border: "1px solid var(--border)", display: "block" }}
-        />
-        {caption && (
-          <p style={{ fontFamily: "var(--font-dm-mono)", fontSize: "11px", letterSpacing: "0.04em", color: "var(--text-muted)", margin: "8px 0 0" }}>
-            {caption}
-          </p>
-        )}
-      </div>
-      {open && (
-        <div
-          onClick={() => setOpen(false)}
-          style={{ position: "fixed", inset: 0, zIndex: 9999, background: "rgba(0,0,0,0.55)", backdropFilter: "blur(20px) saturate(0.8)", WebkitBackdropFilter: "blur(20px) saturate(0.8)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "24px", cursor: "zoom-out" }}
-        >
-          <img src={src} alt={alt} style={{ maxWidth: "100%", maxHeight: "85vh", borderRadius: "8px", boxShadow: "0 24px 80px rgba(0,0,0,0.4)", display: "block" }} onClick={e => e.stopPropagation()} />
-          {alt && <p style={{ fontFamily: "var(--font-dm-mono)", fontSize: "12px", letterSpacing: "0.06em", color: "rgba(255,255,255,0.5)", marginTop: "16px" }}>{alt}</p>}
-        </div>
-      )}
-    </>
-  );
-}
-
-// ─── Image grid ───────────────────────────────────────────────────────────────
-
-export function ImageGrid({
-  images,
-  columns = 2,
-}: {
-  images: { src: string; alt: string }[];
-  columns?: 2 | 3;
-}) {
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
-  const close = useCallback(() => setActiveIndex(null), []);
-  const prev = useCallback(() => setActiveIndex(i => i !== null ? (i - 1 + images.length) % images.length : null), [images.length]);
-  const next = useCallback(() => setActiveIndex(i => i !== null ? (i + 1) % images.length : null), [images.length]);
-
-  useEffect(() => {
-    if (activeIndex === null) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") close();
-      if (e.key === "ArrowLeft") prev();
-      if (e.key === "ArrowRight") next();
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [activeIndex, close, prev, next]);
-
-  const active = activeIndex !== null ? images[activeIndex] : null;
-
-  return (
-    <>
-      <div style={{ display: "grid", gridTemplateColumns: `repeat(${columns}, 1fr)`, gap: "12px", marginBottom: "32px" }}>
-        {images.map((img, i) => (
-          <button key={i} onClick={() => setActiveIndex(i)} style={{ display: "block", padding: 0, background: "none", border: "none", cursor: "zoom-in", borderRadius: "8px", overflow: "hidden" }}>
-            <img src={img.src} alt={img.alt} style={{ width: "100%", height: "auto", display: "block", borderRadius: "8px", border: "1px solid var(--border)" }} />
-          </button>
-        ))}
-      </div>
-      {active && (
-        <div onClick={close} style={{ position: "fixed", inset: 0, zIndex: 9999, background: "rgba(0,0,0,0.55)", backdropFilter: "blur(20px) saturate(0.8)", WebkitBackdropFilter: "blur(20px) saturate(0.8)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "24px", cursor: "zoom-out" }}>
-          <img src={active.src} alt={active.alt} style={{ maxWidth: "100%", maxHeight: "80vh", borderRadius: "8px", boxShadow: "0 24px 80px rgba(0,0,0,0.4)", display: "block" }} onClick={e => e.stopPropagation()} />
-          <div onClick={e => e.stopPropagation()} style={{ display: "flex", alignItems: "center", gap: "24px", marginTop: "20px" }}>
-            <button onClick={prev} style={{ background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.15)", borderRadius: "6px", color: "rgba(255,255,255,0.8)", fontFamily: "var(--font-dm-mono)", fontSize: "13px", padding: "6px 14px", cursor: "pointer" }}>←</button>
-            <span style={{ fontFamily: "var(--font-dm-mono)", fontSize: "12px", letterSpacing: "0.06em", color: "rgba(255,255,255,0.6)", textAlign: "center" }}>
-              {active.alt}<span style={{ opacity: 0.4, marginLeft: "12px" }}>{(activeIndex ?? 0) + 1} / {images.length}</span>
-            </span>
-            <button onClick={next} style={{ background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.15)", borderRadius: "6px", color: "rgba(255,255,255,0.8)", fontFamily: "var(--font-dm-mono)", fontSize: "13px", padding: "6px 14px", cursor: "pointer" }}>→</button>
-          </div>
-        </div>
-      )}
-    </>
-  );
-}
-
-// ─── Slideshow ────────────────────────────────────────────────────────────────
-
-export function Slideshow({ images }: { images: { src: string; alt: string }[] }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const isDragging = useRef(false);
-  const startX = useRef(0);
-  const scrollLeft = useRef(0);
-
-  const onMouseDown = (e: React.MouseEvent) => {
-    if (!ref.current) return;
-    isDragging.current = true;
-    startX.current = e.pageX - ref.current.offsetLeft;
-    scrollLeft.current = ref.current.scrollLeft;
-    ref.current.style.cursor = "grabbing";
-  };
-  const onMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging.current || !ref.current) return;
-    e.preventDefault();
-    const x = e.pageX - ref.current.offsetLeft;
-    ref.current.scrollLeft = scrollLeft.current - (x - startX.current) * 1.2;
-  };
-  const onMouseUp = () => {
-    isDragging.current = false;
-    if (ref.current) ref.current.style.cursor = "grab";
-  };
-
-  return (
-    <div
-      ref={ref}
-      className="no-scrollbar"
-      onMouseDown={onMouseDown}
-      onMouseMove={onMouseMove}
-      onMouseUp={onMouseUp}
-      onMouseLeave={onMouseUp}
-      style={{ overflowX: "auto", display: "flex", gap: "12px", scrollSnapType: "x mandatory", paddingBottom: "16px", marginBottom: "24px", cursor: "grab", userSelect: "none" }}
-    >
-      {images.map((img, i) => (
-        <div key={i} style={{ flexShrink: 0, width: "82%", scrollSnapAlign: "start" }}>
-          <img src={img.src} alt={img.alt} draggable={false} style={{ width: "100%", height: "auto", borderRadius: "8px", border: "1px solid var(--border)", display: "block" }} />
-        </div>
-      ))}
-    </div>
-  );
-}
-
 // ─── Comparison ───────────────────────────────────────────────────────────────
 
 interface ComparisonSide {
@@ -413,6 +316,70 @@ export function Comparison({ before, after }: { before: ComparisonSide; after: C
       {renderSide(before, true)}
       {renderSide(after, false)}
     </div>
+  );
+}
+
+// ─── Visual placeholder ───────────────────────────────────────────────────────
+
+export function Visual({ name, description }: { name: string; description?: string }) {
+  return (
+    <div
+      style={{
+        border: "1px dashed var(--border)",
+        borderRadius: "8px",
+        padding: "32px 24px",
+        margin: "32px 0",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: "6px",
+        textAlign: "center",
+        minHeight: "120px",
+      }}
+    >
+      <p style={{ fontFamily: "var(--font-dm-mono)", fontSize: "10px", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--text-muted)", opacity: 0.4, margin: 0 }}>
+        Visual
+      </p>
+      <p style={{ fontFamily: "var(--font-dm-mono)", fontSize: "12px", letterSpacing: "0.04em", color: "var(--text-muted)", margin: 0, opacity: 0.6 }}>
+        {name}
+      </p>
+      {description && (
+        <p style={{ fontFamily: "var(--font-dm-sans)", fontSize: "12px", color: "var(--text-muted)", margin: "4px 0 0", opacity: 0.45, maxWidth: "480px", lineHeight: 1.5 }}>
+          {description}
+        </p>
+      )}
+    </div>
+  );
+}
+
+// ─── Article card ─────────────────────────────────────────────────────────────
+
+export function ArticleCard({ href, label, description, image, imageBg }: { href: string; label: string; description?: string; image?: string; imageBg?: string }) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      style={{ display: "flex", alignItems: "center", gap: "16px", padding: "16px", background: "var(--bg-card)", border: "1px solid var(--border)", borderRadius: "8px", textDecoration: "none", margin: "32px 0" }}
+    >
+      {image && (
+        <div style={{ flexShrink: 0, width: "80px", height: "52px", borderRadius: "5px", overflow: "hidden", border: "1px solid var(--border)", background: imageBg ?? "transparent", display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <img src={image} alt="" style={{ width: "100%", height: "100%", objectFit: imageBg ? "contain" : "cover", display: "block", padding: imageBg ? "6px" : "0" }} />
+        </div>
+      )}
+      <div style={{ flex: 1, minWidth: 0 }}>
+        {description && (
+          <p style={{ fontFamily: "var(--font-dm-mono)", fontSize: "10px", letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--text-muted)", margin: "0 0 4px", opacity: 0.6 }}>
+            {description}
+          </p>
+        )}
+        <p style={{ fontFamily: "var(--font-dm-sans)", fontSize: "14px", color: "var(--text)", margin: 0, lineHeight: 1.4 }}>
+          {label}
+        </p>
+      </div>
+      <ArrowRight size={14} strokeWidth={1.5} style={{ flexShrink: 0, color: "var(--text-muted)", opacity: 0.5 }} />
+    </a>
   );
 }
 
