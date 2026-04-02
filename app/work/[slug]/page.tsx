@@ -16,6 +16,14 @@ import {
   Slideshow,
   Comparison,
   CaseLink,
+  ArticleCard,
+  Visual,
+  AutomationFunnel,
+  RepoFanout,
+  SystemModel,
+  HybridModel,
+  NumberedList,
+  Pullquote,
 } from "@/components/mdx-components";
 
 const mdxComponents = {
@@ -28,6 +36,14 @@ const mdxComponents = {
   Slideshow,
   Comparison,
   CaseLink,
+  ArticleCard,
+  Visual,
+  AutomationFunnel,
+  RepoFanout,
+  SystemModel,
+  HybridModel,
+  NumberedList,
+  Pullquote,
 };
 
 export function generateStaticParams() {
@@ -67,11 +83,10 @@ export default async function WorkPage({
   // MDX-first: if a content file exists, render it
   const mdx = getMdxCaseStudy(slug);
   if (mdx) {
-    const content = <MDXRemote source={mdx.source} components={mdxComponents} />;
     return (
       <div style={{ minHeight: "100vh", background: "var(--bg)", color: "var(--text)" }}>
         <MdxCaseStudyContent frontmatter={mdx.frontmatter} slug={slug}>
-          {content}
+          <MDXRemote source={mdx.source} components={mdxComponents} options={{ blockJS: false }} />
         </MdxCaseStudyContent>
         <Footer />
       </div>
