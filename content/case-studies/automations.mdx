@@ -15,25 +15,19 @@ Automations transformed how the engineering organization managed global changes,
 
 <Metrics items={[{ value: "36K+", label: "Executions (5 months)", trend: "up" }, { value: "99.7%", label: "Completed executions" }, { value: "~2.5%", label: "Required review" }, { value: "9×", label: "Month over month growth", trend: "up" }]} />
 
-<SectionLabel>Context</SectionLabel>
+<SectionLabel>The problem</SectionLabel>
 
-By 2025, AI was finally good at generating code. You could hand a ticket to an agent, get a fix, and ship a PR in minutes. This worked for a single repository, but the model collapsed when the same change needed to be applied to 500 repos at once.
+By 2025, AI was good at generating code. You could hand a ticket to an agent, get a fix, and ship a PR in minutes. Distributing that fix across 500 repos was still a manual problem.
 
-Teams were losing months to work that was technically simple but logistically cumbersome. They often had the fix for a critical vulnerability or a library migration, but distributing that change across many repos remained a manual process. This meant chasing down hundreds of individual repo owners, babysitting broken CI pipelines, and managing the rollout in Linear or Jira. 
+Teams were losing months to work that was technically simple but logistically cumbersome. They had the fix for a critical vulnerability or a library migration, but getting that change across hundreds of repos remained a manual process. This meant chasing down individual repo owners, babysitting CI pipelines, and managing the rollout in Linear or Jira. The same story played out with dependency bumps, compliance fixes, and security patches. Solved problems that were just expensive to ship everywhere.
 
-This is where Ona Automations comes in. This new product feature allowed teams to move away from using agents for isolated tasks and instead rethink what work they could actually hand off to Ona. The goal was to consolidate all that scattered, manual overhead into a single automated process. Turning efforts like a multi-month migration into a task that a single platform engineer could oversee in an afternoon.
+This came up in nearly every customer conversation. Blackstone, Kingland, and Roche all described the same friction.
 
 <RepoFanout />
 
-<SectionLabel>The problem: Scaling a fix</SectionLabel>
+A great example of this is a company migrating from Node 22 to Node 24. For one repo the effort takes an afternoon, but expand that to 100 repos and the real cost appears. You have to update each repo, validate that nothing broke, and track what is done versus what still needs attention. That is months of engineering time spent on work nobody wants to do.
 
-While meeting with customers and diving into their workflows, a consistent theme emerged. Teams did use AI to solve problems, but when it came to applying a solution across many repos, in some cases 1,000 repos, that is where they experienced the most pain.
-
-If you look at how we use agents today, the process is designed around a single linear loop: find a task, generate a solution, review it, and ship it.  This works for isolated problems, but the time cost multiplies when you scale the scope of that work. For example, migrating your company from Node 22 to Node 24 might only take an afternoon to figure out, but the real cost is everything around it. You have to update each repo, validate that nothing broke, and track what is done versus what still needs attention.
-
-That is months of engineering time spent on work nobody wants to do. The same story plays out with dependency bumps, compliance fixes, and security patches. These are solved problems that are just expensive to ship everywhere.
-
-That pushed the design question in a different direction. It became less about helping an engineer finish a task and more about letting them define a change once, so it runs across the whole codebase.  For engineers, this removes the drag of repetitive work, allowing them to focus on problems that actually require judgment. At that point, agents are not just accelerating individual work. They are changing how the team operates at scale.
+This pointed to an opportunity. Instead of focusing only on finishing one task, we could let engineers define a change once and have it run across their whole codebase. This removes the repetitive work and frees engineering teams up to solve bigger problems. All by enabling Agents to start changing how the entire team operates.
 
 <SectionLabel>The approach</SectionLabel>
 
