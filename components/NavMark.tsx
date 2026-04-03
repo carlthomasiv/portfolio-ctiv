@@ -84,10 +84,9 @@ export function NavMark({ onExpandChange }: NavMarkProps = {}) {
         requestAnimationFrame(() => setAnimate(true));
       });
       if (isMobileRef.current) {
-        // Auto-expand → auto-collapse so both directions of the animation are shown
+        // Auto-expand on load and stay expanded — no collapse on mobile
         mobileTimer.current = setTimeout(() => {
           setExpandedWithCallback(true);
-          mobileTimer.current = setTimeout(() => setExpandedWithCallback(false), 2000);
         }, MOBILE_DELAY_MS);
       }
     });
@@ -116,13 +115,8 @@ export function NavMark({ onExpandChange }: NavMarkProps = {}) {
   }
 
   function handleTap() {
-    if (!isMobileRef.current || !widths) return;
-    // Clear any pending auto-collapse timers before toggling
-    if (mobileTimer.current) {
-      clearTimeout(mobileTimer.current);
-      mobileTimer.current = null;
-    }
-    setExpandedWithCallback((prev) => !prev);
+    // On mobile, tapping navigates via the Link wrapper — don't toggle
+    return;
   }
 
   const duration = expanded ? EXPAND_MS : COLLAPSE_MS;
