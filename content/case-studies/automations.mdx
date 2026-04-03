@@ -84,7 +84,7 @@ This hybrid approach creates a clear boundary between flexibility and control. B
 
 At scale, showing every successful log is just noise. I designed the reporting to treat success as the baseline and aggressively surface only the 10% that need attention. Whether it is a broken CI pipeline or a merge conflict the agent could not resolve, these outliers are promoted to the top of the list. This turns a multi-week manual audit into a 20-minute triage session.
 
-<CaseImage src="/images/work/automations/Execution list.png" alt="Execution list showing run statuses at a glance — success, failure, and in-progress" caption="Execution list — run status across all repositories at a glance" />
+<CaseImage src="/images/work/automations/Execution list.png" alt="Execution list showing run statuses at a glance — success, failure, and in-progress" caption="Execution list: Statuses of all current and previous executions" />
 
 ## Execution reports and sampling
 
@@ -102,7 +102,7 @@ Failures are inevitable at scale, so the design treats them as entry points rath
 
 I designed this hand-off to allow engineers to step directly into the context where the agent stopped. By entering the Action ID into a new Ona conversation, the user can inspect the full logs, see exactly where the logic diverged, and manually unblock the process. This shifts the engineer's role from babysitting scripts to performing high-level triage on the few cases that require human judgment.
 
-<Slideshow images={[{ src: "/images/work/automations/2.3b.1 [Proposal] Automations_ Breadcrumbs - Execution Details.png", alt: "Execution details with a failed step highlighted", caption: "Execution Report: Failed action and its steps" }, { src: "/images/work/automations/2 - Failure -- full convo.png", alt: "Full conversation log for the failed execution", caption: "1. Execution Report: Failed action and it's full conversation" }, { src: "/images/work/automations/3 - Failure -- copy actoin id.png", alt: "Execution Report: Failed action - Copying the action ID", caption: "2. Execution Report: Failed action - Copying the action ID" }, { src: "/images/work/automations/4 - Failure -- convo to look into the issue.png", alt: "3. Conversation: Using the action ID in an Ona conversation to troubleshoot", caption: "3. Conversation: Using the action ID in an Ona conversation to troubleshoot" }]} />
+<Slideshow images={[{ src: "/images/work/automations/2.3b.1 [Proposal] Automations_ Breadcrumbs - Execution Details.png", alt: "Execution details with a failed step highlighted", caption: "1. Execution Report: Failed action and its steps" }, { src: "/images/work/automations/2 - Failure -- full convo.png", alt: "Full conversation log for the failed execution", caption: "2. Execution Report: Failed action and it's full conversation" }, { src: "/images/work/automations/3 - Failure -- copy actoin id.png", alt: "Execution Report: Failed action - Copying the action ID", caption: "3. Execution Report: Failed action - Copying the action ID" }, { src: "/images/work/automations/4 - Failure -- convo to look into the issue.png", alt: "Conversation: Using the action ID in an Ona conversation to troubleshoot", caption: "4. Conversation: Using the action ID in an Ona conversation to troubleshoot" }]} />
 
 <SectionLabel>Reducing the cost of starting</SectionLabel>
 
