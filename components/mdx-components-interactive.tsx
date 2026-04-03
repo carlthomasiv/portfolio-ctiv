@@ -738,7 +738,7 @@ export function ImageGrid({
 
 // ─── Slideshow (drag-scroll) ──────────────────────────────────────────────────
 
-export function Slideshow({ images }: { images: { src: string; alt: string }[] }) {
+export function Slideshow({ images }: { images: { src: string; alt: string; caption?: string }[] }) {
   const ref = useRef<HTMLDivElement>(null);
   const isDragging = useRef(false);
   const startX = useRef(0);
@@ -775,6 +775,11 @@ export function Slideshow({ images }: { images: { src: string; alt: string }[] }
       {images.map((img, i) => (
         <div key={i} style={{ flexShrink: 0, width: "82%", scrollSnapAlign: "start" }}>
           <img src={img.src} alt={img.alt} draggable={false} style={{ width: "100%", height: "auto", borderRadius: "8px", border: "1px solid var(--border)", display: "block" }} />
+          {img.caption && (
+            <p style={{ fontFamily: "var(--font-dm-mono)", fontSize: "11px", letterSpacing: "0.04em", color: "var(--text-muted)", margin: "8px 0 0" }}>
+              {img.caption}
+            </p>
+          )}
         </div>
       ))}
     </div>
