@@ -127,7 +127,7 @@ export function ResumeContent() {
       <div className="max-w-5xl mx-auto">
 
         {/* Header */}
-        <section style={{ paddingTop: "80px", paddingBottom: "48px" }}>
+        <section style={{ paddingTop: "clamp(40px, 6vw, 80px)", paddingBottom: "48px" }}>
           <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", flexWrap: "wrap", gap: "24px" }}>
             <motion.div
               initial={{ opacity: 0, y: 10 }}

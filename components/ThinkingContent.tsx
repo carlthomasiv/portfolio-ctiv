@@ -311,7 +311,7 @@ export function ThinkingContent() {
       <div className="max-w-5xl mx-auto">
 
         {/* Header */}
-        <section style={{ paddingTop: "80px", paddingBottom: "64px" }}>
+        <section style={{ paddingTop: "clamp(40px, 6vw, 80px)", paddingBottom: "64px" }}>
           <motion.p
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}

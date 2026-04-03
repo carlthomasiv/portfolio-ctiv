@@ -178,7 +178,7 @@ export function WorkIndex() {
       <div className="max-w-5xl mx-auto">
 
         {/* Page header — no entrance animation, just present */}
-        <section style={{ paddingTop: "80px", paddingBottom: "40px" }}>
+        <section style={{ paddingTop: "clamp(40px, 6vw, 80px)", paddingBottom: "40px" }}>
           <p
             style={{
               fontFamily: "var(--font-dm-mono)",

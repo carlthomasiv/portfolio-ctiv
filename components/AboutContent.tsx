@@ -76,20 +76,20 @@ export function AboutContent() {
       <div className="max-w-5xl mx-auto">
 
         {/* Opening */}
-        <section style={{ paddingTop: "80px", paddingBottom: "32px" }}>
-          <div className="grid grid-cols-1 md:grid-cols-[260px_1fr] gap-6 md:gap-12 items-stretch">
+        <section style={{ paddingTop: "clamp(40px, 6vw, 80px)", paddingBottom: "32px" }}>
+          <div className="grid grid-cols-1 md:grid-cols-[320px_1fr] gap-6 md:gap-12 items-stretch">
             {/* Photo — above on mobile (natural DOM order), left on desktop */}
             <motion.div
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.15, duration: 0.7, ease: EASE }}
-              className="rounded-lg overflow-hidden relative [aspect-ratio:3/2] md:[aspect-ratio:auto] md:min-h-[320px]"
+              className="rounded-lg overflow-hidden relative [aspect-ratio:4/5] md:[aspect-ratio:auto] md:min-h-[360px]"
             >
               <Image
                 src="/images/headshot.jpg"
                 alt="Carl Thomas"
                 fill
-                style={{ objectFit: "cover", objectPosition: "center 8%" }}
+                style={{ objectFit: "cover", objectPosition: "center top" }}
                 quality={95}
                 priority
               />
