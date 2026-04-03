@@ -60,7 +60,7 @@ I didn't adhere to a specific method during the exploration phase, but typically
 
 Through this process, I generated hundreds of screens and was able to narrow down a few major directions that resonated most. Around this time, I began sharing the screens with other people within the company and some customers to gather feedback and additional insights.
 
-<CaseImage src="/images/work/automations/figma-screenshot.png" alt="Exploration screens from the design process" caption="Exploration screens and rapid prototypes from the design process" />
+<CaseImage src="/images/work/automations/figma-screenshot.png" alt="Figma explorations" caption="Exploration screens and rapid prototypes from the design process" />
 
 Ultimately, I focused in on node maps. This type of experience would allow users to see how the automation will work and fine tune it to their needs. Here they could choose when Ona can trigger an automation (scheduled, manual, webhook), when an Ona loop or non-deterministic solution is needed, when a script is needed, and at what point to either kill an automation or push a change for review.
 
@@ -94,7 +94,7 @@ Early adoption data reflected a clear confidence gap. While the system was techn
 
 I designed the Execution Reports to close this gap. By introducing sampling, the UI surfaces representative runs first. This allows engineers to validate agent behavior and command outputs in real-time before committing to a full-scale merge. As that visibility became the baseline, monthly automation volume grew 9x from launch to month five. Providing a verifiable history turned the system from an experimental tool into a trusted part of the daily engineering workflow.
 
-<Slideshow images={[{ src: "/images/work/automations/2.2 [Proposal] Automations_ Breadcrumbs - Execution Details.png", alt: "Execution details showing sampled runs, status, and what needs review", caption: "Execution report — sampled runs surfacing status and what needs review" }, { src: "/images/work/automations/2.3b.1 [Proposal] Automations_ Breadcrumbs - Execution Details.png", alt: "Drilling into a failed execution to understand and continue the work", caption: "Drilling into a failed execution to understand and continue the work" }]} />
+<Slideshow images={[{ src: "/images/work/automations/2.2 [Proposal] Automations_ Breadcrumbs - Execution Details.png", alt: "Execution details showing sampled runs, status, and what needs review", caption: "1. Execution Report: viewing runs and their status" }, { src: "/images/work/automations/2.3b.1 [Proposal] Automations_ Breadcrumbs - Execution Details.png", alt: "Drilling into a failed execution", caption: "2. Execution Report: Drilling into a failed execution" }]} />
 
 ## Debugging with Ona
 
@@ -102,7 +102,7 @@ Failures are inevitable at scale, so the design treats them as entry points rath
 
 I designed this hand-off to allow engineers to step directly into the context where the agent stopped. By entering the Action ID into a new Ona conversation, the user can inspect the full logs, see exactly where the logic diverged, and manually unblock the process. This shifts the engineer's role from babysitting scripts to performing high-level triage on the few cases that require human judgment.
 
-<Slideshow images={[{ src: "/images/work/automations/2.3b.1 [Proposal] Automations_ Breadcrumbs - Execution Details.png", alt: "Execution details with a failed step highlighted", caption: "Execution details with a failed step highlighted for triage" }, { src: "/images/work/automations/2 - Failure -- full convo.png", alt: "Full conversation log for the failed execution", caption: "Full conversation log — complete trace of what the agent did and where it stopped" }, { src: "/images/work/automations/3 - Failure -- copy actoin id.png", alt: "Copying the action ID to investigate or escalate", caption: "Copying the Action ID to carry the execution context into a new conversation" }, { src: "/images/work/automations/4 - Failure -- convo to look into the issue.png", alt: "Using the action ID in an Ona conversation to investigate the failure", caption: "Entering the Action ID in Ona to step into the exact state where the agent stopped" }]} />
+<Slideshow images={[{ src: "/images/work/automations/2.3b.1 [Proposal] Automations_ Breadcrumbs - Execution Details.png", alt: "Execution details with a failed step highlighted", caption: "Execution Report: Failed action and its steps" }, { src: "/images/work/automations/2 - Failure -- full convo.png", alt: "Full conversation log for the failed execution", caption: "1. Execution Report: Failed action and it's full conversation" }, { src: "/images/work/automations/3 - Failure -- copy actoin id.png", alt: "Execution Report: Failed action - Copying the action ID", caption: "2. Execution Report: Failed action - Copying the action ID" }, { src: "/images/work/automations/4 - Failure -- convo to look into the issue.png", alt: "3. Conversation: Using the action ID in an Ona conversation to troubleshoot", caption: "3. Conversation: Using the action ID in an Ona conversation to troubleshoot" }]} />
 
 <SectionLabel>Reducing the cost of starting</SectionLabel>
 
@@ -112,7 +112,7 @@ I saw a strategic opportunity to transition the entry point from a blank canvas 
 
 Templates also gave Ona a way to embed expertise directly in the product. Common patterns come pre-configured by the people who know the system best. Engineers get a running start, and the flexibility is still there when they need to go deeper.
 
-<CaseImage src="/images/work/automations/Templates-upgrade-view.png" alt="Template selection alongside existing automations, providing pre-configured starting points" caption="Template library alongside active automations — pre-configured starting points for common workflows" />
+<CaseImage src="/images/work/automations/Templates-upgrade-view.png" alt="Template selection alongside existing automations, providing pre-configured starting points" caption="Automations: Templates and suggestions" />
 
 
 <SectionLabel>Kingland Case Study: Accelerating onboarding and productivity</SectionLabel>
