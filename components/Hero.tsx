@@ -93,10 +93,9 @@ export function Hero() {
             margin: 0,
           }}
         >
-          I&apos;m Carl Thomas, a design leader with a decade at the
-          infrastructure layer. Currently at Ona, building the interface between
-          developers and their AI agents. Before that: Neon, Kong, Postman,
-          Google, Microsoft.
+          I&apos;m Carl Thomas, a design leader with a decade building tools for
+          developers and AI agents. Currently leading design at Ona. Before
+          that: Neon, Kong, Postman, Google, Microsoft.
         </motion.p>
 
       </div>
