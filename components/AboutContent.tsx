@@ -36,6 +36,12 @@ const experience = [
 
 const publications = [
   {
+    title: "Designing for Collaboration: How we rethought Ona conversations",
+    role: "Author",
+    publisher: "Ona",
+    href: "https://ona.com/stories/redesigning-ona-conversations",
+  },
+  {
     title: "Designing Automations: a new operating model for engineering at scale",
     role: "Author",
     publisher: "Ona",

@@ -84,6 +84,14 @@ const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 const publications = [
   {
+    title: "Designing for Collaboration: How we rethought Ona conversations",
+    description: "How we stripped away the noise so you and the agent can focus on the same goal.",
+    role: "Author",
+    publisher: "Ona",
+    year: "2025",
+    href: "https://ona.com/stories/redesigning-ona-conversations",
+  },
+  {
     title: "Designing Automations: a new operating model for engineering at scale",
     description: "How agent-native workflows change the interface contract between humans and the systems they build — and what that means for the designers shaping those environments.",
     role: "Author",
