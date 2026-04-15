@@ -148,7 +148,7 @@ export function AboutContent() {
                   margin: "0 0 20px",
                 }}
               >
-                When the user is an expert and the systems are genuinely complex, clarity isn't just good design. It's the product. Thirteen years at that seam: developer tools, AI platforms, cloud infrastructure, and the interfaces engineers trust to work.
+                I&apos;m an Austinite with a deep passion for design. I&apos;ve spent my career in the developer tool space humanizing complex systems. From agentic AI to fine-tuned developer toolkits.
               </motion.p>
 
               <motion.p
@@ -160,10 +160,25 @@ export function AboutContent() {
                   fontSize: "15px",
                   lineHeight: 1.75,
                   color: "var(--text-muted)",
+                  margin: "0 0 20px",
+                }}
+              >
+                I believe good design is about folding complexity, not hiding it. Building for your customer, not yourself. And that speed only matters if you can react to what users tell you with the same energy you shipped with.
+              </motion.p>
+
+              <motion.p
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.35, duration: 0.6, ease: EASE }}
+                style={{
+                  fontFamily: "var(--font-dm-sans)",
+                  fontSize: "15px",
+                  lineHeight: 1.75,
+                  color: "var(--text-muted)",
                   margin: "0 0 28px",
                 }}
               >
-                When I'm not at the keyboard, I'm building furniture or cooking something that takes longer than it should. Both teach the same lesson: knowing when something is done.
+                When I&apos;m not working, I&apos;m usually hiking, traveling, cooking, or woodworking. I love finding new coffee spots and exploring how different cultures approach food. Most weekends you&apos;ll find me doing all of the above with my wife and two dogs.
               </motion.p>
 
               <motion.p
