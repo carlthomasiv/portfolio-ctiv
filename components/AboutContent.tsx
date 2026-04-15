@@ -133,7 +133,7 @@ export function AboutContent() {
                   letterSpacing: "-0.01em",
                 }}
               >
-                The most interesting design problems live at the infrastructure layer.
+                Great design for complex systems doesn&apos;t just simplify them. It makes them feel human.
               </motion.h1>
 
               <motion.p
