@@ -75,8 +75,8 @@ export function Hero() {
             margin: 0,
           }}
         >
-          Most AI products are designed for the moment of wonder. I&apos;m more
-          interested in what happens after.
+          I build for the reality beyond the demo. I design the systems that
+          turn complex technology into human agency.
         </motion.h1>
 
         {/* Intro */}
