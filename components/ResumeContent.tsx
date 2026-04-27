@@ -8,13 +8,15 @@ const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 const experience = [
   {
-    role: "Product Designer",
+    role: "Principal Product Designer & Technologist",
     company: "Ona",
     period: "Aug 2025 – Present",
-    location: "Remote",
+    location: "Austin, TX (Remote)",
     bullets: [
-      "Designing the interface layer between developers and their AI agents. Multi-agent workflows that are navigable, environments that are instantly ready.",
-      "Working out what developer control looks like when the loop includes an AI. How to keep humans in command without slowing them down.",
+      "Spearheaded the redesign of Ona Conversations, pivoting from a chat interface to a scalable multi-agent orchestration experience; optimized architecture to prune 2,000+ lines of legacy code and achieved a 13.6% reduction in execution runtime with a 17.8% lift in daily throughput within 14 days.",
+      "Launched Ona Automations, transforming usage into a high-leverage layer. Achieved 99.7% execution rate over 15k+ runs, reclaiming 3,800 hours by automating audits into 20-minute sessions.",
+      "Architected and launched a comprehensive Design System to align engineering on code standards and craft; accelerated frontend velocity by 35% and ensured 1:1 brand parity across the entire Ona ecosystem.",
+      "Operated as a Design Technologist bridging design and production; implemented production Next.js and Tailwind CSS code to resolve UI paper cuts and ship high-fidelity features, directly accelerating sprint velocity and technical alignment.",
     ],
   },
   {
@@ -147,7 +149,7 @@ export function ResumeContent() {
                 Carl Thomas
               </h1>
               <p style={{ fontFamily: "var(--font-dm-sans)", fontSize: "15px", color: "var(--text-muted)", margin: "0 0 16px" }}>
-                Product Design Leader
+                Principal Product Designer & Technologist
               </p>
               <p style={{ fontFamily: "var(--font-dm-mono)", fontSize: "12px", letterSpacing: "0.04em", color: "var(--text-muted)" }}>
                 carlthomasiv@gmail.com · Austin, TX
