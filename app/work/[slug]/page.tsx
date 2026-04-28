@@ -24,6 +24,7 @@ import {
   HybridModel,
   NumberedList,
   Pullquote,
+  UseCaseSplit,
 } from "@/components/mdx-components";
 
 const mdxComponents = {
@@ -44,6 +45,7 @@ const mdxComponents = {
   HybridModel,
   NumberedList,
   Pullquote,
+  UseCaseSplit,
 };
 
 export function generateStaticParams() {

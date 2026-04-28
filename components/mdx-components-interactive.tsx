@@ -637,6 +637,121 @@ export function NumberedList({ items }: { items: { label: string; description: s
   );
 }
 
+// ─── Use case split ──────────────────────────────────────────────────────────
+
+export function UseCaseSplit() {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-60px" });
+  const EASE_LOCAL: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
+  // SVG donut via strokes
+  const r = 36;
+  const sw = 13;
+  const C = 2 * Math.PI * r; // ≈ 226.2
+  const gap = 4; // px gap between segments
+  const seg1 = 0.65 * C - gap;
+  const seg2 = 0.35 * C - gap;
+  // Segment 2 rotation: -90° (start at top) + 65% × 360° = 144°
+  const seg2Rot = -90 + 0.65 * 360;
+
+  const segments = [
+    { label: "Code review", pct: "65%", runs: "10,067 runs", primary: true },
+    { label: "Migrations & CVEs", pct: "35%", runs: "~5,400 runs", primary: false },
+  ];
+
+  return (
+    <div ref={ref} style={{ margin: "8px 0 40px" }}>
+      <div className="grid grid-cols-1 md:grid-cols-[1fr_164px]" style={{ gap: "32px 48px", alignItems: "center" }}>
+
+        {/* Text — left column */}
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }}
+          transition={{ duration: 0.5, ease: EASE_LOCAL }}
+          style={{ display: "flex", flexDirection: "column", gap: "16px" }}
+        >
+          {([
+            <>We built the templates around library upgrades and security patches. That turned out not to be how people used it.</>,
+            <><strong style={{ fontFamily: "var(--font-dm-serif-display)", fontWeight: 400, color: "var(--text)", fontSize: "1.08em" }}>65% of executions</strong>, <strong style={{ fontFamily: "var(--font-dm-serif-display)", fontWeight: 400, color: "var(--text)", fontSize: "1.08em" }}>over 10,000 runs</strong>, were code review. Not CVE fixes or compliance patches. Engineers found a way to run Ona on every PR and just kept doing it.</>,
+            <><strong style={{ fontFamily: "var(--font-dm-serif-display)", fontWeight: 400, color: "var(--text)", fontSize: "1.08em" }}>88 organizations</strong> skipped templates and built from scratch, adapting the primitives to workflows we hadn&apos;t anticipated.</>,
+            <>That shifted the roadmap. Continuous background review became the next thing to design for.</>,
+          ] as React.ReactNode[]).map((text, i) => (
+            <motion.p
+              key={i}
+              initial={{ opacity: 0, y: 6 }}
+              animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 6 }}
+              transition={{ duration: 0.45, delay: i * 0.07, ease: EASE_LOCAL }}
+              style={{ fontFamily: "var(--font-dm-sans)", fontSize: "15px", lineHeight: 1.75, color: "var(--text-muted)", margin: 0 }}
+            >
+              {text}
+            </motion.p>
+          ))}
+        </motion.div>
+
+        {/* Chart — right column */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={inView ? { opacity: 1 } : { opacity: 0 }}
+          transition={{ duration: 0.5, delay: 0.2, ease: EASE_LOCAL }}
+          style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "20px" }}
+        >
+          {/* Donut */}
+          <svg viewBox="0 0 100 100" style={{ width: "100%", maxWidth: "160px", overflow: "visible" }}>
+            {/* Track */}
+            <circle cx="50" cy="50" r={r} fill="none" stroke="var(--border)" strokeWidth={sw} />
+            {/* Segment 1: 65% code review */}
+            <motion.circle
+              cx="50" cy="50" r={r} fill="none"
+              stroke="var(--text)" strokeWidth={sw}
+              strokeLinecap="butt"
+              initial={{ strokeDasharray: `0 ${C}` }}
+              animate={inView ? { strokeDasharray: `${seg1} ${C}` } : { strokeDasharray: `0 ${C}` }}
+              transition={{ duration: 0.8, ease: EASE_LOCAL }}
+              style={{ transform: "rotate(-90deg)", transformOrigin: "50px 50px" }}
+            />
+            {/* Segment 2: 35% migrations */}
+            <motion.circle
+              cx="50" cy="50" r={r} fill="none"
+              stroke="var(--text-muted)" strokeWidth={sw}
+              strokeOpacity={0.25}
+              strokeLinecap="butt"
+              initial={{ strokeDasharray: `0 ${C}` }}
+              animate={inView ? { strokeDasharray: `${seg2} ${C}` } : { strokeDasharray: `0 ${C}` }}
+              transition={{ duration: 0.8, delay: 0.1, ease: EASE_LOCAL }}
+              style={{ transform: `rotate(${seg2Rot}deg)`, transformOrigin: "50px 50px" }}
+            />
+            {/* Center label */}
+            <text x="50" y="46" textAnchor="middle" style={{ fontFamily: "var(--font-dm-serif-display)", fontSize: "18px", fill: "var(--text)" }}>65%</text>
+            <text x="50" y="58" textAnchor="middle" style={{ fontFamily: "var(--font-dm-mono)", fontSize: "7px", fill: "var(--text-muted)", letterSpacing: "0.05em" }}>CODE REVIEW</text>
+          </svg>
+
+          {/* Legend */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "8px", width: "100%" }}>
+            {segments.map((seg) => (
+              <div key={seg.label} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "8px" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "7px" }}>
+                  <div style={{
+                    width: "8px", height: "8px", borderRadius: "50%", flexShrink: 0,
+                    background: seg.primary ? "var(--text)" : "var(--text-muted)",
+                    opacity: seg.primary ? 1 : 0.3,
+                  }} />
+                  <span style={{ fontFamily: "var(--font-dm-mono)", fontSize: "10px", letterSpacing: "0.04em", color: "var(--text-muted)", lineHeight: 1.3 }}>
+                    {seg.label}
+                  </span>
+                </div>
+                <span style={{ fontFamily: "var(--font-dm-serif-display)", fontSize: "14px", color: seg.primary ? "var(--text)" : "var(--text-muted)", flexShrink: 0 }}>
+                  {seg.pct}
+                </span>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
+      </div>
+    </div>
+  );
+}
+
 // ─── Image (lightbox) ─────────────────────────────────────────────────────────
 
 export function CaseImage({

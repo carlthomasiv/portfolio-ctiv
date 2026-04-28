@@ -125,37 +125,38 @@ Using Automations, they defined the target repos, composed the steps, and ran th
 
 <SectionLabel>Outcomes</SectionLabel>
 
-Automations matured from a high-touch creation tool into a background layer of the engineering workflow. Over the first four months, trigger volume grew 10x and the intervention rate stayed under 2%. Engineers went from running cautious five-repo tests to trusting the system with their full codebase.
+Automations matured from a high-touch creation tool into a background layer of the engineering workflow. Over the first four months, trigger volume grew **10x** and the intervention rate stayed under **2%**. Engineers went from running cautious five-repo tests to trusting the system with their full codebase.
 
 <AutomationFunnel />
-
-## From active tool to background layer
-
-The lifecycle of an automation followed a clear path. Usage initially peaked during the Creation phase as engineers fine-tuned logic and verified steps. Once trust was established, the product moved into a background state, executing thousands of triggers with minimal oversight. This allowed engineers to increase their leverage by delegating the "quiet" work of the codebase, such as dependency upgrades, release coordination, and security patching, to the agent.
 
 ## Output split
 
 The platform branched its output based on the specific engineering intent:
 
 - **849 pull requests** were opened to execute active changes.
-- **2,291 reports** were surfaced to provide oversight on existing workflows. 
-This distribution proves the majority of the value came from the agent performing continuous health checks and surfacing visibility, rather than just writing code.
+- **2,291 reports** were surfaced to provide oversight on existing workflows. The majority of the value came from the agent performing continuous health checks and surfacing visibility, not just writing code.
 
 ## Human involvement
 
-The Management by Exception UI successfully filtered the noise of global rollouts. Out of 36,000+ triggers, **only ~457 runs** required human intervention. By surfacing only the 10% of outliers, the platform turned a multi-week manual audit into a 20-minute triage session. Engineers stopped babysitting every run and started supervising the results.
+Out of 36,000+ triggers, **only ~457 runs** required human intervention. By surfacing only the outliers, the platform turned a multi-week manual audit into a 20-minute triage session. Engineers stopped babysitting every run and started supervising the results.
 
 ## Growth reflects trust
 
-Monthly automation volume grew 9x from launch to month five. What started as cautious experimentation became part of the daily engineering workflow.
+Monthly automation volume grew **9x** from launch to month five. What started as cautious experimentation became part of the daily engineering workflow.
+
+## What engineers actually used it for
+
+<UseCaseSplit />
 
 <Callout info>Note: Metrics reflect internal engineering usage where full system visibility and telemetry were available to measure end-to-end impact.</Callout>
 
 <SectionLabel>Reflection</SectionLabel>
 
-Automations was the most systems-level design work I have done. Every decision had downstream effects across hundreds of repositories and the engineers responsible for them.
+Automations presented an interesting challenge for the team and myself. We needed to build trust through autonomy and parallelism. If done right it would make every decision have downstream effects across hundreds of repositories.
 
-One gap that became clear was observability at the orchestration layer. While execution success was easy to measure, tracking multi-repo impact and end-to-end outcomes required deeper instrumentation. The thing I keep coming back to is how much of this work was really about legibility. When a system runs autonomously across hundreds of codebases, the design question changes. People need to understand what happened and whether to care, fast. That is harder to get right than the feature itself.
+- Trust comes from legibility. When the system runs autonomously across hundreds of codebases, engineers need to see what happened and whether they should care. That was harder to design than any individual feature.
+- Migrations make for a compelling demo. Code review was what people actually ran every day. The templates that felt like small utilities turned out to be the ones that stuck.
+- Excitement doesn't equate to action. In production, customers were still hesitant to run automations at full scale. Model variance and the stakes of parallel changes create real friction. Automations moves the vision forward, but closing that gap is the real work.
 
 <ArticleCard href="https://ona.com/stories/introducing-automations" label="Introducing Automations" description="Launch announcement" image="/images/work/automations/List_of_Automations.avif" />
 
