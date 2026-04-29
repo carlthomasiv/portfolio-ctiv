@@ -1,0 +1,108 @@
+---
+title: "Redesigning Ona Conversations"
+company: "Ona"
+category: "Product Design · AI Interfaces"
+description: "Redesigning the core conversation layer to unify dialogue and output — making engineers more productive with fewer context switches."
+role: "Principal Product Designer"
+period: "Shipped April 2026"
+heroImage: "/images/work/ona-conversations/hero.png"
+draft: false
+---
+
+The Ona interface was built for one job. When the product expanded from managing development environments to hosting a background agents platform, the design didn't expand with it. We redesigned the conversation layer from the ground up, focusing on the relationship between you and the agent.
+
+**Outcomes**
+
+<Metrics items={[{ value: "1,103", label: "Avg daily executions (enterprise)", trend: "up" }, { value: "40%", label: "Fewer messages per execution", trend: "down" }, { value: "36%", label: "Platform WAU growth", trend: "up" }]} />
+
+<SectionLabel>The problem</SectionLabel>
+
+Developers working with Ona move through a consistent set of phases. Understanding the ticket. Exploring solutions. Making the fix. Reviewing the change. Merging. Each phase lived in a different tool. Ticket in Linear. Discussion in chat. Code in the editor. Review in GitHub.
+
+Working memory is a finite resource. Every time you switch surfaces, you flush what you had loaded and reload something new. The micro-interactions compound fast. Expanding panels. Hunting for the preview environment. Re-reading a thread to remember where you left off.
+
+The old Ona interface made this worse. Conversations lived on the left while environments, code changes, and a full editor competed for space on the right. High-utility features fought for your attention instead of supporting your work.
+
+<Visual name="Before: competing panels" description="Chat on the left, environment + editor + services on the right — all active simultaneously" />
+
+The deeper issue was structural. That interface was built for environment management. When the product expanded to host AI agents running background tasks, the interface didn't evolve. We were asking a tool built for one job to hold a much bigger one.
+
+<SectionLabel>The approach</SectionLabel>
+
+## Two modes, one surface
+
+Conversations don't have one shape. Early on, you're asking questions, testing approaches, pivoting. Later, once you've narrowed to a path, the mode shifts. You're not exploring anymore. You're executing.
+
+The old interface treated both modes the same. The new design supports them differently without requiring you to switch contexts manually.
+
+<Visual name="Exploratory vs. focused mode diagram" description="How the interface adapts across early exploration and late-stage execution" />
+
+The principle underneath it: context shared, state visible, work continuous. The agent stops being a separate entity you talk to. It becomes a partner looking at the same screen.
+
+<SectionLabel>Designing the product</SectionLabel>
+
+## Reducing noise
+
+The old interface wasn't missing features. It had too many surfaced at once. Every persistent panel, every visible toggle was a decision you had to make before you could start working. Power doesn't matter if the friction of using it pulls you out of your flow.
+
+The redesign started by asking what actually needed to be visible at any moment. Most of the answer was: less than we thought.
+
+<Visual name="Layout comparison: before / after" description="Feature density and visual hierarchy across old and new layouts" />
+
+## Unified workspace
+
+The biggest structural change: dialogue and output now live alongside each other. The conversation thread, the code changes, the preview share the same surface instead of competing across a split view.
+
+By anchoring output directly alongside the dialogue, the agent stops being a separate entity you talk to and becomes a partner looking at the same screen you are. The handoff between what you asked and what happened is immediate.
+
+<Visual name="Unified workspace" description="New layout showing conversation and output in a shared view" />
+
+## Code review inside the conversation
+
+One of the highest-friction moments in the old workflow: finishing a task with the agent and then opening GitHub to review what it actually changed. The context break was complete. You left Ona to validate Ona's work.
+
+We brought the review process directly into Ona. The new structure includes searchable, filterable file trees, readable diffs, and inline comments that feed directly back into the dialogue. The why and the what stay connected until the work is done.
+
+<Visual name="Code review integration" description="Inline diff view with comment thread inside a conversation" />
+
+## Runtime and services reorganized
+
+Ports, services, and tasks were in the same right-side panel, competing with the editor and environments for space. Always there, always demanding visual priority, even when you didn't need them.
+
+In the new design they move to a bottom drawer. Accessible when needed, invisible when not. Same functionality, less cognitive load.
+
+<Visual name="Bottom drawer: runtime and services" description="Ports, services, and tasks in a collapsible bottom panel" />
+
+## Decoupled environments
+
+The old design made a quiet assumption: a conversation required an active environment. If yours wasn't running, the interface felt incomplete. Engineers started thinking of spinning up an environment as the first step, before they'd even framed the problem.
+
+The new layout breaks that coupling. Conversations and exploration work regardless of whether an environment is active. You step into a task, iterate, and move on. The infrastructure is there when you need it, not before.
+
+<SectionLabel>Outcomes</SectionLabel>
+
+Three weeks of data across **2,536 enterprise accounts**, measured against a 30-day pre-cutover baseline. The signal has gotten stronger each week.
+
+Enterprise daily executions grew to **1,103 per day**, up from 704 pre-rollout. The more telling number: messages per execution in the enterprise cohort dropped **40%**. The same users, running more conversations, each one significantly tighter. That's the interface getting out of the way.
+
+At the platform level, DAU grew **40%**, WAU **36%**, MAU **36%**. New users are coming in and sticking, more than offsetting any cohort-level shifts.
+
+<Metrics items={[{ value: "1,103", label: "Enterprise daily executions", trend: "up" }, { value: "10.5", label: "Avg messages per execution (enterprise)" }, { value: "562", label: "Platform DAU", trend: "up" }, { value: "13.5%", label: "New user 24h activation", trend: "up" }]} />
+
+More conversations, far fewer messages each. Consistent with an interface that gets out of the way.
+
+## New user activation
+
+Signup volume held steady (449 to 439 per day, down 2%). **24-hour activation improved 2.3pp** (11.2% to 13.5%) and has held into this week. 7-day activation is tracking higher too, though that window isn't fully closed yet.
+
+<Callout info>Metrics reflect the enterprise cohort (2,536 accounts, pre-Apr 7) measured against a 30-day baseline. "This week" = Apr 23–29. Enterprise weekend volume drops sharply so weekday-only comparisons would shift deltas higher. No confirmed exposure flag — post-cutover date used as proxy for UI access.</Callout>
+
+<SectionLabel>Reflection</SectionLabel>
+
+Redesigning a core surface is different from shipping a new feature. There's nothing to validate from scratch. You're working with existing habits, existing expectations, and existing frustrations. People have built workflows around the old thing. Getting them to change is as much a trust problem as a design problem.
+
+- The hardest part wasn't the layout. It was deciding what to remove. Every feature that moved to the bottom drawer was a conversation with engineering about whether the trade-off was worth it. Usually it was.
+- The two-mode framing changed how we thought about hierarchy. Once we stopped trying to serve exploratory and focused states with the same layout, a lot of the competing priorities resolved on their own.
+- The enterprise story is solid. The PLG cohort concern is real. A redesign that makes power users more productive while shedding casual users isn't a failure, but it's not a complete win either. Understanding whether that's a product fit issue or a transition effect is the next question to answer.
+
+<ArticleCard href="https://ona.com/stories/redesigning-ona-conversations" label="Designing for Collaboration: How we rethought Ona conversations" description="Ona blog" image="/images/work/ona-conversations/hero.png" />
