@@ -12,6 +12,7 @@ import {
   Callout,
   SectionLabel,
   CaseImage,
+  CaseVideo,
   ImageGrid,
   Slideshow,
   Comparison,
@@ -27,6 +28,7 @@ import {
   UseCaseSplit,
   FigmaEmbed,
   AgentLoop,
+  SessionFlow,
   BridgeDiagram,
 } from "@/components/mdx-components";
 
@@ -36,6 +38,7 @@ const mdxComponents = {
   Callout,
   SectionLabel,
   CaseImage,
+  CaseVideo,
   ImageGrid,
   Slideshow,
   Comparison,
@@ -51,6 +54,7 @@ const mdxComponents = {
   UseCaseSplit,
   FigmaEmbed,
   AgentLoop,
+  SessionFlow,
   BridgeDiagram,
 };
 

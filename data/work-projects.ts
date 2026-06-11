@@ -22,6 +22,16 @@ export const groups: CompanyGroup[] = [
     context: "Agentic engineering platform",
     projects: [
       {
+        category: "Product Design · AI Interfaces",
+        disciplines: ["AI & Agents", "Product Design", "Product Strategy"],
+        title: "Ona Sessions",
+        description: "Redesigning Ona's core experience around the loop developers actually cared about: ask, review, edit, ship.",
+        slug: "ona-conversations",
+        thumbnail: "linear-gradient(140deg, #e2efe8 0%, #b8d4c4 100%)",
+        thumbnailImage: "/images/work/ona-conversations/ona-conversations-thumb.avif",
+        year: "2026",
+      },
+      {
         category: "Infrastructure · DX",
         disciplines: ["AI & Agents", "Agentic orchestration", "Infrastructure", "0-1"],
         title: "Ona Automations",
