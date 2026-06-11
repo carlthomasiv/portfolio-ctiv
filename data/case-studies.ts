@@ -57,10 +57,10 @@ export const caseStudies: CaseStudy[] = [
     slug: "ona-conversations",
     company: "Ona",
     category: "Product Design · AI Interfaces",
-    title: "Redesigning Ona Conversations",
-    description: "Redesigning the core conversation layer to unify dialogue and output — making engineers more productive with fewer context switches.",
+    title: "Ona Sessions: Moving Work From Chat to PRs",
+    description: "Redesigning Ona's core experience around the loop developers actually cared about: ask, review, edit, ship.",
     role: "Principal Product Designer",
-    period: "Shipped April 2026",
+    period: "Shipped May 2026",
     sections: [],
   },
   {

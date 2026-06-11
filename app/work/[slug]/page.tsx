@@ -12,6 +12,7 @@ import {
   Callout,
   SectionLabel,
   CaseImage,
+  CaseVideo,
   ImageGrid,
   Slideshow,
   Comparison,
@@ -25,6 +26,10 @@ import {
   NumberedList,
   Pullquote,
   UseCaseSplit,
+  FigmaEmbed,
+  AgentLoop,
+  SessionFlow,
+  BridgeDiagram,
 } from "@/components/mdx-components";
 
 const mdxComponents = {
@@ -33,6 +38,7 @@ const mdxComponents = {
   Callout,
   SectionLabel,
   CaseImage,
+  CaseVideo,
   ImageGrid,
   Slideshow,
   Comparison,
@@ -46,6 +52,10 @@ const mdxComponents = {
   NumberedList,
   Pullquote,
   UseCaseSplit,
+  FigmaEmbed,
+  AgentLoop,
+  SessionFlow,
+  BridgeDiagram,
 };
 
 export function generateStaticParams() {

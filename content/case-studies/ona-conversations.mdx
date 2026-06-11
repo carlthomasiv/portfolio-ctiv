@@ -1,108 +1,239 @@
 ---
-title: "Redesigning Ona Conversations"
+title: "Ona Sessions: Moving Work From Chat to PRs"
 company: "Ona"
 category: "Product Design · AI Interfaces"
-description: "Redesigning the core conversation layer to unify dialogue and output — making engineers more productive with fewer context switches."
+description: "Redesigning Ona's core experience around the loop developers actually cared about: ask, review, edit, ship."
 role: "Principal Product Designer"
-period: "Shipped April 2026"
-heroImage: "/images/work/ona-conversations/hero.png"
-draft: true
+period: "Shipped May 2026"
+heroImage: "/images/work/ona-conversations/ona-after-convo-running.avif"
+draft: false
 ---
 
-The Ona interface was built for one job. When the product expanded from managing development environments to hosting a background agents platform, the design didn't expand with it. We redesigned the conversation layer from the ground up, focusing on the relationship between you and the agent.
+Redesigning Ona's core experience around the loop developers actually cared about: ask, review, edit, ship.
 
 **Outcomes**
 
-<Metrics items={[{ value: "1,103", label: "Avg daily executions (enterprise)", trend: "up" }, { value: "40%", label: "Fewer messages per execution", trend: "down" }, { value: "36%", label: "Platform WAU growth", trend: "up" }]} />
+<Metrics items={[{ value: "+59%", label: "Agent executions/day (736 → 1,173)", trend: "up" }, { value: "+37%", label: "Active users", trend: "up" }, { value: "+51%", label: "Web-to-signup conversion", trend: "up" }]} />
 
-<SectionLabel>The problem</SectionLabel>
+<SectionLabel>Overview</SectionLabel>
 
-Developers working with Ona move through a consistent set of phases. Understanding the ticket. Exploring solutions. Making the fix. Reviewing the change. Merging. Each phase lived in a different tool. Ticket in Linear. Discussion in chat. Code in the editor. Review in GitHub.
+When I joined Ona, the company was mid-transition. The product had earned adoption as a cloud development environment, but the market was moving fast. Developers expected more from AI coding tools. They wanted agents that could investigate issues, make changes, review output, and move work toward a pull request.
 
-Working memory is a finite resource. Every time you switch surfaces, you flush what you had loaded and reload something new. The micro-interactions compound fast. Expanding panels. Hunting for the preview environment. Re-reading a thread to remember where you left off.
+Ona had the foundation for that. We had scalable environments, agent sessions, background work, code review, previews, and support for external agents like Claude Code. The problem was the product still carried too much of its Gitpod shape.
 
-The old Ona interface made this worse. Conversations lived on the left while environments, code changes, and a full editor competed for space on the right. High-utility features fought for your attention instead of supporting your work.
+The experience was organized around environments. That made sense for a CDE product. It made less sense for a product moving toward agentic software delivery.
 
-<Visual name="Before: competing panels" description="Chat on the left, environment + editor + services on the right — all active simultaneously" />
+As I looked across customer feedback, usage data, company goals, and the broader market, the gap became clear.
 
-The deeper issue was structural. That interface was built for environment management. When the product expanded to host AI agents running background tasks, the interface didn't evolve. We were asking a tool built for one job to hold a much bigger one.
+The environment was the how, not the why.
 
-<SectionLabel>The approach</SectionLabel>
+Customers cared about making progress. They wanted to ask for work, understand what happened, review changes, and ship with confidence. My job was to help reshape the product around that workflow without breaking trust with customers who still relied on the old mental model.
 
-## Two modes, one surface
+Reorganizing the product around Sessions instead of environments was not an obvious call. Environments were what customers knew us for, and three of our most agent-forward enterprise customers were tied directly into the embedded editor. Pushing that into the background carried real risk, and not everyone was sure we should. I made the argument anyway. As long as we kept anchoring the product to the environment, we would keep losing developers before they ever reached the agent.
 
-Conversations don't have one shape. Early on, you're asking questions, testing approaches, pivoting. Later, once you've narrowed to a path, the mode shifts. You're not exploring anymore. You're executing.
+This became one of the largest initiatives I led at Ona. I owned the direction, built the early prototypes to prove it was real, contributed directly to the frontend, carried enterprise customers through the change, and coordinated a staged rollout so we could ship it without breaking trust.
 
-The old interface treated both modes the same. The new design supports them differently without requiring you to switch contexts manually.
+<SectionLabel>The mismatch</SectionLabel>
 
-<Visual name="Exploratory vs. focused mode diagram" description="How the interface adapts across early exploration and late-stage execution" />
+The first signal came from customers.
 
-The principle underneath it: context shared, state visible, work continuous. The agent stops being a separate entity you talk to. It becomes a partner looking at the same screen.
+Enterprise teams liked the power of Ona. They liked how quickly they could get into a real development environment. But getting developers to try agent workflows was still harder than it should have been.
 
-<SectionLabel>Designing the product</SectionLabel>
+One engineering leader told us that getting Claude Code into Ona would make it easier to convince developers to use the product.
 
-## Reducing noise
+That stuck with me because Ona already supported Claude Code as an agent.
 
-The old interface wasn't missing features. It had too many surfaced at once. Every persistent panel, every visible toggle was a decision you had to make before you could start working. Power doesn't matter if the friction of using it pulls you out of your flow.
+The issue was not raw capability. The product experience was getting in the way of people understanding the capability.
 
-The redesign started by asking what actually needed to be visible at any moment. Most of the answer was: less than we thought.
+<CaseImage src="/images/work/ona-conversations/before.avif" alt="The original Ona experience with conversation, environments, runtime controls, code review, and editor all competing for attention" caption="The original experience still reflected Ona's CDE roots. Conversation, environments, runtime controls, code review, and editor workflows all competed for attention in the same workspace." />
 
-<Visual name="Layout comparison: before / after" description="Feature density and visual hierarchy across old and new layouts" />
+Another customer described waiting on environments as friction before the work even started. They wanted to begin with a plan, understand what the agent was doing, and move toward review. They did not want to reason through runtime state just to feel productive.
 
-## Unified workspace
+At the same time, agent executions had become a key company metric. We wanted customers using agents to do real work, but the interface still gave the most weight to environments.
 
-The biggest structural change: dialogue and output now live alongside each other. The conversation thread, the code changes, the preview share the same surface instead of competing across a split view.
+I also spent time looking across Claude Code, Cursor, Codex, Devin, Conductor, and other tools in the space. The strongest products were training users around a simple loop:
 
-By anchoring output directly alongside the dialogue, the agent stops being a separate entity you talk to and becomes a partner looking at the same screen you are. The handoff between what you asked and what happened is immediate.
+<AgentLoop />
 
-<Visual name="Unified workspace" description="New layout showing conversation and output in a shared view" />
+Ona had a chance to map to that expectation while bringing something different to the table: governed, scalable environments where agents could do deeper work against real codebases.
 
-## Code review inside the conversation
+But to get there, the interface needed a new center of gravity.
 
-One of the highest-friction moments in the old workflow: finishing a task with the agent and then opening GitHub to review what it actually changed. The context break was complete. You left Ona to validate Ona's work.
+<SectionLabel>The principles behind the shift</SectionLabel>
 
-We brought the review process directly into Ona. The new structure includes searchable, filterable file trees, readable diffs, and inline comments that feed directly back into the dialogue. The why and the what stay connected until the work is done.
+Before pushing into screens, I worked with our VP of Product on a set of product principles that could guide decisions across the team.
 
-<Visual name="Code review integration" description="Inline diff view with comment thread inside a conversation" />
+This project had a lot of tradeoffs. We were changing how customers understood the product, so the principles helped us make sharper calls. Four mattered most for this work.
 
-## Runtime and services reorganized
+<NumberedList items={[
+  { label: "Design for outcomes", description: "We do not sell environments. We sell progress. The product needed to organize around tasks, plans, reviews, changes, and delivery. Environments, IDEs, and infrastructure still mattered, but they needed to support the work instead of defining it." },
+  { label: "Fold complexity", description: "Customers should not need to understand our internal architecture to be productive. Power users still need escape hatches, but the default path should help people get started without choosing models, runners, environment classes, or runtime details before they understand the task." },
+  { label: "Direct attention", description: "The product should make it obvious where to look. In an AI product, noise builds quickly. Agent output, logs, code changes, reviews, previews, and environment state can all become loud at the same time. The interface needed to create focus." },
+  { label: "Performance matters", description: "Speed is more than latency. It includes time to understand what happened, time to decide what to do next, and time to take action. If the product feels clear, responsive, and unblocking, it feels faster." }
+]} />
 
-Ports, services, and tasks were in the same right-side panel, competing with the editor and environments for space. Always there, always demanding visual priority, even when you didn't need them.
+<SectionLabel>Creating conviction</SectionLabel>
 
-In the new design they move to a bottom drawer. Accessible when needed, invisible when not. Same functionality, less cognitive load.
+I started by mapping how work actually moved through Ona.
 
-<Visual name="Bottom drawer: runtime and services" description="Ports, services, and tasks in a collapsible bottom panel" />
+I looked at the happy paths, the debugging paths, and the moments where customers lost the thread. The goal was to understand the shape of the workflow before touching the interface.
 
-## Decoupled environments
+- Where do people start?
+- Where did they wait?
+- Where did they leave the product?
+- When did they come back and what helped them get back into the groove?
 
-The old design made a quiet assumption: a conversation required an active environment. If yours wasn't running, the interface felt incomplete. Engineers started thinking of spinning up an environment as the first step, before they'd even framed the problem.
+The most important question was about trust: where did the product need to give people enough context to let the agent keep going?
 
-The new layout breaks that coupling. Conversations and exploration work regardless of whether an environment is active. You step into a task, iterate, and move on. The infrastructure is there when you need it, not before.
+<CaseImage src="/images/work/ona-conversations/user-flow.avif" alt="User flow mapping every path through Ona, showing an environment-connection gate on every route to doing work" caption="Mapping every path through Ona made the dependency obvious. Almost nothing could start until an environment was connected, and every branch, success or failure, ran back through the same gate. The environment was a precondition on the work, not a result of it." />
+
+From there, I used Figma to explore what Ona could be if Sessions led the workspace and environments moved into the background. It was the fastest way to test hierarchy and shape the direction before committing to code.
+
+<CaseImage src="/images/work/ona-conversations/vision.avif" alt="The proposed Sessions vision: conversation as the primary workspace, environment reduced to a tab, and review sitting beside the dialogue" caption="The vision I pitched to leadership. Conversation became the primary workspace, the environment dropped to a tab, and review sat right beside the dialogue. Most of this shipped, though where we landed shifted along the way, including a good deal of the visual identity." />
+
+Once the direction felt strong enough, I moved from static design into a working prototype.
+
+I used Ona itself to build a functional prototype in an afternoon. It was rough. That was fine. The point was to make the direction real enough for people to use, challenge, and react to.
+
+Leadership, engineers, and internal AI experts could pull the branch into their own environment and try it locally. That changed the conversation. We were no longer debating screenshots. We were talking about how the product behaved.
+
+<CaseVideo src="/images/work/ona-conversations/prototype-demo.mp4" alt="Screen recording of the Ona Sessions prototype: a conversation-led workspace with a changes and review panel on the right and a terminal, ports, and services panel along the bottom" caption="The working prototype, built in Ona in an afternoon. Conversation leads the workspace, changed files and review sit on the right, and terminals, ports, and services drop into a bottom panel." />
+
+The prototype did not try to reach the full vision. It took the first real step toward it. I kept the embedded editor in place and reworked the structure around it. I added a way to view changed files inside the main workspace, placed on the right to tie into the output panel, which was an IA idea we later changed. I enabled a split view, simplified the right panel to drop environment detail and focus on output, and moved ports and services into a bottom panel. It was mostly cleanup and simplification, enough to show how the flow could be structured without pretending we could reach the full vision in one release.
+
+That was the value. The vision gave us something to aim at, and the prototype made the first step concrete enough to react to. It reframed the work as a sequence of hills instead of one big leap. Some of what I explored shipped. Some waited. The conversation moved from whether the direction was right to how far we should go in the first release.
+
+<SectionLabel>Designing the bridge</SectionLabel>
+
+A clean future-state version of Ona would have made Sessions the obvious center of the product. A developer could hand off a ticket, let Ona work in the background, come back to review the output, request edits, and ship.
+
+The problem was that customers were not starting from that future. They still understood Ona through environments. Some teams relied on the embedded code experience. Trust in agents was growing, but it was not complete enough to remove the parts of the product that made people feel in control.
+
+So I made a deliberate call to pull code and environments into the background while keeping them in place.
+
+Conversation became roughly 70% of the workspace, which made the agent and task progress the main focus. The remaining space was reserved for output: changed files, review, previews, and supporting tools. This gave us a clearer path toward the future product without making existing customers feel like the floor had disappeared under them.
+
+<BridgeDiagram />
+
+<SectionLabel>What shipped</SectionLabel>
+
+## Sessions became the product model
+
+Internally, the work started as Conversation v2. In product, it became Sessions.
+
+That shift was important because “conversation” only described one part of the experience. Customers were not just chatting with an agent. They were opening a task, giving Ona context, letting work run in an environment, reviewing changes, and deciding what should happen next.
+
+A “Session” would give our customers a better mental model.
+
+A Session could hold the conversation, the environment, the agent’s work, changed files, review state, and future capabilities like terminals, previews, and external agent workflows. It let us keep the power of environments while moving them out of the center of the experience.
+
+By centering the experience around Sessions, the workflow became much easier to explain to customers:
+
+<SessionFlow />
+
+That became the bridge between where Ona had been and where the product needed to go. The environment was still there, but it became part of the Session instead of the first thing customers had to manage.
+
+<CaseImage src="/images/work/ona-conversations/ona-after-starting-sessions.avif" alt="A new Ona Session opening to a single workspace with conversation at the center, changed files and review on the right, and ports and services in a side panel" caption="A Session opens to one workspace. Conversation sits at the center, changed files and review live on the right, and environment tools stay within reach. One clear place to start any task." />
+
+## Code stayed visible because trust takes time
+
+I did not want to hide code.
+
+Customers still needed to inspect files, view diffs, request edits, and approve changes before anything moved forward. Review is where trust gets built.
+
+The new experience kept code close to the conversation so users could understand the relationship between what they asked for and what actually changed.
+
+<CaseImage src="/images/work/ona-conversations/ona-after-changes-view.avif" alt="An open diff inside a Session with the changed-files list beside the conversation" caption="Review stayed close to the conversation. Users could open a diff, see exactly what changed, and request edits without rebuilding context somewhere else." />
+
+## Infrastructure moved into supporting patterns
+
+Environments, terminals, services, MCP integrations, and future preview experiences all needed a place to live.
+
+The design could not solve only the current release. It had to become a system the rest of the org could build into.
+
+I met with team leads across Ona to map upcoming work, then shaped the workspace so each new capability had a defined place to land. The four principles became shared language. Other designers and PMs used them to make their own calls, so the direction held even on screens I never touched directly. Terminals moved to a bottom panel that expands when needed and collapses when not. Services, MCP integrations, and previews each got a home in the layout. Teams could ship into the workspace without dragging the product back into noise.
+
+<CaseImage src="/images/work/ona-conversations/ona-after-terminal.avif" alt="The bottom panel of a Session with the terminal open alongside Ports and Services and Tasks tabs" caption="Supporting tools moved into a bottom panel. Terminals, ports, services, and tasks each got a defined home that expands when needed and stays out of the way when not." />
+
+<SectionLabel>What we cut, and what we kept</SectionLabel>
+
+The first version had to ship quickly, but it also had to be good. That meant being clear about what belonged in the first hill and what needed to wait.
+
+**Embedded VS Code stayed.** Reducing the role of the embedded editor was part of the longer-term vision, but it needed time and evidence to get there. Those same agent-forward enterprise customers were tied directly into the embedded editor, so pulling it back carried real risk. Internally, opinions on keeping the editor ran strong, and those opinions had to be weighed against actual usage. When I looked at real Core and Enterprise data, it did not show the editor mapping to real-world usage the way internal sentiment assumed. So for this release we kept the embedded experience, reduced its prominence, and tracked usage closely so the next call could follow the data.
+
+<CaseImage src="/images/work/ona-conversations/ona-after-code-view.avif" alt="The embedded VS Code editor still available inside a Session, with the file explorer open and a file in view" caption="The embedded editor stayed in place. Customers who relied on it kept full access while we reduced its prominence and watched real usage before the next call." />
+
+**Preview moved to a later release.** Integrated previews were part of the vision, and I believed strongly in their value. Seeing the result of an agent's work without opening another tab would make the product feel much more output-driven. The work required more backend and performance investment than we could fit into the first release. I continued leading the design direction for that effort, but we sequenced it behind the foundational workspace change.
+
+**Sidebar changes were scoped down.** I explored larger sidebar changes that would better support Sessions, PR status, and future workflow states. Some of that work made it into later iterations, but the full version depended on APIs we did not have yet. Rather than force a shallow version, we separated it from the first release.
+
+**Mobile focused on parity.** Mobile usage was low, but the new experience still needed to work. I updated the mobile experience enough to preserve core workflows and avoid breakage, while treating deeper mobile-first work as a separate future investment.
+
+<SectionLabel>Shipping under real constraints</SectionLabel>
+
+The original plan targeted a major release within a month.
+
+The scope was ambitious, and the team was small. As priorities shifted across the company, engineering capacity changed. What started as a multi-engineer effort became a much tighter execution path, with one engineer carrying the core implementation while ramping into the product and codebase.
+
+I adjusted the plan around that reality.
+
+We delayed the release to protect quality, narrowed the first hill, and focused on the foundational changes that mattered most. I also moved closer to implementation, working directly in the frontend alongside engineering to keep momentum high and make sure the shipped experience matched the product direction.
+
+That included the new layout structure, tab interactions, split-view patterns, drag-and-drop behavior, sidebar updates, mobile parity, changelog updates, and the Sessions rebrand.
+
+<Slideshow images={[{ src: "/images/work/ona-conversations/ona-after-code-split-view.avif", alt: "Split view showing the conversation alongside the embedded code editor", caption: "Split view let users keep the conversation and the code side by side." }, { src: "/images/work/ona-conversations/ona-after-changes-split-view.avif", alt: "Split view showing the conversation alongside an open diff", caption: "The same split could pair the conversation with a diff, so review never meant losing context." }]} />
+
+The important call was not pushing the original scope through just to hit the date. This was a fundamental change to how customers understood Ona. Rushing that shift would have created more risk than speed.
+
+<SectionLabel>Rollout and stabilization</SectionLabel>
+
+A change this large needed a careful rollout.
+
+I coordinated the release in stages over roughly a week and a half. We started with a small group of high-signal enterprise customers who were already leaning into agent workflows and likely to provide useful feedback. After five business days, we expanded to the rest of enterprise. Once feedback remained stable, we launched to Core and Free users.
+
+<NumberedList items={[
+  { label: "High-signal enterprise", description: "Agent-first teams who were already pushing into agent workflows. Fast feedback, high signal." },
+  { label: "Enterprise rollout", description: "Expanded to the rest of enterprise. Monitored adoption and support signal closely." },
+  { label: "Core + Free launch", description: "Broader customer base. Watched for adoption patterns and friction points." },
+  { label: "Stabilization", description: "Triaged feedback, protected quality, and responded quickly to anything that broke trust." }
+]} />
+
+During rollout, I worked with Customer Experience, Support, Engineering, and internal teams to monitor feedback and respond quickly.
+
+One early concern was that some users could no longer find their environment as quickly as before. Even internally, there were questions about whether we had pushed too far.
+
+I held the direction but adjusted the bridge.
+
+For a short period, we auto-opened the environment tab to reduce discomfort. As users adjusted, behavior showed they were not relying on it as much as expected. We later removed the auto-open behavior and kept the environment available when users needed it.
+
+Early discomfort can look like failure if you react too quickly. In this case, the direction was right, but the transition needed a little more support.
 
 <SectionLabel>Outcomes</SectionLabel>
 
-Three weeks of data across **2,536 enterprise accounts**, measured against a 30-day pre-cutover baseline. The signal has gotten stronger each week.
+The redesign shifted behavior toward the workflows we wanted Ona to support.
 
-Enterprise daily executions grew to **1,103 per day**, up from 704 pre-rollout. The more telling number: messages per execution in the enterprise cohort dropped **40%**. The same users, running more conversations, each one significantly tighter. That's the interface getting out of the way.
+Agent executions per day climbed from a 736 baseline, and active users from 3,709. In the first two weeks, **2,810 users across 888 organizations** ran agent executions.
 
-At the platform level, DAU grew **40%**, WAU **36%**, MAU **36%**. New users are coming in and sticking, more than offsetting any cohort-level shifts.
+<Metrics items={[{ value: "1,173", label: "Daily agent executions", trend: "up" }, { value: "+59%", label: "Execution lift", trend: "up" }, { value: "5,073", label: "Active users", trend: "up" }, { value: "+37%", label: "Active user lift", trend: "up" }]} />
 
-<Metrics items={[{ value: "1,103", label: "Enterprise daily executions", trend: "up" }, { value: "10.5", label: "Avg messages per execution (enterprise)" }, { value: "562", label: "Platform DAU", trend: "up" }, { value: "13.5%", label: "New user 24h activation", trend: "up" }]} />
+## New users found their footing faster
 
-More conversations, far fewer messages each. Consistent with an interface that gets out of the way.
+Web session to signup climbed from a 6.5% baseline, and 7-day signup-to-agent activation from 11.5%.
 
-## New user activation
+<Metrics items={[{ value: "9.8%", label: "Web-to-signup rate", trend: "up" }, { value: "+51%", label: "Conversion lift", trend: "up" }, { value: "15.2%", label: "7-day activation rate", trend: "up" }, { value: "+32%", label: "Activation lift", trend: "up" }]} />
 
-Signup volume held steady (449 to 439 per day, down 2%). **24-hour activation improved 2.3pp** (11.2% to 13.5%) and has held into this week. 7-day activation is tracking higher too, though that window isn't fully closed yet.
-
-<Callout info>Metrics reflect the enterprise cohort (2,536 accounts, pre-Apr 7) measured against a 30-day baseline. "This week" = Apr 23–29. Enterprise weekend volume drops sharply so weekday-only comparisons would shift deltas higher. No confirmed exposure flag — post-cutover date used as proxy for UI access.</Callout>
+<Callout info>Anchored to full enterprise rollout 2026-04-06, measured against a 30-day pre-launch baseline. External cohort (all non-internal accounts). Launch sequence: PLG 2026-03-31, initial enterprise 2026-04-02, full rollout 2026-04-06.</Callout>
 
 <SectionLabel>Reflection</SectionLabel>
 
-Redesigning a core surface is different from shipping a new feature. There's nothing to validate from scratch. You're working with existing habits, existing expectations, and existing frustrations. People have built workflows around the old thing. Getting them to change is as much a trust problem as a design problem.
+This project taught me a lot about trust, tools, and how quickly product work can move when the right people have the right systems around them.
 
-- The hardest part wasn't the layout. It was deciding what to remove. Every feature that moved to the bottom drawer was a conversation with engineering about whether the trade-off was worth it. Usually it was.
-- The two-mode framing changed how we thought about hierarchy. Once we stopped trying to serve exploratory and focused states with the same layout, a lot of the competing priorities resolved on their own.
-- The enterprise story is solid. The PLG cohort concern is real. A redesign that makes power users more productive while shedding casual users isn't a failure, but it's not a complete win either. Understanding whether that's a product fit issue or a transition effect is the next question to answer.
+**Trust is the adoption problem.** Customers did not need more proof that agents were powerful. They needed clearer ways to understand what the agent was doing, inspect the output, and stay in control. That shaped the product decisions. Code stayed visible because review builds confidence. Environments stayed accessible because customers still understood Ona through that mental model. The rollout happened in stages because changing how people work is not something you brute force into production and hope everyone claps.
 
-<ArticleCard href="https://ona.com/stories/redesigning-ona-conversations" label="Designing for Collaboration: How we rethought Ona conversations" description="Ona blog" image="/images/work/ona-conversations/hero.png" />
+**Figma became my thinking space.** I do not buy the "Figma is dead" argument. I still used Figma throughout the project. It was where I explored the system, moved pieces around, mapped flows, and worked through what the experience needed to become. What changed was where the work went after that. Instead of polishing screens forever, I could take the direction into Ona, build with agents, and feel how the product behaved. That gave me a much better read on what was working, what was awkward, and where the design needed sharper guardrails.
+
+**The bottleneck moved.** A project like this used to take months of translation between strategy, design, prototype, and implementation. With agents, that distance got much shorter. The hard part was knowing what mattered, what to cut, when to hold the line, and how to help customers move into a new way of working without losing trust. That is where design still has to lead.
+
+<CaseImage src="/images/work/ona-conversations/ona-after-convo-running.avif" alt="A running Ona Session" caption="Where it landed: work happens inside the Session, review stays one click away, and the environment waits in the background until it is needed." />
+
+<ArticleCard href="https://ona.com/stories/redesigning-ona-conversations" label="Designing for Collaboration: How we rethought Ona conversations" description="Ona blog" image="/images/work/ona-conversations/ona-after-starting-sessions.avif" />

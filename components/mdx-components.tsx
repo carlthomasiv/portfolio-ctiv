@@ -7,7 +7,7 @@
 import React from "react";
 import { TrendingUp, TrendingDown, ArrowRight } from "lucide-react";
 
-export { CaseImage, ImageGrid, Slideshow, AutomationFunnel, RepoFanout, SystemModel, HybridModel, NumberedList, UseCaseSplit } from "./mdx-components-interactive";
+export { CaseImage, CaseVideo, ImageGrid, Slideshow, AutomationFunnel, RepoFanout, SystemModel, HybridModel, NumberedList, UseCaseSplit, FigmaEmbed, AgentLoop, SessionFlow, BridgeDiagram } from "./mdx-components-interactive";
 
 // ─── Typography defaults ──────────────────────────────────────────────────────
 
