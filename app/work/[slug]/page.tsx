@@ -25,6 +25,9 @@ import {
   NumberedList,
   Pullquote,
   UseCaseSplit,
+  FigmaEmbed,
+  AgentLoop,
+  BridgeDiagram,
 } from "@/components/mdx-components";
 
 const mdxComponents = {
@@ -46,6 +49,9 @@ const mdxComponents = {
   NumberedList,
   Pullquote,
   UseCaseSplit,
+  FigmaEmbed,
+  AgentLoop,
+  BridgeDiagram,
 };
 
 export function generateStaticParams() {

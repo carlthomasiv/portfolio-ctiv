@@ -799,6 +799,202 @@ export function CaseImage({
   );
 }
 
+// ─── Agent loop diagram ───────────────────────────────────────────────────────
+
+export function AgentLoop() {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-10%" });
+
+  const steps = ["Conversation", "Execution", "Review", "Delivery"];
+
+  return (
+    <div ref={ref} style={{ margin: "32px 0" }}>
+      <div style={{
+        display: "inline-flex",
+        flexDirection: "column",
+        padding: "24px 32px",
+        border: "1px solid var(--border)",
+        borderRadius: "8px",
+      }}>
+        {steps.map((step, i) => (
+          <React.Fragment key={step}>
+            <motion.div
+              initial={{ opacity: 0, x: -8 }}
+              animate={inView ? { opacity: 1, x: 0 } : {}}
+              transition={{ delay: i * 0.12, duration: 0.4, ease: EASE }}
+              style={{ display: "flex", alignItems: "center", gap: "12px" }}
+            >
+              <div style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--text)", flexShrink: 0 }} />
+              <span style={{ fontFamily: "var(--font-dm-mono)", fontSize: "13px", letterSpacing: "0.04em", color: "var(--text)" }}>
+                {step}
+              </span>
+            </motion.div>
+            {i < steps.length - 1 && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={inView ? { opacity: 0.2 } : {}}
+                transition={{ delay: i * 0.12 + 0.06, duration: 0.3 }}
+                style={{ width: 1, height: 20, background: "var(--text)", marginLeft: "2.5px", marginTop: 3, marginBottom: 3 }}
+              />
+            )}
+          </React.Fragment>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ─── Bridge diagram ───────────────────────────────────────────────────────────
+
+export function BridgeDiagram() {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-10%" });
+
+  const columns: { title: string; items: string[]; highlight?: boolean }[] = [
+    {
+      title: "Where customers were",
+      items: ["Environment-first", "Code-first", "Manual review", "Runtime visible by default"],
+    },
+    {
+      title: "Bridge release",
+      items: ["Conversation-first", "Code still inspectable", "Review close to dialogue", "Environment accessible when needed"],
+      highlight: true,
+    },
+    {
+      title: "Where Ona needed to go",
+      items: ["Session-first", "Agent-led execution", "Human review and judgment", "Infrastructure in the background"],
+    },
+  ];
+
+  return (
+    <div
+      ref={ref}
+      style={{
+        margin: "32px 0",
+        display: "grid",
+        gridTemplateColumns: "1fr 28px 1fr 28px 1fr",
+        alignItems: "start",
+      }}
+    >
+      {columns.map((col, i) => (
+        <React.Fragment key={col.title}>
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ delay: i * 0.15, duration: 0.5, ease: EASE }}
+            style={{
+              padding: "20px",
+              border: "1px solid var(--border)",
+              borderRadius: "8px",
+              background: col.highlight ? "color-mix(in srgb, var(--text) 4%, var(--bg))" : "transparent",
+            }}
+          >
+            <div style={{
+              fontFamily: "var(--font-dm-mono)",
+              fontSize: "10px",
+              letterSpacing: "0.08em",
+              textTransform: "uppercase",
+              color: "var(--text-muted)",
+              opacity: 0.5,
+              marginBottom: "12px",
+            }}>
+              {col.title}
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+              {col.items.map(item => (
+                <div key={item} style={{
+                  fontFamily: "var(--font-dm-sans)",
+                  fontSize: "13px",
+                  color: "var(--text)",
+                  lineHeight: 1.5,
+                  opacity: 0.85,
+                }}>
+                  {item}
+                </div>
+              ))}
+            </div>
+          </motion.div>
+          {i < columns.length - 1 && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={inView ? { opacity: 1 } : {}}
+              transition={{ delay: i * 0.15 + 0.1, duration: 0.4 }}
+              style={{ display: "flex", alignItems: "center", justifyContent: "center", paddingTop: "20px" }}
+            >
+              <svg width="14" height="10" viewBox="0 0 14 10" fill="none">
+                <line x1="0" y1="5" x2="14" y2="5" stroke="var(--text-muted)" strokeWidth="1" opacity="0.3" />
+                <polyline points="8,1 14,5 8,9" stroke="var(--text-muted)" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" opacity="0.3" />
+              </svg>
+            </motion.div>
+          )}
+        </React.Fragment>
+      ))}
+    </div>
+  );
+}
+
+// ─── Figma embed ──────────────────────────────────────────────────────────────
+
+export function FigmaEmbed({
+  url,
+  caption,
+  aspectRatio = "16/9",
+}: {
+  url?: string;
+  caption?: string;
+  aspectRatio?: "16/9" | "4/3" | "3/2";
+}) {
+  const embedUrl = url
+    ? `https://www.figma.com/embed?embed_host=share&url=${encodeURIComponent(url)}`
+    : null;
+
+  return (
+    <div style={{ margin: "32px 0" }}>
+      <div
+        style={{
+          position: "relative",
+          width: "100%",
+          aspectRatio: aspectRatio.replace("/", " / "),
+          borderRadius: "8px",
+          border: embedUrl ? "1px solid var(--border)" : "1px dashed var(--border)",
+          overflow: "hidden",
+          background: "var(--bg)",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: "6px",
+        }}
+      >
+        {embedUrl ? (
+          <iframe
+            src={embedUrl}
+            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", border: "none" }}
+            allowFullScreen
+            title={caption || "Figma prototype"}
+          />
+        ) : (
+          <>
+            <p style={{ fontFamily: "var(--font-dm-mono)", fontSize: "10px", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--text-muted)", opacity: 0.4, margin: 0 }}>
+              Interactive prototype
+            </p>
+            {caption && (
+              <p style={{ fontFamily: "var(--font-dm-mono)", fontSize: "12px", letterSpacing: "0.04em", color: "var(--text-muted)", margin: 0, opacity: 0.6 }}>
+                {caption}
+              </p>
+            )}
+          </>
+        )}
+      </div>
+      {embedUrl && caption && (
+        <p style={{ fontFamily: "var(--font-dm-mono)", fontSize: "11px", letterSpacing: "0.04em", color: "var(--text-muted)", margin: "8px 0 0" }}>
+          {caption}
+        </p>
+      )}
+    </div>
+  );
+}
+
 // ─── Image grid (lightbox) ────────────────────────────────────────────────────
 
 export function ImageGrid({
