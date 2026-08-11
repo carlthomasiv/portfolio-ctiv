@@ -13,7 +13,7 @@ Redesigning Ona's core experience around the loop developers actually cared abou
 
 **Outcomes**
 
-<Metrics items={[{ value: "+59%", label: "Agent executions/day (736 → 1,173)", trend: "up" }, { value: "+37%", label: "Active users", trend: "up" }, { value: "+51%", label: "Web-to-signup conversion", trend: "up" }]} />
+<Metrics items={[{ value: "+69%", label: "Agent executions per day", trend: "up" }, { value: "+39%", label: "Distinct users", trend: "up" }, { value: "+38%", label: "Users reaching activation", trend: "up" }]} />
 
 <SectionLabel>Overview</SectionLabel>
 
@@ -208,19 +208,28 @@ Early discomfort can look like failure if you react too quickly. In this case, t
 
 <SectionLabel>Outcomes</SectionLabel>
 
-The redesign shifted behavior toward the workflows we wanted Ona to support.
+The redesign shifted behavior toward the workflows we wanted Ona to support. Measured over the 30 days after full rollout, against the 30 days before it. In the first two weeks alone, **2,810 users across 888 organizations** ran agent executions.
 
-Agent executions per day climbed from a 736 baseline, and active users from 3,709. In the first two weeks, **2,810 users across 888 organizations** ran agent executions.
+<Metrics items={[{ value: "+69%", label: "Daily executions, 737 → 1,244", trend: "up" }, { value: "+39%", label: "Distinct users, 3,709 → 5,154", trend: "up" }, { value: "+38%", label: "Users activated, 1,384 → 1,907", trend: "up" }]} />
 
-<Metrics items={[{ value: "1,173", label: "Daily agent executions", trend: "up" }, { value: "+59%", label: "Execution lift", trend: "up" }, { value: "5,073", label: "Active users", trend: "up" }, { value: "+37%", label: "Active user lift", trend: "up" }]} />
+The customers we were most worried about are the ones who moved most. Enterprise executions grew **90%** across the window, and enterprise share of usage rose from 77% to **86%**. Those were the accounts wired into the embedded editor, the ones the risk was actually about. PLG volume held flat over the same period.
 
 ## New users found their footing faster
 
-Web session to signup climbed from a 6.5% baseline, and 7-day signup-to-agent activation from 11.5%.
+Signups held roughly flat across the window. What changed is how many of them got somewhere. Same traffic arriving, 38% more people reaching a first agent execution inside seven days, which is the part of the funnel the redesign was actually built to move.
 
-<Metrics items={[{ value: "9.8%", label: "Web-to-signup rate", trend: "up" }, { value: "+51%", label: "Conversion lift", trend: "up" }, { value: "15.2%", label: "7-day activation rate", trend: "up" }, { value: "+32%", label: "Activation lift", trend: "up" }]} />
+A launch bump is easy to mistake for a result, so I kept watching. Usage kept climbing after the measurement window, settled at roughly three times the pre-launch level, and stayed there until the acquisition closed.
 
-<Callout info>Anchored to full enterprise rollout 2026-04-06, measured against a 30-day pre-launch baseline. External cohort (all non-internal accounts). Launch sequence: PLG 2026-03-31, initial enterprise 2026-04-02, full rollout 2026-04-06.</Callout>
+<TrendChart
+  title="Weekly average daily executions"
+  data={[593, 691, 800, 880, 866, 998, 1277, 1298, 1275, 1452, 1793, 2085, 1861, 2682, 3543, 2620, 2583, 2306, 2421, 2296, 2488, 2966, 2633]}
+  labels={[{ at: 0, text: "Mar" }, { at: 5, text: "Apr" }, { at: 9, text: "May" }, { at: 13, text: "Jun" }, { at: 18, text: "Jul" }, { at: 22, text: "Aug" }]}
+  yTicks={[0, 1000, 2000, 3000]}
+  markers={[{ at: 4.14, label: "PLG" }, { at: 5, label: "Full rollout", dashed: true }]}
+  caption="Complete weeks only, which smooths the weekday and weekend swing in the daily numbers. Growth later in the period is shared with Automations, which grew from 20.2% of executions to 40.5%."
+/>
+
+<Callout info>Anchored to full enterprise rollout 2026-04-06, measured over the 30 days following, against a 30-day pre-launch baseline. External cohort (all non-internal accounts). Launch sequence: PLG 2026-03-31, initial enterprise 2026-04-02, full rollout 2026-04-06. The trend line runs through the final week before the OpenAI acquisition closed.</Callout>
 
 <SectionLabel>Reflection</SectionLabel>
 
@@ -229,6 +238,8 @@ This project taught me a lot about trust, tools, and how quickly product work ca
 **Trust is the adoption problem.** Customers did not need more proof that agents were powerful. They needed clearer ways to understand what the agent was doing, inspect the output, and stay in control. That shaped the product decisions. Code stayed visible because review builds confidence. Environments stayed accessible because customers still understood Ona through that mental model. The rollout happened in stages because changing how people work is not something you brute force into production and hope everyone claps.
 
 **Figma became my thinking space.** I do not buy the "Figma is dead" argument. I still used Figma throughout the project. It was where I explored the system, moved pieces around, mapped flows, and worked through what the experience needed to become. What changed was where the work went after that. Instead of polishing screens forever, I could take the direction into Ona, build with agents, and feel how the product behaved. That gave me a much better read on what was working, what was awkward, and where the design needed sharper guardrails.
+
+**Shipping is where measurement starts.** The launch numbers looked good and would have been easy to stop at. I kept watching them for four months, which is the only reason I know the usage change held rather than spiked. Top of funnel softened later in ways I could not explain from the data I had, and that is the thread I would pull next. The first Session for a new user is a different problem than the tenth for an experienced one, and we designed mostly for the second.
 
 **The bottleneck moved.** A project like this used to take months of translation between strategy, design, prototype, and implementation. With agents, that distance got much shorter. The hard part was knowing what mattered, what to cut, when to hold the line, and how to help customers move into a new way of working without losing trust. That is where design still has to lead.
 
