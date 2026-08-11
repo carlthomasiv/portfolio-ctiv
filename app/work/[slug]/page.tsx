@@ -29,6 +29,7 @@ import {
   FigmaEmbed,
   AgentLoop,
   SessionFlow,
+  TrendChart,
   BridgeDiagram,
 } from "@/components/mdx-components";
 
@@ -55,6 +56,7 @@ const mdxComponents = {
   FigmaEmbed,
   AgentLoop,
   SessionFlow,
+  TrendChart,
   BridgeDiagram,
 };
 

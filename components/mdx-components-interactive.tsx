@@ -980,6 +980,183 @@ export function SessionFlow() {
   );
 }
 
+// ─── Trend chart ──────────────────────────────────────────────────────────────
+
+type TrendMarker = { at: number; label: string; dashed?: boolean };
+
+export function TrendChart({
+  title,
+  data,
+  labels,
+  yTicks,
+  ySuffix = "",
+  baseline,
+  baselineLabel = "Baseline",
+  markers = [],
+  caption,
+  height = 200,
+}: {
+  title: string;
+  data: number[];
+  labels: { at: number; text: string }[];
+  yTicks: number[];
+  ySuffix?: string;
+  baseline?: number;
+  baselineLabel?: string;
+  markers?: TrendMarker[];
+  caption?: string;
+  height?: number;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-10%" });
+
+  const W = 720;
+  const H = height;
+  const PAD = { top: 14, right: 16, bottom: 26, left: 40 };
+  const plotW = W - PAD.left - PAD.right;
+  const plotH = H - PAD.top - PAD.bottom;
+
+  const yMax = Math.max(...yTicks, ...data);
+  const yMin = Math.min(0, ...yTicks, ...data);
+  const x = (i: number) => PAD.left + (i / (data.length - 1)) * plotW;
+  const y = (v: number) => PAD.top + plotH - ((v - yMin) / (yMax - yMin)) * plotH;
+
+  const linePath = data.map((v, i) => `${i === 0 ? "M" : "L"}${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(" ");
+  const areaPath = `${linePath} L${x(data.length - 1).toFixed(1)},${y(yMin).toFixed(1)} L${x(0).toFixed(1)},${y(yMin).toFixed(1)} Z`;
+  const accent = "var(--green-tag-text)";
+
+  return (
+    <figure ref={ref} style={{ margin: "32px 0" }}>
+      <div
+        style={{
+          background: "var(--bg-card)",
+          border: "1px solid var(--border)",
+          borderRadius: "8px",
+          padding: "18px 18px 10px",
+        }}
+      >
+        <div
+          style={{
+            fontFamily: "var(--font-dm-mono)",
+            fontSize: "10px",
+            letterSpacing: "0.1em",
+            textTransform: "uppercase",
+            color: "var(--text-muted)",
+            marginBottom: "10px",
+          }}
+        >
+          {title}
+        </div>
+
+        <svg viewBox={`0 0 ${W} ${H}`} width="100%" style={{ display: "block", overflow: "visible" }}>
+          {yTicks.map((t) => (
+            <g key={t}>
+              <line x1={PAD.left} y1={y(t)} x2={W - PAD.right} y2={y(t)} stroke="var(--border)" strokeWidth="1" />
+              <text
+                x={PAD.left - 8}
+                y={y(t) + 3}
+                textAnchor="end"
+                style={{ fontFamily: "var(--font-dm-mono)", fontSize: "9px", fill: "var(--text-muted)", opacity: 0.7 }}
+              >
+                {t}{ySuffix}
+              </text>
+            </g>
+          ))}
+
+          {markers.map((m) => (
+            <g key={m.label}>
+              <line
+                x1={x(m.at)}
+                y1={PAD.top - 6}
+                x2={x(m.at)}
+                y2={PAD.top + plotH}
+                stroke="var(--text)"
+                strokeWidth="1"
+                strokeDasharray={m.dashed ? "4 3" : "2 3"}
+                opacity={0.45}
+              />
+              <text
+                x={x(m.at) + 5}
+                y={PAD.top - 1}
+                style={{ fontFamily: "var(--font-dm-mono)", fontSize: "9px", fill: "var(--text-muted)" }}
+              >
+                {m.label}
+              </text>
+            </g>
+          ))}
+
+          {baseline !== undefined && (
+            <g>
+              <line
+                x1={PAD.left}
+                y1={y(baseline)}
+                x2={W - PAD.right}
+                y2={y(baseline)}
+                stroke="var(--text)"
+                strokeWidth="1"
+                strokeDasharray="5 4"
+                opacity={0.5}
+              />
+              <text
+                x={W - PAD.right}
+                y={y(baseline) - 5}
+                textAnchor="end"
+                style={{ fontFamily: "var(--font-dm-mono)", fontSize: "9px", fill: "var(--text-muted)" }}
+              >
+                {baselineLabel}
+              </text>
+            </g>
+          )}
+
+          <motion.path
+            d={areaPath}
+            fill={accent}
+            initial={{ opacity: 0 }}
+            animate={inView ? { opacity: 0.07 } : {}}
+            transition={{ delay: 0.5, duration: 0.6, ease: EASE }}
+          />
+          <motion.path
+            d={linePath}
+            fill="none"
+            stroke={accent}
+            strokeWidth="1.75"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            initial={{ pathLength: 0 }}
+            animate={inView ? { pathLength: 1 } : {}}
+            transition={{ duration: 1.4, ease: EASE }}
+          />
+
+          {labels.map((l) => (
+            <text
+              key={l.text}
+              x={x(l.at)}
+              y={H - 6}
+              textAnchor="middle"
+              style={{ fontFamily: "var(--font-dm-mono)", fontSize: "9px", fill: "var(--text-muted)", opacity: 0.7 }}
+            >
+              {l.text}
+            </text>
+          ))}
+        </svg>
+      </div>
+      {caption && (
+        <figcaption
+          style={{
+            fontFamily: "var(--font-dm-mono)",
+            fontSize: "11px",
+            lineHeight: 1.6,
+            color: "var(--text-muted)",
+            marginTop: "10px",
+          }}
+        >
+          {caption}
+        </figcaption>
+      )}
+    </figure>
+  );
+}
+
 // ─── Bridge diagram ───────────────────────────────────────────────────────────
 
 export function BridgeDiagram() {
